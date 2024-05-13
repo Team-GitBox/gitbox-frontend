@@ -67,14 +67,14 @@ const Login = () => {
                   <div className="input-container">
                     <input
                       type="password"
-                      placeholder="PW"
+                      placeholder="PASSWORD"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <button onClick={handleLogin}>로그인</button>
                   <p className="signup-link">
-                  <Link to='/signup'>회원가입</Link>
+                  <Link to='/signup'>회원 가입</Link>
                   </p>
 
               </div>
