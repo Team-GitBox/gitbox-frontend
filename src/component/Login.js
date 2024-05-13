@@ -59,7 +59,7 @@ const Login = () => {
                   <div className="input-container">
                     <input
                       type="text"
-                      placeholder="ID"
+                      placeholder="이메일"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
@@ -67,7 +67,7 @@ const Login = () => {
                   <div className="input-container">
                     <input
                       type="password"
-                      placeholder="PASSWORD"
+                      placeholder="비밀번호"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
