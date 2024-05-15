@@ -1,5 +1,19 @@
 /* src/App.css */
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  /*background-image: url('./background.jpeg'); /* 배경 이미지 경로 지정 */
+  background-color: #5095FA;
+  background-size: cover; /* 화면 전체를 채우도록 배경 이미지 크기 조정 */
+  background-position: center; /* 배경 이미지를 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .App {
   display: flex;
   justify-content: center;
@@ -7,16 +21,15 @@
   height: 100vh;
 }
 
-.center {
-  text-align: center;
-}
-
+.signup-container,
 .login-container {
-  border: 1px solid #ccc;
+  background-color: #BBD5FA;
   padding: 20px;
   border-radius: 5px;
   width: 300px;
   display: inline-block;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 .logo-container {
@@ -28,4 +41,48 @@
 .logo {
   width: 150px; /* 이미지의 너비 설정 */
   height: auto; /* 높이는 자동으로 조정되도록 설정 */
+}
+
+.signup-form,
+.input-container {
+  margin-bottom: 10px;
+}
+
+.signup-form input,
+.input-container input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  text-align: center; /* 텍스트를 가운데 정렬 */
+  caret-color: transparent;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%; /* 버튼의 너비를 100%로 설정하여 텍스트 박스와 동일하게 만듦 */
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* 버튼 호버 효과 */
+button:hover {
+  background-color: #0056b3;
+}
+
+.login-link a,
+.signup-link a {
+  color: blue; /* 부모 요소의 색상을 상속 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+.login-link a,
+.signup-link a:hover {
+  color: blue; /* 호버 시 색상을 상속 */
+  text-decoration: none; /* 호버 시 밑줄 제거 */
 }

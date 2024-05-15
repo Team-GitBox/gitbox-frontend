@@ -62,39 +62,39 @@ const Signup = () => {
   return (
     <div className="signup-container">
         <form className="signup-form" onSubmit={handleSignup}>
-          <h1>회원가입</h1>
+          <h1>회원 가입</h1>
 
-          <label htmlFor="email">이메일</label>
           <input
             type="email"
             id="email"
+            placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <p></p>
 
-          <label htmlFor="username">사용자명</label>
           <input
             type="text"
             id="username"
+            placeholder="사용자명"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <p></p>
 
-          <label htmlFor="password">비밀번호</label>
           <input
             type="password"
             id="password"
+            placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <p></p>
 
-          <label htmlFor="confirm-password">비밀번호 확인</label>
           <input
             type="password"
             id="confirm-password"
+            placeholder="비밀번호 확인"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
@@ -102,7 +102,7 @@ const Signup = () => {
 
 
           <button id="signup-button" onClick={handleSignup}>
-            회원가입
+            회원 가입
           </button>
           
 
