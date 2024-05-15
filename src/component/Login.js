@@ -8,7 +8,6 @@ const Login = () => {
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
   const [username, setUsername] = useState('');
 
-
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
