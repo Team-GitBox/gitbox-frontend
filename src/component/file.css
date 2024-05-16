@@ -3,6 +3,10 @@
     display: flex;
     width: 100vw;
     height: 100vh;
+
+    #App {
+      position: relative;
+    }
   }
   
   p {
@@ -129,10 +133,10 @@
     position: absolute; /* 절대 위치 설정 */
     top: 0;
     left: 0;
-    width: 65%;
-    height: 100%;
+    width: 80%;
+    height: 160%;
     background-color: transparent;
-     /* 투명하게 만듭니다 */ /* 배경색을 투명하게 설정 */
+    opacity: 0%;
   }
   
   
@@ -159,7 +163,15 @@
     cursor: pointer;
     border-radius: 5px; /* 사각형 버튼을 만들기 위해 사용 */
   }
-  
+
+  .capacity-display {
+    background-color: #b0bd3a; /* 박스의 배경색 */
+    padding: 10px 20px; /* 내부 여백 */
+    border: 1px solid #dcdcdc; /* 테두리 */
+    margin-bottom: 5px; /* 박스 아래의 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    font-size: 16px; /* 폰트 크기 */
+  }
  
 
   

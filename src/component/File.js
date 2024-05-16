@@ -6,6 +6,8 @@ import { ReactComponent as TextIcon } from './svg/text.svg';
 import { ReactComponent as ImageIcon } from './svg/image.svg';
 import { ReactComponent as PdfIcon } from './svg/pdf.svg';
 import { ReactComponent as WordIcon } from './svg/word.svg';
+import { Route, useNavigate } from 'react-router-dom';
+
 
 const FileIcon = ({ type }) => {
   switch(type) {
@@ -14,14 +16,13 @@ const FileIcon = ({ type }) => {
     case 'image/png':
       return <ImageIcon width="50" height="50" />;
     case 'text/plain':
-      return <TextIcon  width="50" height="50" />;
+      return <TextIcon  width="50" height="50"  />;
     case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
       return <WordIcon width="50" height="50" />;
     default:
       return <TextIcon width="50" height="50" />;
   }
 };
-
 
 const Logo = () => (
   <svg className="icon" x="0px" y="0px" viewBox="0 0 24 24">
@@ -31,21 +32,58 @@ const Logo = () => (
 );
 
 const File = () => {
+ 
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
   const [saveInfo, setSaveInfo] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [searchLists, setSearchLists] = useState([]);
+  const [storage, setStorage] = useState({ total: 0, used: 0 });
 
+  const navigate = useNavigate();
 
-  const fetchUploadedFiles = async () => {
-    const response = await fetch("백 주소");
-    if (response.ok) {
-      const files = await response.json();
-      // 여기서 files를 화면에 표시하는 로직을 구현합니다.
-      console.log(files);
-    }
+  const handleLogout = () => {
+        	// 로그아웃 처리 로직을 구현합니다.
+    
+        	sessionStorage.removeItem("token");
+        	sessionStorage.removeItem("email");
+        	navigate("/");
+      	};
+
+  useEffect(() => {
+    // API 호출하여 용량 정보 가져오기
+    fetch('')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setStorage(data);
+      })
+      .catch(error => {
+        console.error("용량 정보를 가져오는 데 실패했습니다.", error);
+      });
+  }, []);
+
+  const getSearchData = (e) => {
+    setUserInput(e.target.value.toLowerCase());
   };
-  
+
+  const onClickSearchInput = async (e) => {
+    e.preventDefault();
+    //const res = await getSearchRequest(userInput);
+    // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
+    // 함수로 정의했고 거기서 꺼내옴
+    //setSearchLists(res.rows);
+
+    // 더미 데이터에서 사용자 입력과 일치하는 이름을 가진 파일 찾기
+    const searchResults = saveInfo.filter(file => file.name.toLowerCase().includes(userInput));
+    // 검색 결과 상태 업데이트
+    setSearchLists(searchResults);
+  };
   
   
   const handleSave = () => {
@@ -53,12 +91,13 @@ const File = () => {
       {
          
         setSaveInfo([...saveInfo,...uploadedInfo]);
-                   
-      }
-      
-     
-      {
-        // const confirmAndSetFileInfo = async (files) => {
+        // const response = await fetch("백 주소");
+        // if (response.ok) {
+        //   const files = await response.json();
+        //   // 여기서 files를 화면에 표시하는 로직을 구현합니다.
+        //   console.log(files);
+        // }
+         // const confirmAndSetFileInfo = async (files) => {
         //   const formData = new FormData();
         //   const contentsData = {
         //   }
@@ -70,7 +109,9 @@ const File = () => {
           
         //   formData.append("contentsData", new Blob([JSON.stringify(contentsData)], { type: "application/json" }));
         // };
-      };
+                   
+      }
+      
   };
   
 
@@ -83,11 +124,11 @@ const File = () => {
       { name: "문서2.txt", size: "2MB", type: "text/plain" },
       { name: "보고서.pdf", size: "3MB", type: "application/pdf" },
       { name: "보고서3.pdf", size: "3MB", type: "application/pdf" },
-      // { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-      // { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-      // { name: "보고서3.pdf", size: "3MB", type: "application/pdf" },
-      // { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-      // { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+      { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
+      { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+      { name: "보고서3.pdf", size: "3MB", type: "application/pdf" },
+      { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
+      { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
     ];
    
 
@@ -116,6 +157,7 @@ const File = () => {
   //   fetchFiles();
   // }, []); 
 
+  
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
   const handleDragOver = (event) => {
@@ -144,16 +186,29 @@ const File = () => {
     
   };
 
-  const handleUpload = ({ target }) => {
-    const files = target.files;
-    confirmAndSetFileInfo(files);
-  };
 
   return (
+    
     <div className="app-container">
+	
       <div className="left-panel">
       <h1>workspace name</h1>
       <img src={logo} alt="로고" className="logo" />
+      <p>
+         <input onChange={getSearchData} type="text" 
+           placeholder="검색어를 입력하세요" />
+           <button
+              onClick={onClickSearchInput}
+                disabled={userInput.length === 0}
+                // 인풋값이 없으면 검색 버튼이 작동하지 않도록 설정했다.
+            > 검색 
+          </button>
+          {searchLists.map((fileInfo, index) => (
+            <div key={index}>
+              <p>{fileInfo.name} ({fileInfo.size} {fileInfo.type})</p>
+            </div>
+          ))}
+      </p>
         <label className="file-button">
           <span>파일 추가</span>
           <input
@@ -161,13 +216,18 @@ const File = () => {
             className="file"
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
-          
-
         </label>
+          <button className="user-logout-btn" onClick={handleLogout}>
+          		로그아웃	
+        	</button>
+    
        
       </div>
 
       <div className="right-panel">
+      <div className="capacity-display">
+        사용 가능한 용량: {storage.total}GB 중 {storage.used}GB 사용 중
+      </div>
         <div class="grid-container">
         {saveInfo.length === 0 ? (
         <label
@@ -225,7 +285,7 @@ const File = () => {
   );
 };
 
+
 export default File;
 
 
-ReactDOM.render(<File />, document.getElementById('root'));

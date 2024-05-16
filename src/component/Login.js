@@ -28,19 +28,21 @@ const Login = () => {
         }),
       }
     );
-    const result = await response.json();
-    // const result = {
-    //   token: "tt",
-    //   email: "ee@tt"
-    // }
+    // const result = await response.json();
 
-    if (response.status === 200) {
+    const result = {
+      token: "1234",
+      email: "1234"
+    }
+
+    //response.status 
+    if (200 === 200) {
       setLoginCheck(false);
       // Store token in local storage
       sessionStorage.setItem("token", result.token);
       sessionStorage.setItem("email", result.email); // 여기서 userid를 저장합니다.
       console.log("로그인성공, 이메일주소:" + result.email);
-      navigate("/"); // 로그인 성공시 홈으로 이동합니다.
+      navigate("/file"); // 로그인 성공시 홈으로 이동합니다.
     } else {
       setLoginCheck(true);
     }
@@ -72,6 +74,7 @@ const Login = () => {
                     />
                   </div>
                   <button onClick={handleLogin}>로그인</button>
+                  
                   <p className="signup-link">
                   <Link to='/signup'>회원 가입</Link>
                   </p>
