@@ -47,6 +47,10 @@ body {
   height: auto; /* 높이는 자동으로 조정되도록 설정 */
 }
 
+h1 {
+  margin-bottom: 30px;
+}
+
 .signup-form input,
 .input-container input {
   width: 100%;
