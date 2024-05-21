@@ -93,15 +93,15 @@
   }
   .app-container {
     display: flex;
+    height: 100vh;
   }
   
   .left-panel {
-    border: 2px solid #000; /* 테두리 */
+    background-color: #BBD5FF;
     padding: 20px; /* 내부 여백 */
-    margin: 20px 0 20px 20px; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
-    border-radius: 5px; /* 테두리 모서리를 둥글게 */
-    background-color: #7777f0; /* 내부 칸 색상 */
-  
+    margin: 10px 0 10px 10px; /* 외부 여백: 위 오른쪽 아래 왼쪽 */  
+    border-top-left-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+    border-bottom-left-radius: 5px;
   }
 
 
@@ -112,18 +112,20 @@
   }
      
   .right-panel {
-    border: 2px solid #000; /* 테두리 */
+    background-color: white;
     padding: 20px; /* 내부 여백 */
-    margin: 20px 20px 20px 0; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
-    border-radius: 5px; /* 테두리 모서리를 둥글게 */
+    margin: 10px 10px 10px 0 !important; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
+    border-top-right-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+    border-bottom-right-radius: 5px;
     max-width: 100%;
+    max-height:100%;
     
   }
 
   .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼 생성 */
-    grid-gap: 10px; /* 그리드 아이템 사이 간격 */
+    grid-gap: 20px; /* 그리드 아이템 사이 간격 */
     position: relative;
     
   }
@@ -133,7 +135,7 @@
     top: 0;
     left: 0;
     width: 80%;
-    height: 160%;
+    height: 100%;
     background-color: transparent;
     opacity: 100%;
     z-index: 1;
@@ -178,10 +180,10 @@
   }
 
   .capacity-display {
-    background-color: #b0bd3a; /* 박스의 배경색 */
+    background-color: #3593FF; /* 박스의 배경색 */
     padding: 10px 20px; /* 내부 여백 */
-    border: 1px solid #dcdcdc; /* 테두리 */
-    margin-bottom: 5px; /* 박스 아래의 여백 */
+    border-radius: 5px;
+    margin-bottom: 20px; /* 박스 아래의 여백 */
     text-align: center; /* 텍스트 중앙 정렬 */
     font-size: 16px; /* 폰트 크기 */
   }

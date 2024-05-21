@@ -273,13 +273,12 @@ const onDropa = (e, fileInfo) => {
     handleFileNameEdit(currentEditingId, newName);
     closeEditModal();
   };
- 
+ // <img src={logo} alt="로고" className="logo" />
   return (
 
     <div className="app-container">
       <div className="left-panel">  
       <h1>workspace name</h1>
-      <img src={logo} alt="로고" className="logo" />
       <p>
          <input onChange={getSearchData} type="text" 
            placeholder="검색어를 입력하세요" />
