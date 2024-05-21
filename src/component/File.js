@@ -303,11 +303,7 @@ const onDropa = (e, fileInfo) => {
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
         </label>
-          <button className="user-logout-btn" onClick={handleLogout}>
-          		로그아웃	
-        	</button>
-          
-          <div className="tags">
+        <div className="tags">
             {tags.map((tag, index) => (
               <div
                 key={index}
@@ -318,6 +314,12 @@ const onDropa = (e, fileInfo) => {
           </div>
         ))}
       </div>
+
+          <button className="user-logout-btn" onClick={handleLogout}>
+          		로그아웃	
+        	</button>
+          
+          
 
       </div>
 
