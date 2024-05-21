@@ -231,13 +231,18 @@
   .popup-button:disabled {
     background-color: #cccccc; /* 비활성화 시 배경색 */
   }
-  
 
+  .left-panel input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    caret-color: transparent;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
 
-  
-
-
-
-  
-  
-  
+  .tags {
+    text-align: center;
+  }

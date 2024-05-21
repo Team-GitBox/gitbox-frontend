@@ -313,9 +313,8 @@ const onDropa = (e, fileInfo) => {
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ margin: '5px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block' }}
+                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block', borderRadius: '50%'}}
               >
-                {tag}
           </div>
         ))}
       </div>
