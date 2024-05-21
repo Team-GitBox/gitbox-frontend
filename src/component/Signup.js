@@ -21,9 +21,10 @@ const Signup = () => {
 
     // Create payload
     const payload = {
-      email: email,
-      password: password,  
-      name: username,
+      memberName: username,
+      memberId: email,
+      memberPassword: password,
+      memberEmail: email,
     };
   
     
@@ -47,15 +48,22 @@ const Signup = () => {
         console.log("성공! 이메일주소: " + data.email);
         setUsername("");
         setPassword("");
+        setConfirmPassword("");
         setEmail("");
 
         // 로그인 성공시 홈으로 이동합니다.
+        window.location.href = data.redirectUrl;
       } else if (response.status === 400) {
         // Handle error
         alert(`회원가입 실패: ${data.email}`);
       }
+      else {
+        // 기타 오류
+        alert(`회원가입 실패: ${data.error.message}`);
+      }
     } catch (error) {
       console.error("오류 발생:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };
 

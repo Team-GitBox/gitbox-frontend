@@ -23,23 +23,23 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
+          memberId: email,
+          memberPassword: password,
         }),
       }
     );
-    // const result = await response.json();
+    const result = await response.json();
 
-    const result = {
-      token: "1234",
-      email: "1234"
-    }
-
-    //response.status 
-    if (200 === 200) {
+    // const result = {
+    //   token: "1234",
+    //   email: "1234"
+    // }
+    
+    if ( response.status ===  200) {
       setLoginCheck(false);
       // Store token in local storage
-      sessionStorage.setItem("token", result.token);
+      sessionStorage.setItem("accessToken", result.accessToken);
+      sessionStorage.setItem("refreshToken", result.refreshToken);
       sessionStorage.setItem("email", result.email); // 여기서 userid를 저장합니다.
       console.log("로그인성공, 이메일주소:" + result.email);
       navigate("/file"); // 로그인 성공시 홈으로 이동합니다.

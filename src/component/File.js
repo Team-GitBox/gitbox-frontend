@@ -1,13 +1,11 @@
 import React, { useState ,useEffect } from "react";
-import ReactDOM from 'react-dom'; 
 import './file.css';
 import logo from './logo.png';
 import { ReactComponent as TextIcon } from './svg/text.svg';
 import { ReactComponent as ImageIcon } from './svg/image.svg';
 import { ReactComponent as PdfIcon } from './svg/pdf.svg';
 import { ReactComponent as WordIcon } from './svg/word.svg';
-import { Route, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const FileIcon = ({ type }) => {
   switch(type) {
@@ -40,6 +38,48 @@ const File = () => {
   const [userInput, setUserInput] = useState('');
   const [searchLists, setSearchLists] = useState([]);
   const [storage, setStorage] = useState({ total: 0, used: 0 });
+  const [currentEditingId, setCurrentEditingId] = useState(null); // 현재 수정 중인 파일 ID
+  const [newName, setNewName] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const tags = ['빨', '주', '노', '초', '파', '남', '보'];
+  const tagColors = {
+    '빨': 'red',
+    '주': 'orange',
+    '노': 'yellow',
+    '초': 'green',
+    '파': 'blue',
+    '남': 'navy',
+    '보': 'purple',
+  };
+
+  
+
+  const onDragStart = (e, tag) => {
+    e.dataTransfer.setData('tag', tag);
+  };
+
+  // 파일 항목에 대한 드랍 이벤트 핸들러
+const onDropa = (e, fileInfo) => {
+    e.preventDefault();
+    const tag = e.dataTransfer.getData('tag');
+
+    // 파일에 드랍한 경우 fileInfo가 undefined이므로 분기 처리가 필요합니다.
+    if (fileInfo) {
+        // 파일 정보에 태그를 추가하는 로직
+        const updatedSaveInfo = saveInfo.map(file => {
+            if (file.id === fileInfo.id) {
+                return { ...file, tags: [...(file.tags || []), tag] };
+            }
+            return file;
+        });
+        setSaveInfo(updatedSaveInfo);
+    } else {
+        // 기존의 파일을 드랍했을 때의 처리 로직
+        const files = e.dataTransfer.files;
+        confirmAndSetFileInfo(files);
+    }
+};
+
 
   const navigate = useNavigate();
 
@@ -84,31 +124,64 @@ const File = () => {
     // 검색 결과 상태 업데이트
     setSearchLists(searchResults);
   };
+
+  const handleFileUpload = async (files) => {
+    //파일의 업로드 기능
+    const formData = new FormData();
+    formData.append('file', files[0]);
   
+    try {
+      const response = await fetch('/api/workspace/{workspaceId}/folders/{folderId}', {
+        method: 'GET',
+        body: formData,
+      });
   
+      if (!response.ok) {
+        throw new Error('파일 업로드 실패');
+      }
+  
+      // 업로드 후 파일 목록을 갱신합니다.
+      fetchFiles();
+    } catch (error) {
+      console.error('파일 업로드 중 오류 발생:', error);
+    }
+  };
+
+  const fetchFiles = async () => {
+    //파일 목록을 불러오는 코드
+    try {
+      const response = await fetch('/api/workspace/{workspaceId}/folders/{folderId}');
+      const data = await response.json();
+      setSaveInfo(data);
+    } catch (error) {
+      console.error('파일 목록을 불러오는 중 오류 발생:', error);
+    }
+  };
+
+  const handleDoubleClick = async (fileId) => {
+    //파일을 더블클릭하여 실행하는 코드
+    try {
+      const response = await fetch(`/api/workspace/{workspaceId}/folders/{folderId}}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = blob.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      console.error('파일을 여는 중 오류 발생:', error);
+    }
+  };
+   
   const handleSave = () => {
     if (window.confirm('파일을 저장하시겠습니까?'))
       {
          
         setSaveInfo([...saveInfo,...uploadedInfo]);
-        // const response = await fetch("백 주소");
-        // if (response.ok) {
-        //   const files = await response.json();
-        //   // 여기서 files를 화면에 표시하는 로직을 구현합니다.
-        //   console.log(files);
-        // }
-         // const confirmAndSetFileInfo = async (files) => {
-        //   const formData = new FormData();
-        //   const contentsData = {
-        //   }
-        //   const fileData = inputRef.current.file.files;
-                  
-        //   for(let i = 0; i < fileData.length; i++) {
-        //     formData.append("file", fileData[i]);
-        //   }
-          
-        //   formData.append("contentsData", new Blob([JSON.stringify(contentsData)], { type: "application/json" }));
-        // };
+        //handleFileUpload();
+        setShowPreview(false)
                    
       }
       
@@ -120,43 +193,20 @@ const File = () => {
   useEffect(() => {
     // 더미 데이터
     const dummyFiles = [
-      { name: "문서1.txt", size: "1MB", type: "text/plain " },
-      { name: "문서2.txt", size: "2MB", type: "text/plain" },
-      { name: "보고서.pdf", size: "3MB", type: "application/pdf" },
-      { name: "보고서3.pdf", size: "3MB", type: "application/pdf" },
-      { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-      { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-      { name: "보고서3.pdf", size: "3MB", type: "application/pdf" },
-      { name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-      { name: "보고서3.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+      { id: 1, name: "문서1.txt", size: "1MB", type: "text/plain " },
+      { id: 2, name: "문서2.txt", size: "2MB", type: "text/plain" },
+      { id: 3, name: "보고서.pdf", size: "3MB", type: "application/pdf" },
+      { id: 4, name: "보고서2.pdf", size: "3MB", type: "application/pdf" },
+      { id: 5, name: "보고서3.pdf", size: "3MB", type: 'image/png' },
+      { id: 6, name: "보고서4.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+      { id: 7, name: "보고서5.pdf", size: "3MB", type: "application/pdf" },
+      { id: 8, name: "보고서6.pdf", size: "3MB", type: 'image/png' },
+      { id: 9, name: "보고서7.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
     ];
    
 
       setSaveInfo(dummyFiles); // 더미 파일 정보로 상태 업데이트
   }, []);
-
-
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트될 때 데이터베이스에서 파일 정보를 가져옵니다.
-  //   const fetchFiles = async () => {
-  //     try {
-  //       const response = await fetch('데이터베이스에서 파일 정보를 가져오는 API의 URL');
-  //       if (response.ok) {
-  //         const files = await response.json();
-  //         setUploadedInfo(files); // 가져온 파일 정보로 상태 업데이트
-  //       } else {
-  //         // 오류 처리
-  //         console.error('서버로부터 파일 정보를 가져오는 데 실패했습니다.');
-  //       }
-  //     } catch (error) {
-  //       // 오류 처리
-  //       console.error('파일 정보를 가져오는 중 예외가 발생했습니다.', error);
-  //     }
-  //   };
-
-  //   fetchFiles();
-  // }, []); 
-
   
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
@@ -186,12 +236,48 @@ const File = () => {
     
   };
 
+  const filedelete = (fileName, fileSize) => {
+    // saveInfo 배열에서 해당 파일을 제외한 새 배열을 생성
+    const filteredFiles = saveInfo.filter(file => !(file.name === fileName && file.size === fileSize));
+    // 업데이트된 배열로 saveInfo 상태를 설정
+    setSaveInfo(filteredFiles);
+  };
 
+
+   const handleFileNameEdit = (id, newName) => {
+    const updatedFiles = saveInfo.map(file => {
+      if (file.id === id) {
+        return { ...file, name: newName };
+      }
+      return file;
+    });
+    setSaveInfo(updatedFiles);
+  };
+
+ 
+  const openEditModal = (id) => {
+    setIsEditing(true);
+    setCurrentEditingId(id);
+    const file = saveInfo.find(file => file.id === id);
+    if (file) {
+      setNewName(file.name);
+    }
+  };
+
+  const closeEditModal = () => {
+    setIsEditing(false);
+    setNewName('');
+  };
+
+  const handleSubmit = () => {
+    handleFileNameEdit(currentEditingId, newName);
+    closeEditModal();
+  };
+ 
   return (
-    
+
     <div className="app-container">
-	
-      <div className="left-panel">
+      <div className="left-panel">  
       <h1>workspace name</h1>
       <img src={logo} alt="로고" className="logo" />
       <p>
@@ -208,6 +294,7 @@ const File = () => {
               <p>{fileInfo.name} ({fileInfo.size} {fileInfo.type})</p>
             </div>
           ))}
+
       </p>
         <label className="file-button">
           <span>파일 추가</span>
@@ -220,8 +307,20 @@ const File = () => {
           <button className="user-logout-btn" onClick={handleLogout}>
           		로그아웃	
         	</button>
-    
-       
+          
+          <div className="tags">
+            {tags.map((tag, index) => (
+              <div
+                key={index}
+                draggable
+                onDragStart={(e) => onDragStart(e, tag)}
+                style={{ margin: '5px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block' }}
+              >
+                {tag}
+          </div>
+        ))}
+      </div>
+
       </div>
 
       <div className="right-panel">
@@ -236,20 +335,36 @@ const File = () => {
           onDragOver={handleDragOver}
           onDragLeave={handleDragEnd}
           onDrop={handleDrop}
-        >
-          
+        >          
+
           <Logo />
           <p className="preview_msg">클릭 혹은 파일을 이곳에 드롭하세요.</p>
           <p className="preview_desc">파일당 최대 3MB</p>
         </label>
       ) : (
       <>
+        <div className="grid-container">
         {saveInfo.map((fileInfo, index) => (
-          <div className="grid-item" key={index}>
+          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo._id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
+            
             <FileIcon type={fileInfo.type} />
             <div>{fileInfo.name}</div>
+            <div>{fileInfo.tags}</div>
+            <button className="file-delete" onClick={() => filedelete(fileInfo.name, fileInfo.size)}>
+              삭제
+            </button>
+           <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
           </div>
         ))}
+
+        {isEditing && (
+        <div className="popup-container">
+          <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <button className="popup-button" onClick={handleSubmit} disabled={newName.length === 0}>제출</button>
+        </div>
+      )}
+      </div>
+
         <label
           className={`preview${isActive ? ' active' : ''} transparent-drop-zone`}
           onDragEnter={handleDragStart}
@@ -257,12 +372,12 @@ const File = () => {
           onDragLeave={handleDragEnd}
           onDrop={handleDrop}
         >
-         
         </label>
       </>
       )}
       </div>
      </div>
+
 
      {showPreview && (
         <div className="preview-popup">
@@ -272,19 +387,19 @@ const File = () => {
             <div key={index}>
               <p>{file.name} ({file.size} {file.type})</p>
             </div>
-          ))}
-          
+          ))}   
+                
           <button onClick={() => setShowPreview(false)}>Close</button>
-          {<button onClick={handleSave}>저장하기</button>}
+          {<button onClick={handleSave}>저장하기</button>}  
+
         </div>
       )}
-    
+
     </div>
 
     
   );
 };
-
 
 export default File;
 

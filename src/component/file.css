@@ -110,8 +110,7 @@
     height: auto; /* 로고의 높이는 자동으로 조정 */
     margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
   }
-  
-    
+     
   .right-panel {
     border: 2px solid #000; /* 테두리 */
     padding: 20px; /* 내부 여백 */
@@ -136,12 +135,27 @@
     width: 80%;
     height: 160%;
     background-color: transparent;
-    opacity: 0%;
+    opacity: 100%;
+    z-index: 1;
   }
-  
-  
 
-  
+  .file-delete
+  {
+    width: 80%;
+    height: 40%; 
+    background-color: #1fe2ae;
+    color: #060000;
+    
+  }
+
+  .file-name
+  {
+    width: 80%;
+    height: 40%; 
+    background-color: #18903a; 
+    color: #060000;
+  }
+
   .grid-item {
     /* grid-item 스타일 설정 */
     display: flex;
@@ -149,9 +163,8 @@
     align-items: center;
     height: 50px; /* 원하는 높이 설정 */
     background-color: #f0f0f0; /* 배경색 설정 */
+    z-index: 2;
   }
-
-  
   
   .file-button {
     display: inline-block;
@@ -172,9 +185,56 @@
     text-align: center; /* 텍스트 중앙 정렬 */
     font-size: 16px; /* 폰트 크기 */
   }
- 
+
+  .preview-popup
+  {
+    position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
+    top: 50%; /* 화면 중앙에 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
+    z-index: 100; /* 다른 요소들 위에 표시 */
+    background-color: rgb(100, 41, 183); /* 배경색 */
+    padding: 20px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  }
+
+  .popup-container {
+    position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
+    top: 50%; /* 화면 중앙에 위치 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
+    z-index: 100; /* 다른 요소들 위에 표시 */
+    background-color: rgb(200, 31, 31); /* 배경색 */
+    padding: 20px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  }
+  
+  .popup-input, .popup-button {
+    display: block; /* 블록 레벨 요소로 만들기 */
+    width: 100%; /* 너비 100% */
+    margin-bottom: 10px; /* 요소 간 간격 */
+  }
+  
+  .popup-button {
+    cursor: pointer; /* 마우스 오버 시 포인터 모양 */
+    background-color: #b5c826; /* 배경색 */
+    color: rgb(213, 55, 208); /* 글자색 */
+    border: none; /* 테두리 제거 */
+    padding: 10px 0; /* 상하 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+  }
+
+  .popup-button:disabled {
+    background-color: #cccccc; /* 비활성화 시 배경색 */
+  }
+  
+
 
   
+
+
 
   
   
