@@ -327,7 +327,7 @@ const onDropa = (e, fileInfo) => {
       <div className="capacity-display">
         사용 가능한 용량: {storage.total}GB 중 {storage.used}GB 사용 중
       </div>
-        <div class="grid-container">
+        <div class="grid-container1">
         {saveInfo.length === 0 ? (
         <label
           className={`preview${isActive ? ' active' : ''}`}
@@ -343,7 +343,7 @@ const onDropa = (e, fileInfo) => {
         </label>
       ) : (
       <>
-        <div className="grid-container">
+        <div className="grid-container2">
         {saveInfo.map((fileInfo, index) => (
           <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo._id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
             
