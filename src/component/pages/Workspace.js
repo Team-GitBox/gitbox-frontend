@@ -17,12 +17,13 @@ function Workspace() {
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteWorkspace = async () => {
     try {
-      setIsDeleting(true);
-      await fetch(`http://localhost:3000/WorkSpace/${workspaceName}`, {
-        method: 'DELETE',
-    });
-    
+      if (window.confirm('이 워크스페이스를 삭제하시겠습니까?')) {
+        setIsDeleting(true);
+        await fetch(`http://localhost:3000/WorkSpace/${workspaceName}`, {
+          method: 'DELETE',
+      });
       console.log('Workspace deleted successfully');
+    }
   } catch (error) {
       console.error('Error deleting workspace:', error);
   } finally {
@@ -45,7 +46,37 @@ function Workspace() {
 
     fetchWorkspaceDetails(); 
   }, [workspaceName]);
-  
+
+  useEffect(() => {
+    // 더미 데이터
+    const dummyFiles = 
+      {
+        "workspaceId": "123",
+        "workspaceName": "MyWorkspace",
+        "ownerInfo": [
+          {
+            "ownerName": "Kim",
+            "ownerEmail": "Kim@example.com"
+          }
+        ],
+        "memberInfo": [
+          {
+            "memberName": "Lee",
+            "memberEmail": "Lee@example.com"
+          },
+          {
+            "memberName": "Park",
+            "memberEmail": "Park@example.com"
+          }
+        ],
+        "maxStorage": "100GB",
+        "usedStorage": "50GB"
+      }
+    ;
+   
+
+      setWorkspace(dummyFiles); // 더미 파일 정보로 상태 업데이트
+  }, []);
 
   return (
     <div>

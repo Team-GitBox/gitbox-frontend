@@ -19,8 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/file" element={<File />} />
           <Route path="/create-workspace" element={<CreateWorkspace />} />
-          <Route path="/workspace/{workspaceName}" element={<Workspace />} />
-          <Route path="/workspace/{workspaceName}" element={<Workspace />} />
+          <Route path="/workspace/:workspaceName" element={<Workspace />} />
         </Routes>
       </BrowserRouter>
     </div>
