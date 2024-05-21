@@ -13,13 +13,13 @@ function Workspace() {
     usedStorage: ''
   });
 
-  const { workspaceName } = useParams(); // useParams 훅을 사용하여 URL 파라미터에서 workspaceName을 추출합니다.
+  const { workspaceId } = useParams(); // useParams 훅을 사용하여 URL 파라미터에서 workspaceName을 추출합니다.
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteWorkspace = async () => {
     try {
       if (window.confirm('이 워크스페이스를 삭제하시겠습니까?')) {
         setIsDeleting(true);
-        await fetch(`http://localhost:3000/WorkSpace/${workspaceName}`, {
+        await fetch(`http://localhost:3000/WorkSpace/${workspaceId}`, {
           method: 'DELETE',
       });
       console.log('Workspace deleted successfully');
@@ -33,7 +33,7 @@ function Workspace() {
   useEffect(() => {
     const fetchWorkspaceDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/WorkSpace/${workspaceName}`); // match.params.workspaceName 대신 workspaceName을 사용
+        const response = await fetch(`http://localhost:3000/WorkSpace/${workspaceId}`); // match.params.workspaceName 대신 workspaceName을 사용
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -45,7 +45,7 @@ function Workspace() {
     };
 
     fetchWorkspaceDetails(); 
-  }, [workspaceName]);
+  }, [workspaceId]);
 
   useEffect(() => {
     // 더미 데이터
