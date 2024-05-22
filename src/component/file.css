@@ -159,10 +159,6 @@
     color: #060000;
   }
 
-  .grid-container1 {
-
-}
-
 .grid-container2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼 생성 */
