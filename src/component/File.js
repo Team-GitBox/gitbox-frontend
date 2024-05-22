@@ -345,23 +345,20 @@ const onDropa = (e, fileInfo) => {
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
         </label>
-          <button className="user-logout-btn" onClick={handleLogout}>
-                로그아웃   
-           </button>
-          
           <div className="tags">
             {tags.map((tag, index) => (
               <div
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ margin: '5px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block' }}
+                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block', borderRadius: '50%'}}
               >
-                {tag}
           </div>
         ))}
       </div>
-
+      <button className="user-logout-btn" onClick={handleLogout}>
+                로그아웃   
+           </button>
       </div>
 
       <div className="right-panel">
@@ -379,7 +376,7 @@ const onDropa = (e, fileInfo) => {
       <div className="capacity-display">
         사용 가능한 용량: {storage.total}GB 중 {storage.used}GB 사용 중
       </div>
-        <div class="grid-container">
+        <div class="grid-container1">
         {saveInfo.length === 0 ? (
         <label
           className={`preview${isActive ? ' active' : ''}`}
@@ -395,17 +392,20 @@ const onDropa = (e, fileInfo) => {
         </label>
       ) : (
       <>
-        <div className="grid-container">
+        <div className="grid-container2">
         {saveInfo.map((fileInfo, index) => (
           <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo._id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
-            
-            <FileIcon type={fileInfo.type} />
-            <div>{fileInfo.name}</div>
-            <div>{fileInfo.tags}</div>
+            <div className="item-container">
+              <FileIcon type={fileInfo.type} />
+              <div>{fileInfo.name}</div>
+              <div>{fileInfo.tags}</div>
+            </div>
+            <div className="btn-container">
             <button className="file-delete" onClick={() => filedelete(fileInfo.name, fileInfo.size)}>
               삭제
             </button>
            <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+           </div>
           </div>
         ))}
 
