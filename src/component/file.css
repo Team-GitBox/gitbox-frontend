@@ -1,294 +1,275 @@
 #root {
-    align-items: center;
-    display: flex;
-    width: 100vw;
-    height: 100vh;
+  align-items: center;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 
-    #App {
-      position: relative;
-    }
-  }
-  
-  p {
-    margin: 0;
-  }
-  
-  .icon {
-    width: 100px;
-    height: 100px;
-    pointer-events: none;
-  }
-  
-  .file {
-    display: none;
-  }
-  
-  .file::file-selector-button {
-    font-size: 14px;
-    background: #fff;
-    border: 1px solid #111;
-    border-radius: 12px;
-    padding: 4px 32px;
-    cursor: pointer;
-  }
-  
-  .preview {
-    width: 300px;
-    height: 150px;
-    margin: auto;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 3px dashed #eee;
-    padding: 70px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .preview:hover {
-    border-color: #111;
-  }
-  
-  .preview.active {
-    background-color: #efeef3;
-    border-color: #111;
-  }
-  
-  .preview_msg {
-    font-weight: 500;
-    font-size: 18px;
-    margin: 20px 0 10px;
-  }
-  
-  .preview_desc {
-    margin: 0;
-    font-size: 14px;
-  }
-  
-  .preview_info {
-    width: 100%;
-    gap: 16px;
-    flex-direction: column;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 그리드 아이템의 최소 너비를 120px, 가능한 경우 더 넓게 설정합니다. */
-    gap: 10px; /* 그리드 아이템 사이의 간격을 설정합니다. */
-    padding: 10px;
-    list-style: none; /* 기본 리스트 스타일 제거 */
-  }
-
-  
-  .preview_info .info_key {
-    display: block;
-    font-weight: 500;
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
-  
-  .preview_info .info_value {
-    font-size: 14px;
-
-    
-  }
-  .app-container {
-    display: flex;
-    height: 100vh;
-    min-height: 40%;
-  }
-  
-  .left-panel {
+  #App {
     position: relative;
-    background-color: #BBD5FF;
-    padding: 20px; /* 내부 여백 */
-    margin: 20px 0 20px 20px; /* 외부 여백: 위 오른쪽 아래 왼쪽 */  
-    border-top-left-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
-    border-bottom-left-radius: 5px;
-    max-width: 200px;
-    min-width: 200px;
-
   }
-
-
-  .logo {
-    width: 100px; /* 로고의 너비를 조정 */
-    height: auto; /* 로고의 높이는 자동으로 조정 */
-    margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
-  }
-     
-  .right-panel {
-    background-color: white;
-    padding: 20px; /* 내부 여백 */
-    margin: 20px 20px 20px 0; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
-    border-top-right-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
-    border-bottom-right-radius: 5px;
-    width: calc(100vw - 320px);
-  }
-
-  .transparent-drop-zone {
-    position: absolute; /* 절대 위치 설정 */
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%; /* grid-container와 동일한 너비 */
-    height: 100%; /* grid-container와 동일한 높이 */
-    background-color: transparent; /* 투명 배경 */
-    opacity: 0; /* 초기 투명도 설정 */
-    z-index: 1; /* grid-container 아래에 위치 */
-    max-width: none; /* max-width 설정 제거 */
-    max-height: none; /* max-height 설정 제거 */
-    margin-right: 0; /* margin-right 설정 제거 */
-    padding: 0;
-    border: 0;
 }
 
-  .file-delete
-  {
-    width: 80%;
-    height: 40%; 
-    background-color: #1fe2ae;
-    color: #060000;
-    
-  }
+p {
+  margin: 0;
+}
 
-  .file-name
-  {
-    width: 80%;
-    height: 40%; 
-    background-color: #18903a; 
-    color: #060000;
-  }
+.icon {
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+}
 
-.grid-container2 {
+.file {
+  display: none;
+}
+
+.file::file-selector-button {
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 12px;
+  padding: 4px 32px;
+  cursor: pointer;
+}
+
+.preview {
+  width: 300px;
+  height: 150px;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 3px dashed #eee;
+  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.preview:hover {
+  border-color: #111;
+}
+
+.preview.active {
+  background-color: #efeef3;
+  border-color: #111;
+}
+
+.preview_msg {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 20px 0 10px;
+}
+
+.preview_desc {
+  margin: 0;
+  font-size: 14px;
+}
+
+.preview_info {
+  width: 100%;
+  gap: 16px;
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 그리드 아이템의 최소 너비를 120px, 가능한 경우 더 넓게 설정합니다. */
+  gap: 10px; /* 그리드 아이템 사이의 간격을 설정합니다. */
+  padding: 10px;
+  list-style: none; /* 기본 리스트 스타일 제거 */
+}
+
+
+.preview_info .info_key {
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.preview_info .info_value {
+  font-size: 14px;
+
+  
+}
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  background-color: #BBD5FF;
+  padding: 20px; /* 내부 여백 */
+  margin: 10px 0 10px 10px; /* 외부 여백: 위 오른쪽 아래 왼쪽 */  
+  border-top-left-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+  border-bottom-left-radius: 5px;
+}
+
+
+.logo {
+  width: 100px; /* 로고의 너비를 조정 */
+  height: auto; /* 로고의 높이는 자동으로 조정 */
+  margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
+}
+   
+.right-panel {
+  background-color: white;
+  padding: 20px; /* 내부 여백 */
+  margin: 10px 10px 10px 0 !important; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
+  border-top-right-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+  border-bottom-right-radius: 5px;
+  max-width: 100%;
+  max-height:100%;
+  
+}
+
+.grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼 생성 */
   grid-gap: 20px; /* 그리드 아이템 사이 간격 */
   position: relative;
-  width: 100%;
+  
+}
+
+.transparent-drop-zone {
+  position: absolute; /* 절대 위치 설정 */
+  top: 0;
+  left: 0;
+  width: 80%;
   height: 100%;
+  background-color: transparent;
+  opacity: 100%;
+  z-index: 1;
 }
 
-/* 화면 크기가 1024px 이하일 때 */
-@media (max-width: 1024px) {
-    .grid-container2 {
-        grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼 */
-    }
+.file-delete
+{
+  width: 80%;
+  height: 40%; 
+  background-color: #1fe2ae;
+  color: #060000;
+  
 }
 
-/* 화면 크기가 768px 이하일 때 */
-@media (max-width: 768px) {
-    .grid-container2 {
-        grid-template-columns: repeat(2, 1fr); /* 2개의 컬럼 */
-    }
-}
-
-/* 화면 크기가 480px 이하일 때 */
-@media (max-width: 480px) {
-    .grid-container2 {
-        grid-template-columns: 1fr; /* 1개의 컬럼 */
-    }
+.file-name
+{
+  width: 80%;
+  height: 40%; 
+  background-color: #18903a; 
+  color: #060000;
 }
 
 .grid-item {
-    /* grid-item 스타일 설정 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px; /* 원하는 높이 설정 */
-    background-color: #f0f0f0; /* 배경색 설정 */
-    z-index: 2;
-    border-radius: 5px;
-    width: 100%; /* 4개의 컬럼과 3개의 간격을 고려한 너비 계산 */
-    box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+  /* grid-item 스타일 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* 원하는 높이 설정 */
+  background-color: #f0f0f0; /* 배경색 설정 */
+  z-index: 2;
 }
-  
-  .file-button {
-    display: flex;
-    background-color: white;
-    color: black;
-    border: none;
-    padding: 8px 20px;
-    font-size: 13.3333px;
-    cursor: pointer;
-    border-radius: 5px; /* 사각형 버튼을 만들기 위해 사용 */
-    margin-bottom: 10px;
-    align-items: center;
-    justify-content: center;
-  }
 
-  .capacity-display {
-    background-color: #3593FF; /* 박스의 배경색 */
-    padding: 10px 20px; /* 내부 여백 */
-    border-radius: 5px;
-    margin-bottom: 20px; /* 박스 아래의 여백 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    font-size: 16px; /* 폰트 크기 */
-  }
+.file-button {
+  display: inline-block;
+  background-color: #f9fbfd;
+  color: #060000;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px; /* 사각형 버튼을 만들기 위해 사용 */
+}
 
-  .preview-popup
-  {
-    position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
-    top: 50%; /* 화면 중앙에 위치 */
-    left: 50%;
-    transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
-    z-index: 100; /* 다른 요소들 위에 표시 */
-    background-color: rgb(100, 41, 183); /* 배경색 */
-    padding: 20px; /* 내부 여백 */
-    border-radius: 10px; /* 모서리 둥글게 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  }
+.capacity-display {
+  background-color: #3593FF; /* 박스의 배경색 */
+  padding: 10px 20px; /* 내부 여백 */
+  border-radius: 5px;
+  margin-bottom: 20px; /* 박스 아래의 여백 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 16px; /* 폰트 크기 */
+}
 
-  .popup-container {
-    position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
-    top: 50%; /* 화면 중앙에 위치 */
-    left: 50%;
-    transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
-    z-index: 100; /* 다른 요소들 위에 표시 */
-    background-color: rgb(200, 31, 31); /* 배경색 */
-    padding: 20px; /* 내부 여백 */
-    border-radius: 10px; /* 모서리 둥글게 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  }
-  
-  .popup-input, .popup-button {
-    display: block; /* 블록 레벨 요소로 만들기 */
-    width: 100%; /* 너비 100% */
-    margin-bottom: 10px; /* 요소 간 간격 */
-  }
-  
-  .popup-button {
-    cursor: pointer; /* 마우스 오버 시 포인터 모양 */
-    background-color: #b5c826; /* 배경색 */
-    color: rgb(213, 55, 208); /* 글자색 */
-    border: none; /* 테두리 제거 */
-    padding: 10px 0; /* 상하 여백 */
-    border-radius: 5px; /* 모서리 둥글게 */
-  }
+.preview-popup
+{
+  position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
+  top: 50%; /* 화면 중앙에 위치 */
+  left: 50%;
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
+  z-index: 100; /* 다른 요소들 위에 표시 */
+  background-color: rgb(100, 41, 183); /* 배경색 */
+  padding: 20px; /* 내부 여백 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
 
-  .popup-button:disabled {
-    background-color: #cccccc; /* 비활성화 시 배경색 */
-  }
+.popup-container {
+  position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
+  top: 50%; /* 화면 중앙에 위치 */
+  left: 50%;
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
+  z-index: 100; /* 다른 요소들 위에 표시 */
+  background-color: rgb(200, 31, 31); /* 배경색 */
+  padding: 20px; /* 내부 여백 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
 
-  .left-panel input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    text-align: center; /* 텍스트를 가운데 정렬 */
-    caret-color: transparent;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
+.popup-input, .popup-button {
+  display: block; /* 블록 레벨 요소로 만들기 */
+  width: 100%; /* 너비 100% */
+  margin-bottom: 10px; /* 요소 간 간격 */
+}
 
-  .tags {
-    text-align: center;
-  }
+.popup-button {
+  cursor: pointer; /* 마우스 오버 시 포인터 모양 */
+  background-color: #b5c826; /* 배경색 */
+  color: rgb(213, 55, 208); /* 글자색 */
+  border: none; /* 테두리 제거 */
+  padding: 10px 0; /* 상하 여백 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
 
-  .user-logout-btn {
-    position: absolute; /* 절대 위치 설정 */
-    bottom: 0px; /* bottom으로부터 20px */
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: calc(100% - 40px);
-    margin-bottom: 20px;
-  }
+.popup-button:disabled {
+  background-color: #cccccc; /* 비활성화 시 배경색 */
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+
+.popup-inner {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 3;
+}
+
+.popup-inner h1 {
+  cursor: pointer;
+  margin: 10px 0;
+  z-index: 3;
+}
+
+.popup-inner button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+
+
+
+
+
+

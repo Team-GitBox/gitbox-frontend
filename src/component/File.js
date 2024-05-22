@@ -5,7 +5,8 @@ import { ReactComponent as TextIcon } from './svg/text.svg';
 import { ReactComponent as ImageIcon } from './svg/image.svg';
 import { ReactComponent as PdfIcon } from './svg/pdf.svg';
 import { ReactComponent as WordIcon } from './svg/word.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Workspace from './pages/Workspace';
 
 const FileIcon = ({ type }) => {
   switch(type) {
@@ -52,7 +53,12 @@ const File = () => {
     '보': 'purple',
   };
 
+  const [selectedWorkspace, setSelectedWorkspace] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+
   
+
 
   const onDragStart = (e, tag) => {
     e.dataTransfer.setData('tag', tag);
@@ -84,12 +90,12 @@ const onDropa = (e, fileInfo) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-        	// 로그아웃 처리 로직을 구현합니다.
+           // 로그아웃 처리 로직을 구현합니다.
     
-        	sessionStorage.removeItem("token");
-        	sessionStorage.removeItem("email");
-        	navigate("/");
-      	};
+           sessionStorage.removeItem("token");
+           sessionStorage.removeItem("email");
+           navigate("/");
+         };
 
   useEffect(() => {
     // API 호출하여 용량 정보 가져오기
@@ -113,7 +119,7 @@ const onDropa = (e, fileInfo) => {
   };
 
   const onClickSearchInput = async (e) => {
-    e.preventDefault();
+    
     //const res = await getSearchRequest(userInput);
     // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
     // 함수로 정의했고 거기서 꺼내옴
@@ -207,6 +213,12 @@ const onDropa = (e, fileInfo) => {
 
       setSaveInfo(dummyFiles); // 더미 파일 정보로 상태 업데이트
   }, []);
+
+  const workspaces = [
+    { name: '윤형', id: 'yoonhyung'},
+    { name: '근민', id: 'keunmin' },
+ 
+  ];
   
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
@@ -273,21 +285,51 @@ const onDropa = (e, fileInfo) => {
     handleFileNameEdit(currentEditingId, newName);
     closeEditModal();
   };
- // <img src={logo} alt="로고" className="logo" />
+
+  const WorkspacePopup = ({ workspaces, onSelect, onClose }) => {
+    return (
+      <div className="popup">
+        <div className="popup-inner">
+          <h2>Select a Workspace</h2>
+          {workspaces.map((workspace) => (
+            <h1 key={workspace.id} onClick={() => onSelect(workspace.id)}>
+              {workspace.name}
+            </h1>
+          ))}
+          <button onClick={onClose}>Close</button>
+        </div>
+      </div>
+    );
+  };
+
+  const handleSelectWorkspace = (id) => {
+    setSelectedWorkspace(id);
+    setIsPopupOpen(false);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onClickSearchInput();
+    }
+  };
+ 
   return (
 
     <div className="app-container">
       <div className="left-panel">  
-      <h1>workspace name</h1>
+      
+      <button onClick={() => setIsPopupOpen(true)}>Select Workspace</button>
+      <Link to='/create-workspace'>워크스페이스 추가</Link>
+      <img src={logo} alt="로고" className="logo" />
       <p>
-         <input onChange={getSearchData} type="text" 
-           placeholder="검색어를 입력하세요" />
-           <button
-              onClick={onClickSearchInput}
-                disabled={userInput.length === 0}
-                // 인풋값이 없으면 검색 버튼이 작동하지 않도록 설정했다.
-            > 검색 
-          </button>
+          <input
+            onChange={getSearchData}
+            onKeyDown={handleKeyDown}
+            type="text"
+            placeholder="검색어를 입력하세요"
+          
+          />
+          
           {searchLists.map((fileInfo, index) => (
             <div key={index}>
               <p>{fileInfo.name} ({fileInfo.size} {fileInfo.type})</p>
@@ -303,31 +345,41 @@ const onDropa = (e, fileInfo) => {
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
         </label>
-        <div className="tags">
+          <button className="user-logout-btn" onClick={handleLogout}>
+                로그아웃   
+           </button>
+          
+          <div className="tags">
             {tags.map((tag, index) => (
               <div
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block', borderRadius: '50%'}}
+                style={{ margin: '5px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block' }}
               >
+                {tag}
           </div>
         ))}
       </div>
 
-          <button className="user-logout-btn" onClick={handleLogout}>
-          		로그아웃	
-        	</button>
-          
-          
-
       </div>
 
       <div className="right-panel">
+      {selectedWorkspace ? (
+          <Workspace id={selectedWorkspace} />
+        ) : 
+        isPopupOpen && (
+        <WorkspacePopup
+          workspaces={workspaces}
+          onSelect={handleSelectWorkspace}
+          onClose={() => setIsPopupOpen(false)}
+        />
+      )}
+      
       <div className="capacity-display">
         사용 가능한 용량: {storage.total}GB 중 {storage.used}GB 사용 중
       </div>
-        <div class="grid-container1">
+        <div class="grid-container">
         {saveInfo.length === 0 ? (
         <label
           className={`preview${isActive ? ' active' : ''}`}
@@ -343,7 +395,7 @@ const onDropa = (e, fileInfo) => {
         </label>
       ) : (
       <>
-        <div className="grid-container2">
+        <div className="grid-container">
         {saveInfo.map((fileInfo, index) => (
           <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo._id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
             
@@ -402,5 +454,4 @@ const onDropa = (e, fileInfo) => {
 };
 
 export default File;
-
 
