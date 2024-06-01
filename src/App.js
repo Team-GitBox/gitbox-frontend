@@ -7,6 +7,7 @@ import Signup from './component/Signup';
 import File from './component/File';
 import CreateWorkspace from './component/pages/CreateWorkspace';
 import Workspace from './component/pages/Workspace';
+import EmptyWorkspace from './component/pages/EmptyWorkspace';
 
 
 function App() { 
@@ -19,7 +20,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/file" element={<File />} />
           <Route path="/create-workspace" element={<CreateWorkspace />} />
-          <Route path="/workspace/:workspaceName" element={<Workspace />} />
+          <Route path="/emptyworkspace" element={<EmptyWorkspace />} />
+          <Route path="/workspace/:workspaceId" element={<Workspace />} />
         </Routes>
       </BrowserRouter>
     </div>
