@@ -21,17 +21,16 @@ const Signup = () => {
 
     // Create payload
     const payload = {
-      memberName: username,
-      memberId: email,
-      memberPassword: password,
-      memberEmail: email,
+      
+      email: email,
+      password: password,
+      name: username,
+      
     };
-  
-    
 
     try {
       const response = await fetch(
-        "요청지 주소",
+        "http://125.250.17.196:1234/api/register",
         {
           method: "POST",
           headers: {
@@ -43,7 +42,7 @@ const Signup = () => {
 
       const data = await response.json();
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         // Redirect to login.html
         console.log("성공! 이메일주소: " + data.email);
         setUsername("");
@@ -52,7 +51,7 @@ const Signup = () => {
         setEmail("");
 
         // 로그인 성공시 홈으로 이동합니다.
-        window.location.href = data.redirectUrl;
+        window.location.href = data.redirectUrl || "/";
       } else if (response.status === 400) {
         // Handle error
         alert(`회원가입 실패: ${data.email}`);

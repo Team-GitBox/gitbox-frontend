@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from './logo.png';
 
+
+
+
+
 const Login = () => { 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
   const [username, setUsername] = useState('');
+  const [loginCheck, setLoginCheck] = useState(false);
 
   const navigate = useNavigate();
+
+
 
   const handleLogin = async (event) => {
     // 로그인 처리 로직을 구현합니다.
@@ -16,32 +22,25 @@ const Login = () => {
     await new Promise((r) => setTimeout(r, 1000));
     
     const response = await fetch(
-      "로그인 서버 주소",
+      "http://125.250.17.196:1234/api/login",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          memberId: email,
-          memberPassword: password,
+          email: email,
+          password: password,
         }),
       }
     );
     const result = await response.json();
-
-    // const result = {
-    //   token: "1234",
-    //   email: "1234"
-    // }
-    
+ 
     if ( response.status ===  200) {
+    
       setLoginCheck(false);
       // Store token in local storage
-      sessionStorage.setItem("accessToken", result.accessToken);
-      sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("email", result.email); // 여기서 userid를 저장합니다.
-      console.log("로그인성공, 이메일주소:" + result.email);
+      localStorage.setItem("accessToken", result.data.accessToken);
       navigate("/file"); // 로그인 성공시 홈으로 이동합니다.
     } else {
       setLoginCheck(true);
@@ -61,8 +60,8 @@ const Login = () => {
                     <input
                       type="text"
                       placeholder="이메일"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="input-container">

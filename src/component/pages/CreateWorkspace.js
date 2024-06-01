@@ -1,6 +1,36 @@
 import React, { useState } from 'react';
 import '../module/CreateWorkspace.css';
 
+async function postRequestWithToken(apiUrl, requestData) {
+  const token = localStorage.getItem('accessToken');
+
+  if (!token) {
+    console.error('No accessToken in localStorage');
+    return;
+  }
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(requestData)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Response:', data);
+      return data; // 성공적인 응답 데이터 반환
+    } else {
+      console.error('Error Response:', response);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
 function CreateWorkspace() {
   const [name, setName] = useState('');
   const [memberEmails, setMemberEmails] = useState(['']);
@@ -20,8 +50,17 @@ function CreateWorkspace() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('Submitting', { name, memberEmails });
+    event.preventDefault(); // 폼 제출 기본 이벤트 방지
+
+    // API 요청을 위한 URL 및 데이터 설정
+    const apiUrl = 'http://125.250.17.196:1234/api/workspace';
+    const requestData = {
+      name: name,
+      memberEmails: memberEmails.filter(email => email.trim() !== '') // 빈 이메일 제거
+    };
+
+    // postRequestWithToken 함수를 호출하여 토큰을 포함한 POST 요청을 처리
+    await postRequestWithToken(apiUrl, requestData);
   };
 
   return (
