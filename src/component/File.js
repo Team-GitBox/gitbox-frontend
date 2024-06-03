@@ -175,7 +175,6 @@ const onDropa = (e, fileInfo) => {
 
   const handleLogout = () => {
            // 로그아웃 처리 로직을 구현합니다.
-           sessionStorage.removeItem("token")
            sessionStorage.removeItem("token");
            sessionStorage.removeItem("email");
            navigate("/");
@@ -521,6 +520,7 @@ const onDropa = (e, fileInfo) => {
     setCurrentFolderId(id);
   }
 
+
  
   return (
 
@@ -528,7 +528,7 @@ const onDropa = (e, fileInfo) => {
       <div className="left-panel">  
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <Link to='/create-workspace'>워크스페이스 추가</Link>
+      <button onClick={() => window.location.href = '/workspace/{workspace}'}>워크스페이스 및 맴버 관리</button>
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input
