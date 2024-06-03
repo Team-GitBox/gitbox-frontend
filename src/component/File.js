@@ -5,8 +5,10 @@ import { ReactComponent as TextIcon } from './svg/text.svg';
 import { ReactComponent as ImageIcon } from './svg/image.svg';
 import { ReactComponent as PdfIcon } from './svg/pdf.svg';
 import { ReactComponent as WordIcon } from './svg/word.svg';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams, useSearchParams } from 'react-router-dom';
 import Workspace from './pages/Workspace';
+import axios from 'axios';
+
 
 const FileIcon = ({ type }) => {
   switch(type) {
@@ -31,14 +33,20 @@ const Logo = () => (
 );
 
 const File = () => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+
+  const [storage, setStorage] = useState({ total: 0, used: 0 });
  
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState([]);
+  const [uploadFileInfo, setUploadFileInfo] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
   const [saveInfo, setSaveInfo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [searchLists, setSearchLists] = useState([]);
-  const [storage, setStorage] = useState({ total: 0, used: 0 });
   const [currentEditingId, setCurrentEditingId] = useState(null); // 현재 수정 중인 파일 ID
   const [newName, setNewName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -53,10 +61,86 @@ const File = () => {
     '보': 'purple',
   };
 
+  const [workspace, setWorkspace] = useState([]);
   const [selectedWorkspace, setSelectedWorkspace] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const token = localStorage.getItem('accessToken');
+  const [currentFolderId, setCurrentFolderId] = useState();
+  const [currentFolderInfo, setCurrentFolderInfo] = useState();
+
+  const popupOpenFunction = async (isOpen) => {
+    if(isOpen) {
+        try {
+          const response = await axios.get('http://125.250.17.196:1234/api/workspace', config);
+          setWorkspace(response.data.data);
+          setIsPopupOpen(true);
+        } catch (error) {
+          console.error('파일 불러오기 중 오류 발생:', error);
+        }
+    }
+  }
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}`, config);
+        setCurrentFolderId(response.data.data.rootFolderId);
+
+      } catch (error) {
+        console.error('파일 불러오기 중 오류 발생:', error);
+      }
+    }
+
+    fetchData();
+    
+  }, [selectedWorkspace]);
+
+  const getFolderInfo = async () => {
+    try {
+      const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${currentFolderId}`, config);
+      setCurrentFolderInfo(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('파일 불러오기 중 오류 발생:', error);
+    }
+  }
+
+  useEffect(() => {
+    if(currentFolderId == undefined) return;
+    
+    getFolderInfo()
 
 
+  }, [currentFolderId])
+
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+    },
+  };
+
+   useEffect(() => {
+    const workspaceId = searchParams.get('workspaceId');
+    console.log(workspaceId)
+
+    setSelectedWorkspace(workspaceId);
+    setNewStorage(workspaceId);
+    
+  }, []);
+
+  const setNewStorage = async (id) => {
+    try {
+      const storageData = await fetchStorageInfo(id);
+      setStorage({
+        total: storageData.data.maxStorage,
+        used: storageData.data.usedStorage
+      });
+    } catch (e) {
+      console.log(e)
+}
+  }
+
+  
   
 
 
@@ -87,75 +171,108 @@ const onDropa = (e, fileInfo) => {
 };
 
 
-  const navigate = useNavigate();
+  
 
   const handleLogout = () => {
            // 로그아웃 처리 로직을 구현합니다.
+<<<<<<< HEAD
            sessionStorage.removeItem("token")
+=======
+           sessionStorage.removeItem("token");
+>>>>>>> refs/remotes/origin/main
            sessionStorage.removeItem("email");
            navigate("/");
          };
 
-  useEffect(() => {
-    // API 호출하여 용량 정보 가져오기
-    fetch('')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setStorage(data);
-      })
-      .catch(error => {
-        console.error("용량 정보를 가져오는 데 실패했습니다.", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // API 호출하여 용량 정보 가져오기
+  //   fetch('')
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error("HTTP error " + response.status);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       setStorage(data);
+  //     })
+  //     .catch(error => {
+  //       console.error("용량 정보를 가져오는 데 실패했습니다.", error);
+  //     });
+  // }, []);
 
   const getSearchData = (e) => {
     setUserInput(e.target.value.toLowerCase());
   };
 
-  const onClickSearchInput = async (e) => {
+  const getSearchRequest =()=>
+    {
+
+    }
     
-    //const res = await getSearchRequest(userInput);
+  const onClickSearchInput = async () => {
+    
+    const res = await getSearchRequest(userInput);
     // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
     // 함수로 정의했고 거기서 꺼내옴
-    //setSearchLists(res.rows);
+    setSearchLists(res.rows);
 
     // 더미 데이터에서 사용자 입력과 일치하는 이름을 가진 파일 찾기
-    const searchResults = saveInfo.filter(file => file.name.toLowerCase().includes(userInput));
+    // const searchResults = saveInfo.filter(file => file.name.toLowerCase().includes(userInput));
     // 검색 결과 상태 업데이트
-    setSearchLists(searchResults);
+    // setSearchLists(searchResults);
   };
 
   const handleFileUpload = async (files) => {
     //파일의 업로드 기능
+
+    console.log(files[0])
+
     const formData = new FormData();
+    formData.append('request', JSON.stringify({
+      workspaceId: selectedWorkspace,
+      folderId: currentFolderId,
+    }));
     formData.append('file', files[0]);
+
+    console.log(formData)
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+        'Content-Type': 'multipart/form-data',  // 데이터 형식 지정
+      },
+    };
   
     try {
-      const response = await fetch('/api/workspace/{workspaceId}/folders/{folderId}', {
-        method: 'GET',
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        throw new Error('파일 업로드 실패');
-      }
+      const response = await axios.post(`http://125.250.17.196:1234/api/files`, formData, config);
+      
+      if(response.status !== 200)
+        {
+          console.error("파일 업로드 실패")
+        }
   
       // 업로드 후 파일 목록을 갱신합니다.
-      fetchFiles();
+      getFolderInfo();
+      //fetchFiles();
     } catch (error) {
-      console.error('파일 업로드 중 오류 발생:', error);
+      console.log(error)
     }
   };
 
   const fetchFiles = async () => {
     //파일 목록을 불러오는 코드
     try {
-      const response = await fetch('/api/workspace/{workspaceId}/folders/{folderId}');
+      const response = await fetch(
+        "http://125.250.17.196:1234/api/files",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
       const data = await response.json();
       setSaveInfo(data);
     } catch (error) {
@@ -166,7 +283,11 @@ const onDropa = (e, fileInfo) => {
   const handleDoubleClick = async (fileId) => {
     //파일을 더블클릭하여 실행하는 코드
     try {
-      const response = await fetch(`/api/workspace/{workspaceId}/folders/{folderId}}`);
+      const response = await fetch(
+        "http://125.250.17.196:1234/api/files/{fileId}",
+        {method: "GET"}
+          
+      );
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -184,10 +305,9 @@ const onDropa = (e, fileInfo) => {
     if (window.confirm('파일을 저장하시겠습니까?'))
       {
          
-        setSaveInfo([...saveInfo,...uploadedInfo]);
-        //handleFileUpload();
+        //setSaveInfo([...saveInfo,...uploadedInfo]);
+        handleFileUpload(uploadFileInfo);
         setShowPreview(false)
-                   
       }
       
   };
@@ -197,27 +317,21 @@ const onDropa = (e, fileInfo) => {
 
   useEffect(() => {
     // 더미 데이터
-    const dummyFiles = [
-      { id: 1, name: "문서1.txt", size: "1MB", type: "text/plain " },
-      { id: 2, name: "문서2.txt", size: "2MB", type: "text/plain" },
-      { id: 3, name: "보고서.pdf", size: "3MB", type: "application/pdf" },
-      { id: 4, name: "보고서2.pdf", size: "3MB", type: "application/pdf" },
-      { id: 5, name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-      { id: 6, name: "보고서4.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-      { id: 7, name: "보고서5.pdf", size: "3MB", type: "application/pdf" },
-      { id: 8, name: "보고서6.pdf", size: "3MB", type: 'image/png' },
-      { id: 9, name: "보고서7.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
-    ];
+    // const dummyFiles = [
+    //   { id: 1, name: "문서1.txt", size: "1MB", type: "text/plain " },
+    //   { id: 2, name: "문서2.txt", size: "2MB", type: "text/plain" },
+    //   { id: 3, name: "보고서.pdf", size: "3MB", type: "application/pdf" },
+    //   { id: 4, name: "보고서2.pdf", size: "3MB", type: "application/pdf" },
+    //   { id: 5, name: "보고서3.pdf", size: "3MB", type: 'image/png' },
+    //   { id: 6, name: "보고서4.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+    //   { id: 7, name: "보고서5.pdf", size: "3MB", type: "application/pdf" },
+    //   { id: 8, name: "보고서6.pdf", size: "3MB", type: 'image/png' },
+    //   { id: 9, name: "보고서7.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
+    // ];
    
 
-      setSaveInfo(dummyFiles); // 더미 파일 정보로 상태 업데이트
+      // setSaveInfo(dummyFiles); // 더미 파일 정보로 상태 업데이트
   }, []);
-
-  const workspaces = [
-    { name: '윤형', id: 'yoonhyung'},
-    { name: '근민', id: 'keunmin' },
- 
-  ];
   
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
@@ -233,6 +347,7 @@ const onDropa = (e, fileInfo) => {
         return { name, size, type };
       });
       setUploadedInfo(filesInfo);
+      setUploadFileInfo(files);
       
       setShowPreview(true); 
     
@@ -243,6 +358,7 @@ const onDropa = (e, fileInfo) => {
     setActive(false);
 
     const files = event.dataTransfer.files;
+    console.log("hess")
     confirmAndSetFileInfo(files);
     
   };
@@ -285,14 +401,15 @@ const onDropa = (e, fileInfo) => {
     closeEditModal();
   };
 
-  const WorkspacePopup = ({ workspaces, onSelect, onClose }) => {
+  const WorkspacePopup = ({ onSelect, onClose }) => {
+      
     return (
       <div className="popup">
         <div className="popup-inner">
           <h2>Select a Workspace</h2>
-          {workspaces.map((workspace) => (
-            <h1 key={workspace.id} onClick={() => onSelect(workspace.id)}>
-              {workspace.name}
+          {workspace.map((workspace) => (
+            <h1 key={workspace.workspaceId} onClick={() => onSelect(workspace.workspaceId)}>
+              {workspace.workspaceName}
             </h1>
           ))}
           <button onClick={onClose}>Close</button>
@@ -302,8 +419,10 @@ const onDropa = (e, fileInfo) => {
   };
 
   const handleSelectWorkspace = (id) => {
-    setSelectedWorkspace(id);
     setIsPopupOpen(false);
+    setSearchParams({workspaceId: id});
+    setSelectedWorkspace(id);
+    setNewStorage(id);
   };
 
   const handleKeyDown = (event) => {
@@ -311,13 +430,107 @@ const onDropa = (e, fileInfo) => {
       onClickSearchInput();
     }
   };
+
+  const fetchStorageInfo = async (workspaceId) => {
+     // 로컬 스토리지에서 accessToken을 가져옵니다.
+  
+    if (!token) {
+      console.error('No accessToken in localStorage');
+      return { total: 0, used: 0 }; // 토큰이 없으면 기본값 반환
+    }
+  
+    try {
+      const response = await fetch(`http://125.250.17.196:1234/api/workspace/${workspaceId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // 요청 헤더에 토큰을 포함합니다.
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('용량 정보를 불러오는 데 실패했습니다.');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('용량 정보를 가져오는 중 오류 발생:', error);
+      return { total: 0, used: 0 }; // 오류 발생 시 기본값 반환
+    }
+  };
+
+  const addFolder = () => {
+   
+    alert('폴더 추가 기능 구현');
+  };
+
+  const getFileUI = () => {
+    console.log(currentFolderInfo)
+    let parentFolderId = currentFolderInfo.data.parentFolderId
+    let folders = currentFolderInfo.data.folders
+    let files = currentFolderInfo.data.files
+
+    return (
+        <>
+        <div className="grid-container2">
+        {parentFolderId != null && <img src={logo} alt="로고" className="logo" onClick={() => changeCurrentFolder(parentFolderId)} />}
+        {folders.length != 0 && (
+          folders.map((folder, index) => (
+            <img src={logo} alt="로고" className="logo" onClick={() => changeCurrentFolder(folder)} />
+          ))
+        )}
+        {files.length != 0 && (
+          files.map((fileInfo, index) => (
+            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
+            <div className="item-container">
+              <FileIcon type={fileInfo.type} />
+              <div>{fileInfo.name}</div>
+              <div>{fileInfo.tag}</div>
+            </div>
+            <div className="btn-container">
+            <button className="file-delete" onClick={() => filedelete(fileInfo.name, fileInfo.size)}>
+              삭제
+            </button>
+          <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+          </div>
+          </div>
+          ))
+        )}
+
+        {isEditing && (
+        <div className="popup-container">
+          <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <button className="popup-button" onClick={handleSubmit} disabled={newName.length === 0}>제출</button>
+        </div>
+      )}
+      </div>
+
+        <label
+          className={`preview${isActive ? ' active' : ''} transparent-drop-zone`}
+          onDragEnter={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragEnd}
+          onDrop={handleDrop}
+        >
+        </label>
+      </>
+  
+      
+    )
+  }
+
+  const changeCurrentFolder = (id) => {
+    setCurrentFolderId(id);
+  }
+
  
   return (
 
     <div className="app-container">
       <div className="left-panel">  
       
-      <button onClick={() => setIsPopupOpen(true)}>Select Workspace</button>
+      <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
       <Link to='/create-workspace'>워크스페이스 추가</Link>
       <img src={logo} alt="로고" className="logo" />
       <p>
@@ -344,6 +557,7 @@ const onDropa = (e, fileInfo) => {
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
         </label>
+        <button onClick={addFolder}>폴더 추가</button> 
           <div className="tags">
             {tags.map((tag, index) => (
               <div
@@ -361,22 +575,25 @@ const onDropa = (e, fileInfo) => {
       </div>
 
       <div className="right-panel">
-      {selectedWorkspace ? (
-          <Workspace id={selectedWorkspace} />
-        ) : 
+      {
         isPopupOpen && (
         <WorkspacePopup
-          workspaces={workspaces}
           onSelect={handleSelectWorkspace}
           onClose={() => setIsPopupOpen(false)}
         />
       )}
       
       <div className="capacity-display">
-        사용 가능한 용량: {storage.total}GB 중 {storage.used}GB 사용 중
+        <div>
+          <p>Total: {storage.total}</p>
+          <p>Used: {storage.used}</p>
+        </div>
       </div>
-        <div class="grid-container1">
-        {saveInfo.length === 0 ? (
+        
+          {
+            currentFolderInfo && (getFileUI())
+          }
+        {/* {saveInfo.length === 0 ? (
         <label
           className={`preview${isActive ? ' active' : ''}`}
           onDragEnter={handleDragStart}
@@ -425,8 +642,8 @@ const onDropa = (e, fileInfo) => {
         >
         </label>
       </>
-      )}
-      </div>
+      )} */}
+    
      </div>
 
 

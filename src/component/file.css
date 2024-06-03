@@ -106,7 +106,7 @@ p {
   border-bottom-left-radius: 5px;
   max-width: 200px;
   min-width: 200px;
-
+  z-index: 3;
 }
 
 
@@ -129,17 +129,14 @@ p {
   position: absolute; /* 절대 위치 설정 */
   top: 0;
   left: 0;
-  right: 0;
-  width: 100%; /* grid-container와 동일한 너비 */
+  width: 80%; /* grid-container와 동일한 너비 */
   height: 100%; /* grid-container와 동일한 높이 */
   background-color: transparent; /* 투명 배경 */
   opacity: 0; /* 초기 투명도 설정 */
   z-index: 1; /* grid-container 아래에 위치 */
-  max-width: 100px; /* max-width 설정 제거 */
-  max-height: 100px; /* max-height 설정 제거 */
-  margin-right: 0; /* margin-right 설정 제거 */
-  padding: 0;
-  border: 0;
+ 
+ 
+ 
 }
 
 .file-delete
