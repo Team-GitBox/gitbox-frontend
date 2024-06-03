@@ -91,8 +91,7 @@ const onDropa = (e, fileInfo) => {
 
   const handleLogout = () => {
            // 로그아웃 처리 로직을 구현합니다.
-    
-           sessionStorage.removeItem("token");
+           sessionStorage.removeItem("token")
            sessionStorage.removeItem("email");
            navigate("/");
          };
@@ -329,7 +328,6 @@ const onDropa = (e, fileInfo) => {
             placeholder="검색어를 입력하세요"
           
           />
-          
           {searchLists.map((fileInfo, index) => (
             <div key={index}>
               <p>{fileInfo.name} ({fileInfo.size} {fileInfo.type})</p>
@@ -337,6 +335,7 @@ const onDropa = (e, fileInfo) => {
           ))}
 
       </p>
+          
         <label className="file-button">
           <span>파일 추가</span>
           <input

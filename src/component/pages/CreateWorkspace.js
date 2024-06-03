@@ -21,7 +21,28 @@ function CreateWorkspace() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitting', { name, memberEmails });
+    const workspaceData = { name, memberEmails };
+
+    try {
+      const response = await fetch('/api/workspace', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workspaceData),
+      });
+
+      if (response.ok) {
+        // 요청이 성공적으로 완료되면 /file로 이동
+        window.location.href = '/file';
+      } else {
+        // 요청이 실패하면 에러 처리
+        console.error('Failed to create workspace');
+        window.location.href = '/file'; // 요청이 실패했을 때는 오면 안됨. 백엔드와 연결 후 삭제!
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -30,7 +51,12 @@ function CreateWorkspace() {
         <form onSubmit={handleSubmit} className="centered-form">
           <div>
             <label className="centered-input">워크스페이스 이름:</label>
-            <input type="text" value={name} onChange={handleNameChange} className="centered-input" />
+            <input
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              className="centered-input"
+            />
           </div>
           {memberEmails.map((email, index) => (
             <div key={index}>
@@ -43,7 +69,11 @@ function CreateWorkspace() {
               />
             </div>
           ))}
-          <button type="button" onClick={addMemberEmail} className="centered-input">
+          <button
+            type="button"
+            onClick={addMemberEmail}
+            className="centered-input"
+          >
             맴버 추가
           </button>
           <button type="submit" className="centered-input">
