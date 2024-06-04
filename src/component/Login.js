@@ -41,6 +41,7 @@ const Login = () => {
       setLoginCheck(false);
       // Store token in local storage
       localStorage.setItem("accessToken", result.data.accessToken);
+      console.log("토큰", localStorage);
       navigate("/file"); // 로그인 성공시 홈으로 이동합니다.
     } else {
       setLoginCheck(true);
