@@ -50,6 +50,7 @@ const File = () => {
   const [currentEditingId, setCurrentEditingId] = useState(null); // 현재 수정 중인 파일 ID
   const [newName, setNewName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isLook, setIsLook] = useState(false);
   const tags = ['빨', '주', '노', '초', '파', '남', '보'];
   const tagColors = {
     '빨': 'red',
@@ -67,6 +68,7 @@ const File = () => {
   const token = localStorage.getItem('accessToken');
   const [currentFolderId, setCurrentFolderId] = useState();
   const [currentFolderInfo, setCurrentFolderInfo] = useState();
+  const [fileId, setFileId] = useState('');
 
   const popupOpenFunction = async (isOpen) => {
     if(isOpen) {
@@ -85,6 +87,7 @@ const File = () => {
       try {
         const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}`, config);
         setCurrentFolderId(response.data.data.rootFolderId);
+        
 
       } catch (error) {
         console.error('파일 불러오기 중 오류 발생:', error);
@@ -95,7 +98,8 @@ const File = () => {
     
   }, [selectedWorkspace]);
 
-  const getFolderInfo = async () => {
+  const getFolderInfo = async () => 
+    {
     try {
       const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${currentFolderId}`, config);
       setCurrentFolderInfo(response.data);
@@ -104,6 +108,8 @@ const File = () => {
       console.error('파일 불러오기 중 오류 발생:', error);
     }
   }
+
+
 
   useEffect(() => {
     if(currentFolderId == undefined) return;
@@ -139,10 +145,6 @@ const File = () => {
       console.log(e)
 }
   }
-
-  
-  
-
 
   const onDragStart = (e, tag) => {
     e.dataTransfer.setData('tag', tag);
@@ -180,43 +182,17 @@ const onDropa = (e, fileInfo) => {
            navigate("/");
          };
 
-  // useEffect(() => {
-  //   // API 호출하여 용량 정보 가져오기
-  //   fetch('')
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error("HTTP error " + response.status);
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       setStorage(data);
-  //     })
-  //     .catch(error => {
-  //       console.error("용량 정보를 가져오는 데 실패했습니다.", error);
-  //     });
-  // }, []);
+
 
   const getSearchData = (e) => {
     setUserInput(e.target.value.toLowerCase());
   };
 
-  const getSearchRequest =()=>
-    {
-
-    }
-    
   const onClickSearchInput = async () => {
     
-    const res = await getSearchRequest(userInput);
-    // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
-    // 함수로 정의했고 거기서 꺼내옴
-    setSearchLists(res.rows);
+    const res = await getFolderInfo(userInput);
+    setSearchLists(res);
 
-    // 더미 데이터에서 사용자 입력과 일치하는 이름을 가진 파일 찾기
-    // const searchResults = saveInfo.filter(file => file.name.toLowerCase().includes(userInput));
-    // 검색 결과 상태 업데이트
-    // setSearchLists(searchResults);
   };
 
   const handleFileUpload = async (files) => {
@@ -276,19 +252,27 @@ const onDropa = (e, fileInfo) => {
     }
   };
 
-  const handleDoubleClick = async (fileId) => {
-    //파일을 더블클릭하여 실행하는 코드
+  const handleDoubleClick = async (fileId, fileName) => {
+
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+      },
+    };
+  
+    // 파일을 더블클릭하여 실행하는 코드
     try {
       const response = await fetch(
-        "http://125.250.17.196:1234/api/files/{fileId}",
-        {method: "GET"}
-          
+        `http://125.250.17.196:1234/api/files/${fileId}`,
+        { method: "GET", 
+          headers: config.headers
+        }
       );
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = blob.name;
+      a.download = fileName || 'download'; // 파일 이름 설정
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -296,6 +280,7 @@ const onDropa = (e, fileInfo) => {
       console.error('파일을 여는 중 오류 발생:', error);
     }
   };
+  
    
   const handleSave = () => {
     if (window.confirm('파일을 저장하시겠습니까?'))
@@ -307,28 +292,7 @@ const onDropa = (e, fileInfo) => {
       }
       
   };
-  
 
-  
-
-  useEffect(() => {
-    // 더미 데이터
-    // const dummyFiles = [
-    //   { id: 1, name: "문서1.txt", size: "1MB", type: "text/plain " },
-    //   { id: 2, name: "문서2.txt", size: "2MB", type: "text/plain" },
-    //   { id: 3, name: "보고서.pdf", size: "3MB", type: "application/pdf" },
-    //   { id: 4, name: "보고서2.pdf", size: "3MB", type: "application/pdf" },
-    //   { id: 5, name: "보고서3.pdf", size: "3MB", type: 'image/png' },
-    //   { id: 6, name: "보고서4.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
-    //   { id: 7, name: "보고서5.pdf", size: "3MB", type: "application/pdf" },
-    //   { id: 8, name: "보고서6.pdf", size: "3MB", type: 'image/png' },
-    //   { id: 9, name: "보고서7.pdf", size: "3MB", type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
-    // ];
-   
-
-      // setSaveInfo(dummyFiles); // 더미 파일 정보로 상태 업데이트
-  }, []);
-  
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
   const handleDragOver = (event) => {
@@ -359,11 +323,16 @@ const onDropa = (e, fileInfo) => {
     
   };
 
-  const filedelete = (fileName, fileSize) => {
-    // saveInfo 배열에서 해당 파일을 제외한 새 배열을 생성
-    const filteredFiles = saveInfo.filter(file => !(file.name === fileName && file.size === fileSize));
-    // 업데이트된 배열로 saveInfo 상태를 설정
-    setSaveInfo(filteredFiles);
+  const filedelete =async(fileId) => {
+
+    try {
+      const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${fileId}`, config);
+      alert('파일이 성공적으로 삭제되었습니다.');
+      getFolderInfo();
+    } catch (error) {
+      console.error('파일 불러오기 중 오류 발생:', error);
+    }
+  
   };
 
 
@@ -387,6 +356,45 @@ const onDropa = (e, fileInfo) => {
     }
   };
 
+  const [fileContent, setFileContent] = useState('');
+  const [fileInfoName, setfileInfoName] = useState('');
+
+  const lookFileInfo = async (fileId, fileName) => {
+
+    setIsLook(true);
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+      },
+    };
+    // 파일을 더블클릭하여 실행하는 코드
+    try {
+      const response = await fetch(
+        `http://125.250.17.196:1234/api/files/${fileId}`,
+        { method: "GET", 
+          headers: config.headers
+        }
+      );
+      const blob = await response.blob();
+      const text = await blob.text();
+
+      let fileData;
+      try {
+        fileData = JSON.parse(text);
+      
+        const { type, name, size, createdAt } = fileData.data; 
+        setfileInfoName(name);
+        setFileContent(`Type: ${type}\nName: ${name}\nSize: ${size}\nCreatedAt: ${createdAt}`);
+      } catch (e) {
+        setFileContent(text);
+      }
+
+
+    } catch (error) {
+      console.error('파일을 여는 중 오류 발생:', error);
+    }
+  };
+  
   const closeEditModal = () => {
     setIsEditing(false);
     setNewName('');
@@ -478,26 +486,29 @@ const onDropa = (e, fileInfo) => {
         )}
         {files.length != 0 && (
           files.map((fileInfo, index) => (
-            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
+            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
             <div className="item-container">
               <FileIcon type={fileInfo.type} />
               <div>{fileInfo.name}</div>
               <div>{fileInfo.tag}</div>
             </div>
             <div className="btn-container">
-            <button className="file-delete" onClick={() => filedelete(fileInfo.name, fileInfo.size)}>
+            {/* <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
               삭제
-            </button>
+            </button> */}
           <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id,fileInfo.name)}>정보</button>
           </div>
           </div>
           ))
         )}
+        
 
         {isEditing && (
         <div className="popup-container">
           <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
           <button className="popup-button" onClick={handleSubmit} disabled={newName.length === 0}>제출</button>
+          <button onClick={() => setIsEditing(false)}>닫기</button>
         </div>
       )}
       </div>
@@ -521,11 +532,45 @@ const onDropa = (e, fileInfo) => {
   }
 
 
+  const handleButtonClick = async () => {
+    try {
+      const response = await fetch(`http://125.250.17.196:1234/api/files/${fileId}/pr`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+      });
+      
+      const { message, data } = response.data;
+
+      if (message === 'ok') {
+        // message가 "ok"이면 /file/{fileId}/pr로 이동
+        navigate(`/file/${fileId}/pr`);
+      } else {
+        // message가 "ok"가 아니면 console에 "메시지가 없습니다" 출력
+        navigate(`/file/${fileId}/pr`);
+        console.log('메시지가 없습니다');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
  
   return (
 
     <div className="app-container">
       <div className="left-panel">  
+      {isLook && (
+        <div className="popup-infoinfo">
+          <div className="popup-info">
+            
+            <h2>{fileInfoName}</h2>
+            <pre>{fileContent}</pre>
+            <button onClick={() => setIsLook(false)}>닫기</button>
+          </div>
+        </div>
+      )}
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
       <button onClick={() => window.location.href = '/workspace/{workspace}'}>워크스페이스 및 맴버 관리</button>
@@ -538,15 +583,30 @@ const onDropa = (e, fileInfo) => {
             placeholder="검색어를 입력하세요"
           
           />
-
+          
           {searchLists.map((fileInfo, index) => (
+            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
+            <div className="item-container">
+              <FileIcon type={fileInfo.type} />
+              <div>{fileInfo.name}</div>
+              <div>{fileInfo.tag}</div>
+            </div>
+            <div className="btn-container">
+            <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
+              삭제
+            </button>
+          <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+          </div>
+          </div>
+          ))}
+
+          {/* {searchLists.map((fileInfo, index) => (
             <div key={index}>
               <p>{fileInfo.name} ({fileInfo.size} {fileInfo.type})</p>
             </div>
-          ))}
+          ))} */}
 
       </p>
-          
         <label className="file-button">
           <span>파일 추가</span>
           <input
@@ -566,6 +626,8 @@ const onDropa = (e, fileInfo) => {
               >
           </div>
         ))}
+        <button onClick={handleButtonClick}>파일 상세정보 확인</button>
+
       </div>
       <button className="user-logout-btn" onClick={handleLogout}>
                 로그아웃   
@@ -591,56 +653,6 @@ const onDropa = (e, fileInfo) => {
           {
             currentFolderInfo && (getFileUI())
           }
-        {/* {saveInfo.length === 0 ? (
-        <label
-          className={`preview${isActive ? ' active' : ''}`}
-          onDragEnter={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragEnd}
-          onDrop={handleDrop}
-        >          
-
-          <Logo />
-          <p className="preview_msg">클릭 혹은 파일을 이곳에 드롭하세요.</p>
-          <p className="preview_desc">파일당 최대 3MB</p>
-        </label>
-      ) : (
-      <>
-        <div className="grid-container2">
-        {saveInfo.map((fileInfo, index) => (
-          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo._id)}  onDrop={(e) => onDropa(e, fileInfo)} onDragOver={(e) => e.preventDefault()}>
-            <div className="item-container">
-              <FileIcon type={fileInfo.type} />
-              <div>{fileInfo.name}</div>
-              <div>{fileInfo.tags}</div>
-            </div>
-            <div className="btn-container">
-            <button className="file-delete" onClick={() => filedelete(fileInfo.name, fileInfo.size)}>
-              삭제
-            </button>
-           <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
-           </div>
-          </div>
-        ))}
-
-        {isEditing && (
-        <div className="popup-container">
-          <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
-          <button className="popup-button" onClick={handleSubmit} disabled={newName.length === 0}>제출</button>
-        </div>
-      )}
-      </div>
-
-        <label
-          className={`preview${isActive ? ' active' : ''} transparent-drop-zone`}
-          onDragEnter={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragEnd}
-          onDrop={handleDrop}
-        >
-        </label>
-      </>
-      )} */}
     
      </div>
 
@@ -668,4 +680,3 @@ const onDropa = (e, fileInfo) => {
 };
 
 export default File;
-
