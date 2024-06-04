@@ -8,9 +8,11 @@ import File from './component/File';
 import CreateWorkspace from './component/pages/CreateWorkspace';
 import Workspace from './component/pages/Workspace';
 import EmptyWorkspace from './component/pages/EmptyWorkspace';
+import { Popup } from './component/pages/PullRequest';
 
 
-function App() { 
+function App() {  
+  
    return (
     <div>
       <BrowserRouter>
@@ -27,6 +29,7 @@ function App() {
     </div>
    
   );
+  
 }
 
 export default App;

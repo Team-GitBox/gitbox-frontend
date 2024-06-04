@@ -50,6 +50,29 @@ function CreateWorkspace() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+    const workspaceData = { name, memberEmails };
+
+    try {
+      const response = await fetch('/api/workspace', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workspaceData),
+      });
+
+      if (response.ok) {
+        // 요청이 성공적으로 완료되면 /file로 이동
+        window.location.href = '/file';
+      } else {
+        // 요청이 실패하면 에러 처리
+        console.error('Failed to create workspace');
+        window.location.href = '/file'; // 요청이 실패했을 때는 오면 안됨. 백엔드와 연결 후 삭제!
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
     event.preventDefault(); // 폼 제출 기본 이벤트 방지
 
     // API 요청을 위한 URL 및 데이터 설정

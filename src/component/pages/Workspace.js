@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import '../module/Workspace.css';
 
 
 
@@ -13,13 +14,13 @@ function Workspace() {
     usedStorage: ''
   });
 
-  const { workspaceId } = useParams(); // useParams 훅을 사용하여 URL 파라미터에서 workspaceName을 추출합니다.
+  const { workspaceId } = useParams(); 
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteWorkspace = async () => {
     try {
       if (window.confirm('이 워크스페이스를 삭제하시겠습니까?')) {
         setIsDeleting(true);
-        await fetch(`http://localhost:3000/WorkSpace/${workspaceId}`, {
+        await fetch(`http://125.250.17.196:1234/api/WorkSpace/${workspaceId}`, {
           method: 'DELETE',
       });
       console.log('Workspace deleted successfully');
@@ -33,7 +34,7 @@ function Workspace() {
   useEffect(() => {
     const fetchWorkspaceDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/WorkSpace/${workspaceId}`); // match.params.workspaceName 대신 workspaceName을 사용
+        const response = await fetch(`http://125.250.17.196:1234/api/WorkSpace/${workspaceId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -79,8 +80,12 @@ function Workspace() {
   }, []);
 
   return (
-    <div>
+    <div className="App">
+    <div className="center">
+    <div className="workspace-container">
+    <div className="workspace-card">
       <h2>워크스페이스 상세 정보</h2>
+      <button className='workspace-button' onClick={() => window.location.href = '/create-workspace'}>워크스페이스 추가</button>
       <p>ID: {workspace.workspaceId}</p>
       <p>이름: {workspace.workspaceName}</p>
       <div>
@@ -105,14 +110,17 @@ function Workspace() {
         <h3>현재 용량</h3>
         <p>{workspace.usedStorage}</p>
       </div>
-      <div>
-      <button 
-        onClick={handleDeleteWorkspace}
-        disabled={isDeleting}>
-        {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}
-      </button>
+      <div className="workspace-button">
+        <button
+          onClick={handleDeleteWorkspace}
+          disabled={isDeleting}>
+          {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}
+        </button>
+      </div>
     </div>
-    </div>
+  </div>
+  </div>
+      </div>
   );
 }
 

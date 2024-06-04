@@ -1,0 +1,56 @@
+#root {
+    align-items: center;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  
+    #App {
+      position: relative;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+.workspace-container {
+    border-radius: 10px;
+    width: 2000px;
+    display: inline-block;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .workspace-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 2000px;
+  }
+  
+  .workspace-card h2 {
+    margin-top: 0;
+  }
+  
+  .workspace-card ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .workspace-card li {
+    margin-bottom: 8px;
+  }
+  
+  .workspace-card .workspace-button {
+    margin-top: 20px;
+    display: flex;
+    width: 50%;
+    margin : 0 auto;
+    justify-content: flex-end;
+  }

@@ -14,7 +14,7 @@ function EmptyWorkspace() {
       <h1>참여중인 워크스페이스가 없습니다.</h1>
       <br />
       <h2>버튼을 눌러 워크스페이스를 생성하세요.</h2>
-      <button className="createWorkspaceBtn" onClick={handleCreateWorkspace}>+</button>
+      <button className="button" onClick={handleCreateWorkspace}>+</button>
     </div>
   );
 }

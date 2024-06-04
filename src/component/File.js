@@ -50,9 +50,9 @@ const File = () => {
   const [currentEditingId, setCurrentEditingId] = useState(null); // 현재 수정 중인 파일 ID
   const [newName, setNewName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [isLook, setIsLook] = useState(false);
   const[fixEdit,setfixEdit] = useState(false);
   const[searchEdit,setsearchEdit] = useState(false);
+  const [isLook, setIsLook] = useState(false);
   const tags = ['RED', 'GREEN', 'YELLOW', 'NAVY', 'BLUE', 'PURPLE', 'ORANGE'];
   const tagColors = {
     'RED': 'red',
@@ -197,7 +197,23 @@ const File = () => {
            navigate("/");
          };       
 
-         
+  // useEffect(() => {
+  //   // API 호출하여 용량 정보 가져오기
+  //   fetch('')
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error("HTTP error " + response.status);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       setStorage(data);
+  //     })
+  //     .catch(error => {
+  //       console.error("용량 정보를 가져오는 데 실패했습니다.", error);
+  //     });
+  // }, []);
+
   const getSearchData = (e) => {
     setUserInput(e.target.value.toLowerCase());
   };
@@ -212,6 +228,10 @@ const File = () => {
     );
     setSearchLists(searchResults);
     
+    const res = await getSearchRequest(userInput);
+    // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
+    // 함수로 정의했고 거기서 꺼내옴
+    setSearchLists(res.rows);
 
   };
 
@@ -272,15 +292,8 @@ const File = () => {
     }
   };
 
-  const handleDoubleClick = async (fileId, fileName) => {
-
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
-      },
-    };
-  
-    // 파일을 더블클릭하여 실행하는 코드
+  const handleDoubleClick = async (fileId) => {
+    //파일을 더블클릭하여 실행하는 코드
     try {
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config)
      
@@ -294,6 +307,7 @@ const File = () => {
     }
   };
   
+  
    
   const handleSave = () => {
     if (window.confirm('파일을 저장하시겠습니까?'))
@@ -305,6 +319,7 @@ const File = () => {
       }
       
   };
+
 
   const handleDragStart = () => setActive(true);
   const handleDragEnd = () => setActive(false);
@@ -420,6 +435,8 @@ const File = () => {
     }
   };
   
+
+ 
   const closeEditModal = () => {
     setIsEditing(false);
     setNewName('');
@@ -530,6 +547,7 @@ const File = () => {
           ))
         )}
         
+        
 
         {isEditing && (
         <div className="popup-container">
@@ -558,6 +576,31 @@ const File = () => {
     setCurrentFolderId(id);
   }
 
+
+  const handleButtonClick = async () => {
+    try {
+      const response = await fetch(`http://125.250.17.196:1234/api/files/${fileId}/pr`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+      });
+      
+      const { message, data } = response.data;
+
+      if (message === 'ok') {
+        // message가 "ok"이면 /file/{fileId}/pr로 이동
+        navigate(`/file/${fileId}/pr`);
+      } else {
+        // message가 "ok"가 아니면 console에 "메시지가 없습니다" 출력
+        navigate(`/file/${fileId}/pr`);
+        console.log('메시지가 없습니다');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
  
   return (
 
@@ -576,7 +619,7 @@ const File = () => {
       )}
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <Link to='/create-workspace'>워크스페이스 추가</Link>
+      <button onClick={() => window.location.href = '/workspace/{workspace}'}>워크스페이스 및 맴버 관리</button>
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input
@@ -609,6 +652,8 @@ const File = () => {
               >
           </div>
         ))}
+        <button onClick={handleButtonClick}>파일 상세정보 확인</button>
+
       </div>
       <button className="user-logout-btn" onClick={handleLogout}>
                 로그아웃   
@@ -700,4 +745,3 @@ const File = () => {
 };
 
 export default File;
-
