@@ -52,12 +52,14 @@ function CreateWorkspace() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const workspaceData = { name, memberEmails };
+    const token = localStorage.getItem('accessToken');
 
     try {
-      const response = await fetch('/api/workspace', {
+      const response = await fetch('http://125.250.17.196:1234/api/workspace', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(workspaceData),
       });
@@ -68,7 +70,6 @@ function CreateWorkspace() {
       } else {
         // 요청이 실패하면 에러 처리
         console.error('Failed to create workspace');
-        window.location.href = '/file'; // 요청이 실패했을 때는 오면 안됨. 백엔드와 연결 후 삭제!
       }
     } catch (error) {
       console.error('Error:', error);
@@ -98,7 +99,7 @@ function CreateWorkspace() {
             <div key={index}>
               <label className="centered-input">멤버 이메일:</label>
               <input
-                type="email"
+                type="memberEmail"
                 value={email}
                 onChange={(e) => handleMemberEmailChange(index, e)}
                 className="centered-input"

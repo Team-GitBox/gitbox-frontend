@@ -461,8 +461,14 @@ const File = () => {
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
 
-  const lookFileInfo = async (fileId) => {
-
+  const lookFileInfo = async (fileId, fileName) => {
+    setIsLook(true);
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+      },
+    };
+  
     try {
     
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
@@ -493,6 +499,8 @@ const File = () => {
 
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
+    } finally {
+      setIsLook(false);
     }
   };
   
@@ -767,7 +775,7 @@ const addFolder = async (newName) => {
       )}
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <button onClick={() => window.location.href = '/workspace/{workspace}'}>워크스페이스 및 맴버 관리</button>
+      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input
