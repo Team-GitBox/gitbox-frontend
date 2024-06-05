@@ -224,14 +224,8 @@ const File = () => {
    
     const searchResults = currentFolderInfo.data.files.filter(file =>
       file.name.toLowerCase().includes(userInput.toLowerCase())
-      
     );
     setSearchLists(searchResults);
-    
-    const res = await getSearchRequest(userInput);
-    // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
-    // 함수로 정의했고 거기서 꺼내옴
-    setSearchLists(res.rows);
 
   };
 
@@ -399,39 +393,55 @@ const File = () => {
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
 
-  const lookFileInfo = async (fileId) => {
-
+  const lookFileInfo = async (fileId, fileName) => {
+    setIsLook(true);
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+      },
+    };
+  
     try {
-    
-      const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
-   
-     console.log("aadfas",response.data.data.pullRequestId);
-
-      if(response.data.data.pullRequestId==null)
-        {
-          setIsLook(true);
-
-          let fileData = response.data;
-    
-          try {
-            const { type, name, size, createdAt } = fileData.data; 
-            setfileInfoName(name); 
-            setFileContent(`Type: ${type}\nSize: ${size}\nCreatedAt: ${createdAt}`);
-          } catch (e) {
-            setFileContent(JSON.stringify(fileData)); // JSON.parse 대신에 JSON.stringify를 사용하여 객체를 문자열로 변환합니다.
-          }
-      
-
+      // 파일 정보 조회
+      const response = await fetch(
+        `http://125.250.17.196:1234/api/files/${fileId}`,
+        { method: "GET", 
+          headers: config.headers
         }
-        else
-        {
-          navigate(`/file/${fileId}/pr`);
-        }
-      
-
-
+      );
+      const blob = await response.blob();
+      const text = await blob.text();
+  
+      let fileData;
+      try {
+        fileData = JSON.parse(text);
+        const { type, name, size, createdAt, pullRequestId } = fileData.data; 
+        setfileInfoName(name);
+        setFileContent(`Type: ${type}\nName: ${name}\nSize: ${size}\nCreatedAt: ${createdAt}`);
+        
+        window.location.href = `http://125.250.17.196:1234/files/${fileId}/pr`;
+        // pullRequestId가 null이 아닌 경우
+        // if (pullRequestId !== null) {
+        //   // http://125.250.17.196:1234/files/${fileId}/pr 페이지로 이동
+        //   window.location.href = `http://125.250.17.196:1234/files/${fileId}/pr`;
+  
+        //   // http://125.250.17.196:1234/api/files/${fileId}/pr GET 요청 보내기
+        //   const prResponse = await fetch(
+        //     `http://125.250.17.196:1234/api/files/${fileId}/pr`,
+        //     { method: "GET", 
+        //       headers: config.headers
+        //     }
+        //   );
+        //   const prData = await prResponse.json();
+        //   // 화면에 프로젝트 정보 출력
+        // }
+      } catch (e) {
+        setFileContent(text);
+      }
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
+    } finally {
+      setIsLook(false);
     }
   };
   
@@ -512,6 +522,10 @@ const File = () => {
     alert('폴더 추가 기능 구현');
   };
 
+  const handleWorkspaceBtn = () => {
+    const workspaceId = searchParams.get('workspaceId');
+    window.location.href = `/workspace/${workspaceId}`
+  };
  
   const getFileUI = () => {
     console.log(currentFolderInfo)
@@ -619,7 +633,7 @@ const File = () => {
       )}
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <button onClick={() => window.location.href = '/workspace/{workspace}'}>워크스페이스 및 맴버 관리</button>
+      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input

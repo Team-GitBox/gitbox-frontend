@@ -1,45 +1,50 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const PopupContainer = styled.div`
-  position: fixed;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  padding: 20px;
-  overflow-y: auto;
-`;
+const PullRequest = () => {
+  const { fileId } = useParams();
+  const [fileData, setFileData] = useState(null);
+  const token = localStorage.getItem('accessToken');
+  useEffect(() => {
+    const fetchFileData = async () => {
+      try {
+        const response = await fetch(`http://125.250.17.196:1234/api/files/${fileId}/pr`, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          },
+        });
+        setFileData(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
 
-const Title = styled.h1`
-  margin-bottom: 10px;
-`;
+    fetchFileData();
+  }, [fileId]);
 
-const WriterMessage = styled.div`
-  margin-bottom: 20px;
-`;
+  if (!fileData) {
+    return <div>Loading...</div>;
+  }
 
-const Comment = styled.div`
-  margin-bottom: 10px;
-`;
+  return (
+    <div>
+      <h1>{fileData.title}</h1>
+      <p>{fileData.message}</p>
+      <p>작성자: {fileData.writer}</p>
+      <a href={fileData.fileUrl}>파일 다운로드</a>
+      <h2>Comments:</h2>
+      {fileData.comments.map((comment) => (
+        <div key={comment.id}>
+          <p>{comment.comment}</p>
+          <p>리뷰어: {comment.reviewerId}</p>
+          <p>승인 여부: {comment.isApproved ? '승인' : '미승인'}</p>
+          <p>작성일: {comment.createdAt}</p>
+          <p>수정일: {comment.updatedAt}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-export const Popup = ({ data, onClose }) => (
-  <PopupContainer>
-    <button onClick={onClose}>닫기</button>
-    <Title>{data.title}</Title>
-    <WriterMessage>
-      <p>작성자: {data.writer}</p>
-      <p>메시지: {data.message}</p>
-    </WriterMessage>
-    {data.comments.map((comment) => (
-      <Comment key={comment.id}>
-        <p>리뷰어 ID: {comment.reviewerId}</p>
-        <p>코멘트: {comment.comment}</p>
-      </Comment>
-    ))}
-  </PopupContainer>
-);
+export default PullRequest;
