@@ -115,7 +115,11 @@ p {
   height: auto; /* 로고의 높이는 자동으로 조정 */
   margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
-   
+.folder{
+  width: 100px; /* 로고의 너비를 조정 */
+  height: auto; /* 로고의 높이는 자동으로 조정 */
+  margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
+}
 .right-panel {
   background-color: white;
   padding: 20px; /* 내부 여백 */
@@ -138,11 +142,21 @@ p {
  
  
 }
+.folder-delete
+{
+  width: auto;
+  height: auto; 
+  background-color: #281d99;
+  color: #fdfcfc;
+  z-index: 5; 
+  
+}
+
 
 .file-delete
 {
-  width: 30%;
-  height: 20%; 
+  width: auto;
+  height: auto; 
   background-color: #281d99;
   color: #fdfcfc;
   z-index: 5; 
@@ -150,18 +164,29 @@ p {
 }
 .file-info
 {
-  width: 30%;
-  height: 20%; 
+  width: auto;
+  height: auto;  
   background-color: #3474b4;
   color: #fdfcfc;
   z-index: 5; 
   
 }
-
+.tag-button {
+  width: 50px; /* 버튼의 너비를 100px로 설정 */
+  height: 30px; /* 버튼의 높이를 30px로 설정 */
+  padding: 5px 10px; /* 상하 5px, 좌우 10px의 내부 여백을 설정 */
+  font-size: 14px; /* 글꼴 크기를 14px로 설정하여 버튼 내의 텍스트 크기 조정 */
+  border: 1px solid #ccc; /* 테두리 설정 예시 */
+  border-radius: 4px; /* 버튼 모서리를 둥글게 */
+  background-color: #f2f2f2; /* 배경색 설정 */
+  color: #333; /* 글자색 설정 */
+  cursor: pointer; /* 마우스 오버 시 커서를 손가락 모양으로 변경 */
+  transition: background-color 0.3s; /* 배경색 변경 시 애니메이션 효과 */
+}
 .file-name
 {
-  width: 30%;
-  height: 20%; 
+  width: auto;
+  height: auto;  
   background-color: #162393; 
   color: #fdfcfc;
   z-index: 5; 

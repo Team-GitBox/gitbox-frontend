@@ -5,9 +5,10 @@ import { ReactComponent as TextIcon } from './svg/text.svg';
 import { ReactComponent as ImageIcon } from './svg/image.svg';
 import { ReactComponent as PdfIcon } from './svg/pdf.svg';
 import { ReactComponent as WordIcon } from './svg/word.svg';
-import { useNavigate, Link, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, Link, useParams, useSearchParams} from 'react-router-dom';
 import Workspace from './pages/Workspace';
 import axios from 'axios';
+
 
 
 const FileIcon = ({ type }) => {
@@ -47,9 +48,13 @@ const File = () => {
   const [saveInfo, setSaveInfo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [searchLists, setSearchLists] = useState([]);
+  const [tagLists, settagLists] = useState([]);
   const [currentEditingId, setCurrentEditingId] = useState(null); // 현재 수정 중인 파일 ID
   const [newName, setNewName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [tagTag,settagTag] =useState(false);
+  const [isFolderNameEditing, setIsFolderNameEditing] = useState(false);
+  const [isFolderEditing, setIsFolderEditing] = useState(false);
   const[fixEdit,setfixEdit] = useState(false);
   const[searchEdit,setsearchEdit] = useState(false);
   const [isLook, setIsLook] = useState(false);
@@ -70,7 +75,16 @@ const File = () => {
   const token = localStorage.getItem('accessToken');
   const [currentFolderId, setCurrentFolderId] = useState();
   const [currentFolderInfo, setCurrentFolderInfo] = useState();
+  const[currentTagInfo,setcurrentTagInfo] = useState("undefined");
   const [fileId, setFileId] = useState('');
+
+  const [currentTagColor, setCurrentTagColor] = useState("FULL");
+
+  
+ 
+  const popupOpenFolder = async (folderId) => {
+    setCurrentFolderId(folderId)
+  }
 
   const popupOpenFunction = async (isOpen) => {
     if(isOpen) {
@@ -106,13 +120,44 @@ const File = () => {
       const response = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${currentFolderId}`, config);
 
       setCurrentFolderInfo(response.data);
-      console.log(response.data);
+  
     } catch (error) {
       console.error('파일 불러오기 중 오류 발생:', error);
     }
   }
 
+  const getTagInfo = async (tag) => 
+    {
 
+    try {
+      
+      settagTag(true);
+      const params = {
+        workspaceId: selectedWorkspace,
+        tag: tag,
+      };
+      
+      const response = await axios.get(`http://125.250.17.196:1234/api/files/tag`, {
+        params: params,
+        ...config
+      });
+      
+      console.log("잉",response.data.data)
+      setcurrentTagInfo(response);
+      settagLists(response.data.data);
+      
+    } catch (error) {
+      console.error('파일 불러오기 중 오류 발생:', error);
+    }
+  }
+  
+  // useEffect(() => {
+  //   if(currentTagInfo == undefined) return;
+    
+  //   getTagInfo()
+
+
+  // }, [currentTagInfo])
 
   useEffect(() => {
     if(currentFolderId == undefined) return;
@@ -130,7 +175,7 @@ const File = () => {
 
    useEffect(() => {
     const workspaceId = searchParams.get('workspaceId');
-    console.log(workspaceId)
+
 
     setSelectedWorkspace(workspaceId);
     setNewStorage(workspaceId);
@@ -145,7 +190,7 @@ const File = () => {
         used: storageData.data.usedStorage
       });
     } catch (e) {
-      console.log(e)
+    
 }
   }
 
@@ -178,7 +223,7 @@ const File = () => {
       };
 
          const response = await axios.patch(`http://125.250.17.196:1234/api/files/${fileId}` ,requestBody, config)
-         console.log('파일 업데이트 성공:', response.data);
+        
 
          
      } catch (error) {
@@ -197,22 +242,6 @@ const File = () => {
            navigate("/");
          };       
 
-  // useEffect(() => {
-  //   // API 호출하여 용량 정보 가져오기
-  //   fetch('')
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error("HTTP error " + response.status);
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       setStorage(data);
-  //     })
-  //     .catch(error => {
-  //       console.error("용량 정보를 가져오는 데 실패했습니다.", error);
-  //     });
-  // }, []);
 
   const getSearchData = (e) => {
     setUserInput(e.target.value.toLowerCase());
@@ -220,26 +249,18 @@ const File = () => {
 
   const onClickSearchInput = async (e) => {
   
-    console.log("폴더폴더러",currentFolderInfo.data.files)
-   
+    
     const searchResults = currentFolderInfo.data.files.filter(file =>
       file.name.toLowerCase().includes(userInput.toLowerCase())
-      
     );
     setSearchLists(searchResults);
-    
-    const res = await getSearchRequest(userInput);
-    // getSearchRequest는 백엔에서 준 API를 받아오는 함수를 따로
-    // 함수로 정의했고 거기서 꺼내옴
-    setSearchLists(res.rows);
 
   };
 
   const handleFileUpload = async (files) => {
     //파일의 업로드 기능
 
-    console.log(files[0])
-
+   
     const formData = new FormData();
     formData.append('request', JSON.stringify({
       workspaceId: selectedWorkspace,
@@ -247,8 +268,7 @@ const File = () => {
     }));
     formData.append('file', files[0]);
 
-    console.log(formData)
-
+    
     const config = {
       headers: {
         'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
@@ -268,7 +288,7 @@ const File = () => {
       getFolderInfo();
       //fetchFiles();
     } catch (error) {
-      console.log(error)
+     
     }
   };
 
@@ -291,13 +311,17 @@ const File = () => {
       console.error('파일 목록을 불러오는 중 오류 발생:', error);
     }
   };
+  const handleFolderDoubleClick = async (fileId) => {
+
+  }
+
+  
 
   const handleDoubleClick = async (fileId) => {
     //파일을 더블클릭하여 실행하는 코드
     try {
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config)
      
-      console.log("zasdasd",response.data.data.url)
       // window.location.href = response.data.data.url;
       window.open(response.data.data.url)
       
@@ -346,21 +370,52 @@ const File = () => {
     setActive(false);
 
     const files = event.dataTransfer.files;
-    console.log("hess")
+  
     confirmAndSetFileInfo(files);
     
+  };
+  const folderdelete =async(fileId) => {
+  
+    try {  
+         const response = await axios.delete(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${fileId}`,config)
+         
+     } catch (error) {
+         console.error('파일 삭제 실패:', error);
+     }
+
+     getFolderInfo();
   };
 
   const filedelete =async(fileId) => {
 
     try {  
          const response = await axios.delete(`http://125.250.17.196:1234/api/files/${fileId}`, config)
-         console.log('파일 삭제 성공:', response.data);
-    
+         
      } catch (error) {
          console.error('파일 삭제 실패:', error);
      }
 
+     getFolderInfo();
+  };
+
+  const handleFolderNameEdit = async (fileId, newName) => {
+
+    try {
+     
+      const rrr = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${fileId}`,config)
+  
+      const foldername = rrr.data.data.parentFolderId;
+      const requestBody = {
+        name: newName,
+        parentFolderId: foldername,
+      };
+  
+         const response = await axios.patch(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${fileId}`,requestBody, config)
+        
+         
+     } catch (error) {
+         console.error('파일 업데이트 실패:', error);
+     }
      getFolderInfo();
   };
 
@@ -376,8 +431,7 @@ const File = () => {
       };
 
          const response = await axios.patch(`http://125.250.17.196:1234/api/files/${fileId}` ,requestBody, config)
-         console.log('파일 업데이트 성공:', response.data);
-
+       
          
      } catch (error) {
          console.error('파일 업데이트 실패:', error);
@@ -395,6 +449,14 @@ const File = () => {
     }
     
   };
+  const openFolderEditModal = (fileid) => {
+    setIsFolderNameEditing(true);
+    setCurrentEditingId(fileid);
+    const file = saveInfo.find(file => file.id === fileid);
+    if (file) {
+      setNewName(file.name);
+    }
+  };
 
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
@@ -405,8 +467,7 @@ const File = () => {
     
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
    
-     console.log("aadfas",response.data.data.pullRequestId);
-
+    
       if(response.data.data.pullRequestId==null)
         {
           setIsLook(true);
@@ -439,6 +500,8 @@ const File = () => {
  
   const closeEditModal = () => {
     setIsEditing(false);
+    setIsFolderEditing(false);
+    setIsFolderNameEditing(false);
     setNewName('');
   };
 
@@ -446,6 +509,15 @@ const File = () => {
     handleFileNameEdit(currentEditingId, newName);
     closeEditModal();
   };
+  const handleSubmitFolder = () => {
+    addFolder(newName);
+    closeEditModal();
+  };
+  const handleSubmitAdd = () => {
+    handleFolderNameEdit(currentEditingId, newName);
+    closeEditModal();
+  };
+
 
   const WorkspacePopup = ({ onSelect, onClose }) => {
       
@@ -507,11 +579,75 @@ const File = () => {
     }
   };
 
-  const addFolder = () => {
-   
-    alert('폴더 추가 기능 구현');
-  };
+const addFolder = async (newName) => {
+  setIsFolderEditing(true);
 
+  try{
+      const aa = await axios.get(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders/${currentFolderId}`, config); 
+      const parentfolderid = aa.data.data.id;
+    
+     
+      const data = {
+        name: newName,
+        parentFolderId: parentfolderid,  // 현재 폴더의 ID를 부모 폴더 ID로 사용
+      };
+    
+      try {
+        const response = await axios.post(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/folders`, data, config);
+    
+        if (response.status !== 200) {
+          console.error("폴더 추가 실패");
+          return;
+        }
+        // 폴더 추가 후 폴더 목록을 갱신합니다.
+        getFolderInfo();
+      } catch (error) {
+    
+      }
+    
+    } catch (error) {
+      console.error('파일 불러오기 중 오류 발생:', error);
+    }  
+  
+ 
+};
+    const getTagUI = () => {
+     
+      //let files = currentTagInfo.data.data
+      // console.log("태그",files)
+     
+
+      return (  
+        <div className="grid-container">
+        {tagTag && (
+        <div className="preview-popup">  
+        {tagLists.map((fileInfo, index) => (
+          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+          <div className="item-container">
+            <FileIcon type={fileInfo.type} />
+            <div>{fileInfo.name}</div>
+            <div>{fileInfo.tag}</div>
+          </div>
+          <div className="btn-container">
+          <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
+            삭제 
+          </button>
+        <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+        <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+        </div>
+        </div>
+        
+        ))}
+        
+        <button onClick={() => settagTag(false)}>Close</button>
+    </div>
+      
+        )}
+         </div>
+      )
+    }
+   
+    
  
   const getFileUI = () => {
     console.log(currentFolderInfo)
@@ -521,15 +657,38 @@ const File = () => {
 
     return (
         <>
-        <div className="grid-container2">
-        {parentFolderId != null && <img src={logo} alt="로고" className="logo" onClick={() => changeCurrentFolder(parentFolderId)} />}
+        <
+          div className="grid-container2">
+        {parentFolderId != null &&(
+            <div className="grid-item">
+            <img 
+              src="img/back.png" 
+              alt="folder" 
+              className="folder" 
+              onDoubleClick={() => changeCurrentFolder(parentFolderId)} 
+            />
+            <div className="parentfolder-name">턴라잇</div>
+          </div>
+        )}
         {folders.length != 0 && (
           folders.map((folder, index) => (
-            <img src={logo} alt="로고" className="logo" onClick={() => changeCurrentFolder(folder)} />
+            <div className="grid-item" key={index} onDoubleClick={() =>  popupOpenFolder(folder.id)} >
+            <img src="img/folder.png" alt="folder" className="folder" />  
+              <div>{folder.name}</div>
+              <div className="btn-container">
+              <button className="folder-delete" onClick={() => folderdelete(folder.id)}>
+              삭제 
+            </button>
+            <button className="folder-delete" onClick={() => openFolderEditModal(folder.id)}>수정</button>
+            </div>
+            </div>
+            
+            
           ))
         )}
         {files.length != 0 && (
           files.map((fileInfo, index) => (
+            
             <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
             <div className="item-container">
               <FileIcon type={fileInfo.type} />
@@ -546,9 +705,14 @@ const File = () => {
           </div>
           ))
         )}
-        
-        
+        {isFolderEditing && (
+        <div className="popup-container">
+          <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <button className="popup-button" onClick={handleSubmitFolder} disabled={newName.length === 0}>이름 작성완료</button>
+          <button onClick={() => setIsFolderEditing(false)}>닫기</button>
+        </div>)}
 
+        
         {isEditing && (
         <div className="popup-container">
           <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
@@ -556,6 +720,14 @@ const File = () => {
           <button onClick={() => setIsEditing(false)}>닫기</button>
         </div>
       )}
+      {isFolderNameEditing && (
+        <div className="popup-container">
+          <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <button className="popup-button" onClick={handleSubmitAdd} disabled={newName.length === 0}>수정완료</button>
+          <button onClick={() => setIsFolderNameEditing(false)}>닫기</button>
+        </div>
+      )}
+      
       </div>
 
         <label
@@ -572,35 +744,11 @@ const File = () => {
     )
   }
 
-  const changeCurrentFolder = (id) => {
+  const changeCurrentFolder = async (id) => {
+ 
     setCurrentFolderId(id);
   }
 
-
-  const handleButtonClick = async () => {
-    try {
-      const response = await fetch(`http://125.250.17.196:1234/api/files/${fileId}/pr`,{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
-      });
-      
-      const { message, data } = response.data;
-
-      if (message === 'ok') {
-        // message가 "ok"이면 /file/{fileId}/pr로 이동
-        navigate(`/file/${fileId}/pr`);
-      } else {
-        // message가 "ok"가 아니면 console에 "메시지가 없습니다" 출력
-        navigate(`/file/${fileId}/pr`);
-        console.log('메시지가 없습니다');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
  
   return (
 
@@ -641,7 +789,10 @@ const File = () => {
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
         </label>
-        <button onClick={addFolder}>폴더 추가</button> 
+        <div>
+          <button onClick={() => addFolder()}>폴더 추가</button> 
+        </div>
+     
           <div className="tags">
             {tags.map((tag, index) => (
               <div
@@ -652,7 +803,15 @@ const File = () => {
               >
           </div>
         ))}
-        <button onClick={handleButtonClick}>파일 상세정보 확인</button>
+        <button className= "tag-button" onClick={() => getTagInfo("RED")}>RED</button>
+        <button className= "tag-button" onClick={() => getTagInfo("GREEN")}>GREEN</button>
+        <button className= "tag-button" onClick={() => getTagInfo("YELLOW")}>YELLOW</button>
+        <button className= "tag-button" onClick={() => getTagInfo("NAVY")}>NAVY</button>
+        <button className= "tag-button" onClick={() => getTagInfo("BLUE")}>BLUE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("PURPLE")}>PURPLE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("ORANGE")}>ORANGE</button>
+        
+        
 
       </div>
       <button className="user-logout-btn" onClick={handleLogout}>
@@ -677,7 +836,10 @@ const File = () => {
       </div>
         
           {
-            currentFolderInfo && (getFileUI())
+            currentFolderInfo && (currentTagInfo != undefined) && (getFileUI())
+          }
+          {
+            currentTagInfo && (getTagUI())
           }
     
      </div>
