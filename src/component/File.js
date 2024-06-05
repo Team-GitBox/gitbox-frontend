@@ -76,11 +76,7 @@ const File = () => {
   const [currentFolderId, setCurrentFolderId] = useState();
   const [currentFolderInfo, setCurrentFolderInfo] = useState();
   const[currentTagInfo,setcurrentTagInfo] = useState("undefined");
-  const [fileId, setFileId] = useState('');
-
-  const [currentTagColor, setCurrentTagColor] = useState("FULL");
-
-  
+ 
  
   const popupOpenFolder = async (folderId) => {
     setCurrentFolderId(folderId)
@@ -151,14 +147,6 @@ const File = () => {
     }
   }
   
-  // useEffect(() => {
-  //   if(currentTagInfo == undefined) return;
-    
-  //   getTagInfo()
-
-
-  // }, [currentTagInfo])
-
   useEffect(() => {
     if(currentFolderId == undefined) return;
     
@@ -311,10 +299,6 @@ const File = () => {
       console.error('파일 목록을 불러오는 중 오류 발생:', error);
     }
   };
-  const handleFolderDoubleClick = async (fileId) => {
-
-  }
-
   
 
   const handleDoubleClick = async (fileId) => {
@@ -461,14 +445,8 @@ const File = () => {
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
 
-  const lookFileInfo = async (fileId, fileName) => {
-    setIsLook(true);
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
-      },
-    };
-  
+  const lookFileInfo = async (fileId) => {
+
     try {
     
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
@@ -499,11 +477,9 @@ const File = () => {
 
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
-    } finally {
-      setIsLook(false);
     }
   };
-  
+
 
  
   const closeEditModal = () => {
@@ -775,7 +751,7 @@ const addFolder = async (newName) => {
       )}
       
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
+      {/* <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button> */}
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input
