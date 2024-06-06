@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CreatePullRequest = () => {
@@ -8,6 +8,7 @@ const CreatePullRequest = () => {
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('accessToken');
   const { parentFileId } = useParams();
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -43,7 +44,7 @@ const CreatePullRequest = () => {
           'Authorization': `Bearer ${token}`,
         },
       });
-
+      navigate(-1);
       // 업로드 성공 시 처리 로직 추가
     } catch (error) {
       console.error('파일 업로드 실패:', error);
