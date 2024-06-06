@@ -25,7 +25,7 @@ function App() {
           <Route path="/emptyworkspace" element={<EmptyWorkspace />} />
           <Route path="/workspace/:workspaceId" element={<Workspace />} />
           <Route path="/files/:fileId/pr" element={<PullRequest />} />
-          <Route path="/files/:fileId/add-pr" element={<CreatePullRequest />} />
+          <Route path="/files/:parentFileId/add-pr" element={<CreatePullRequest />} />
           
         </Routes>
       </BrowserRouter>
