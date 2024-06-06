@@ -9,7 +9,7 @@ import CreateWorkspace from './component/pages/CreateWorkspace';
 import Workspace from './component/pages/Workspace';
 import EmptyWorkspace from './component/pages/EmptyWorkspace';
 import PullRequest from './component/pages/PullRequest';
-
+import CreatePullRequest from './component/pages/CreatePullRequest';
 
 function App() {  
   
@@ -25,6 +25,7 @@ function App() {
           <Route path="/emptyworkspace" element={<EmptyWorkspace />} />
           <Route path="/workspace/:workspaceId" element={<Workspace />} />
           <Route path="/files/:fileId/pr" element={<PullRequest />} />
+          <Route path="/files/:parentFileId/add-pr" element={<CreatePullRequest />} />
           
         </Routes>
       </BrowserRouter>

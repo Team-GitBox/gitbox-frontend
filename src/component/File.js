@@ -501,6 +501,8 @@ const File = () => {
   const [elements, setElements] = useState([]);
   let first = "a";
  
+  const [fileInfoId, setfileInfoId] = useState('');
+
   const lookFileInfo = async (fileId) => {
 
     try {
@@ -519,6 +521,7 @@ const File = () => {
           try {
             const { type, name, size, createdAt } = fileData.data; 
             setfileInfoName(name); 
+            setfileInfoId(fileId);
             setFileContent(`Type: ${type}\nSize: ${size}\nCreatedAt: ${createdAt}`);
           } catch (e) {
             setFileContent(JSON.stringify(fileData)); // JSON.parse 대신에 JSON.stringify를 사용하여 객체를 문자열로 변환합니다.
@@ -897,7 +900,14 @@ const addFolder = async (newName) => {
  
     setCurrentFolderId(id);
   }
+  const handleWorkspaceBtn = () => {
+    const workspaceId = searchParams.get('workspaceId');
+    window.location.href = `/workspace/${workspaceId}`
+  };
 
+  const handleNewVirsionBtn = async (fileInfoId) => {
+    window.location.href = `/files/${fileInfoId}/add-pr`
+  };
  
   return (
 
@@ -911,7 +921,7 @@ const addFolder = async (newName) => {
             <pre>{fileContent}</pre>
             <div>{elements}</div>
             <button onClick={() => setIsLook(false)}>닫기</button>
-            <button onClick={() => setfixEdit(true)}>파일을 수정하시겠습니까?</button>
+            <button onClick={() => handleNewVirsionBtn(fileInfoId)}>새로운 버전 업로드</button>
           </div>
         </div>
       )} 
@@ -920,7 +930,7 @@ const addFolder = async (newName) => {
       <img src="img/trash.png"  alt="Trash" style={{ width: '50px', height: '50px' }} />
       </button>
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      {/* <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button> */}
+      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
       <img src={logo} alt="로고" className="logo" />
       <p>
           <input
@@ -1045,6 +1055,7 @@ const addFolder = async (newName) => {
             className="file"
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
+          
         </label>
             <button onClick={() => setfixEdit(false)}>Close</button>
         </div>
