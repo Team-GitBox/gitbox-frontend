@@ -142,6 +142,8 @@ p {
  
  
 }
+
+
 .folder-delete
 {
   width: auto;
@@ -191,6 +193,34 @@ p {
   color: #fdfcfc;
   z-index: 5; 
 }
+/* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
+/* App.css */
+.circle {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-left: 90px; 
+  align-items: center;
+}
+
+
+.greenCircle {
+  background-color: green;
+}
+
+.redCircle {
+  background-color: red;
+}
+
+.circleConnector {
+  width: 10px;
+  height: 40px;
+  margin-left: 100px; 
+  background-color: black;
+}
+
 
 .grid-container2 {
 display: grid;
@@ -234,6 +264,8 @@ height: 100%;
   width: 100%; /* 4개의 컬럼과 3개의 간격을 고려한 너비 계산 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
 }
+
+
 
 .file-button {
   display: flex;
