@@ -419,29 +419,28 @@ const File = () => {
         setfileInfoName(name);
         setFileContent(`Type: ${type}\nName: ${name}\nSize: ${size}\nCreatedAt: ${createdAt}`);
         
-        window.location.href = `http://125.250.17.196:1234/files/${fileId}/pr`;
         // pullRequestId가 null이 아닌 경우
-        // if (pullRequestId !== null) {
-        //   // http://125.250.17.196:1234/files/${fileId}/pr 페이지로 이동
-        //   window.location.href = `http://125.250.17.196:1234/files/${fileId}/pr`;
+        if (pullRequestId !== null) {
+          // http://125.250.17.196:1234/files/${fileId}/pr 페이지로 이동
+          window.location.href = `/files/${fileId}/pr`;
   
-        //   // http://125.250.17.196:1234/api/files/${fileId}/pr GET 요청 보내기
-        //   const prResponse = await fetch(
-        //     `http://125.250.17.196:1234/api/files/${fileId}/pr`,
-        //     { method: "GET", 
-        //       headers: config.headers
-        //     }
-        //   );
-        //   const prData = await prResponse.json();
-        //   // 화면에 프로젝트 정보 출력
-        // }
+          // http://125.250.17.196:1234/api/files/${fileId}/pr GET 요청 보내기
+          const prResponse = await fetch(
+            `http://125.250.17.196:1234/api/files/${fileId}/pr`,
+            { method: "GET", 
+              headers: config.headers
+            }
+          );
+          const prData = await prResponse.json();
+          // 화면에 프로젝트 정보 출력
+        }
       } catch (e) {
         setFileContent(text);
       }
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
     } finally {
-      setIsLook(false);
+      // setIsLook(false);
     }
   };
   
@@ -589,33 +588,11 @@ const File = () => {
   const changeCurrentFolder = (id) => {
     setCurrentFolderId(id);
   }
-
-
-  const handleButtonClick = async () => {
-    try {
-      const response = await fetch(`http://125.250.17.196:1234/api/files/${fileId}/pr`,{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
-      });
-      
-      const { message, data } = response.data;
-
-      if (message === 'ok') {
-        // message가 "ok"이면 /file/{fileId}/pr로 이동
-        navigate(`/file/${fileId}/pr`);
-      } else {
-        // message가 "ok"가 아니면 console에 "메시지가 없습니다" 출력
-        navigate(`/file/${fileId}/pr`);
-        console.log('메시지가 없습니다');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  const handleNewVirsionBtn = async (fileId) => {
+    window.location.href = `/files/${fileId}/add-pr`
   };
- 
+  
+
   return (
 
     <div className="app-container">
@@ -627,7 +604,7 @@ const File = () => {
             <div>{fileInfoName}</div>
             <pre>{fileContent}</pre>
             <button onClick={() => setIsLook(false)}>닫기</button>
-            <button onClick={() => setfixEdit(true)}>파일을 수정하시겠습니까?</button>
+            <button onClick={() => handleNewVirsionBtn(fileId)}>새로운 버전 업로드</button>
           </div>
         </div>
       )}
@@ -666,7 +643,6 @@ const File = () => {
               >
           </div>
         ))}
-        <button onClick={handleButtonClick}>파일 상세정보 확인</button>
 
       </div>
       <button className="user-logout-btn" onClick={handleLogout}>
@@ -746,6 +722,7 @@ const File = () => {
             className="file"
             onChange={(e) => confirmAndSetFileInfo(e.target.files)}
           />
+          
         </label>
             <button onClick={() => setfixEdit(false)}>Close</button>
         </div>
