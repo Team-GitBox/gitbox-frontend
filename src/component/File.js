@@ -499,6 +499,7 @@ const File = () => {
   const [fileInfoName, setfileInfoName] = useState('');
   
   const [elements, setElements] = useState([]);
+  let first = "a";
  
   const lookFileInfo = async (fileId) => {
 
@@ -509,8 +510,8 @@ const File = () => {
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
       
       
-      if(response.data.data.pullRequestId==null)
-        {
+      // if(response.data.data.pullRequestId==null)
+      //   {
           setIsLook(true);
 
           let fileData = response.data;
@@ -527,33 +528,89 @@ const File = () => {
         
           const files = tree.data.data;
 
-            const newElements = files.reduce((acc, file, index) => {
-              // 파일 상태에 따라 색상 결정
-              const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
+          const sortedFiles = files.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          const greengit = [];
+          const redgit = [];
+          const connectLinegit = [];
+
+      
+          sortedFiles.forEach((file, index) => {
+           
+            const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
+            const isCurrentGreen = file.status === "APPROVED";
+      
+
+            if (isCurrentGreen && first != "a") { 
               
-              // 원 생성
-              acc.push(
-                <div key={`file-${index}`} className="fileInfo">
-                  <div className={`circle ${circleClass}`}></div>
-                  <span className="fileName">{file.name}</span>
+              greengit.push(
+                <div className="circleConnector"></div>
+              );
+              greengit.push(
+                <div className="fileInfo">
+                  <div className={`circle greenCircle`}></div>
+                  {/* <span className="fileName">{file.name}</span> */}
                 </div>
               );
+              redgit.push(
+                <div className="fileInfo"></div>
+              );
+           
+              connectLinegit.push(
+                <div className="fileInfo"></div>
+              );
+              connectLinegit.push(
+                <div className="fileInfo"></div>
+              );
               
-              // 마지막 원이 아닌 경우, 원들 사이에 선 추가
-              if (index < files.length - 1) {
-                acc.push(<div key={`connector-${index}`} className="circleConnector"></div>);
-              }
+              
+            }
+            else if(isCurrentGreen && first=='a')
+            {
+              first = "b";
+              greengit.push(
+                <div className="fileInfo">
+                  <div className={`circle greenCircle`}></div>
+                  {/* <span className="fileName">{file.name}</span> */}
+                </div>
+              );
+              connectLinegit.push(
+                <div className="fileInfo"></div>
+              );
+              connectLinegit.push(
+                <div className="fileInfo"></div>
+              );
+              
+              
+            } else {
+              connectLinegit.push(
+                <div className="circleConnector1"></div>
+              );
+              redgit.push(
+                <div className="fileInfo">
+                  <div className={`circle redCircle`}></div>
+                  {/* <span className="fileName">{file.name}</span> */}
+                </div>
+              );
+            }
+      
+            
+          });
+      
+          setElements(
+            <div className="gitContainer">
+              <div className="greengit">{greengit}</div>
+              <div className="connectLinegit">{connectLinegit}</div>
+              <div className="redgit">{redgit}</div>
+            </div>
+          );
+           
+          //}
         
-              return acc;
-            }, []);
-        
-            setElements(newElements);
-          }
-        
-        else
-        {
-          navigate(`/file/${fileId}/pr`);
-        }
+        // else
+        // {
+        //   navigate(`/file/${fileId}/pr`);
+        // }
       
 
 

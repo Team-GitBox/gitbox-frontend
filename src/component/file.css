@@ -96,6 +96,77 @@ p {
   height: 100vh;
   min-height: 40%;
 }
+.circle {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+  align-items: center;
+}
+.gitContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px; 
+  flex-direction: row; /* 가로로 배치 */
+  transform: scale(0.6); /* 요소를 전체적으로 축소 (0.8배) */
+  transform-origin: top right;
+}
+
+.greengit, .redgit,.connectLinegit {
+  display: flex;
+  flex-direction: column; /* 내부 요소는 세로로 배치 */
+  margin-right: 0; /* 요소 간 간격 조절 */
+  
+}
+
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+}
+.greenCircle {
+  background-color: green;
+}
+
+.circleConnector1 {
+  display: block;
+  width: 50px; /* 선의 길이를 조정합니다 */
+  height: 2px; /* 선의 두께를 조정합니다 */
+  background-color: black; /* 선의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  position: relative; /* 가상 요소를 위치시키기 위해 필요합니다 */
+  transform: rotate(0deg); /* 선을 회전시킵니다 (수평) */
+  transform: translateY(10px); 
+}
+
+.circleConnector1::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 10px solid black; /* 화살표 색상을 선과 동일하게 맞춥니다 */
+  transform: translateY(-50%);
+}
+
+.redCircle {
+  background-color: red;
+ 
+}
+
+.circleConnector {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+}
+
+
 
 .left-panel {
   position: relative;
@@ -195,31 +266,7 @@ p {
 }
 /* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
 /* App.css */
-.circle {
-  display: inline-flex;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-left: 90px; 
-  align-items: center;
-}
 
-
-.greenCircle {
-  background-color: green;
-}
-
-.redCircle {
-  background-color: red;
-}
-
-.circleConnector {
-  width: 10px;
-  height: 40px;
-  margin-left: 100px; 
-  background-color: black;
-}
 
 
 .grid-container2 {
