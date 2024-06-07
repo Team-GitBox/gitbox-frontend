@@ -96,6 +96,77 @@ p {
   height: 100vh;
   min-height: 40%;
 }
+.circle {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+  align-items: center;
+}
+.gitContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px; 
+  flex-direction: row; /* 가로로 배치 */
+  transform: scale(0.6); /* 요소를 전체적으로 축소 (0.8배) */
+  transform-origin: top right;
+}
+
+.greengit, .redgit,.connectLinegit {
+  display: flex;
+  flex-direction: column; /* 내부 요소는 세로로 배치 */
+  margin-right: 20px; /* 요소 간 간격 조절 */
+  flex-direction: column-reverse;
+  
+}
+
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+}
+.greenCircle {
+  background-color: green;
+}
+
+.circleConnector-left {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  transform: rotate(90deg);
+ 
+}
+
+.noCircle {
+
+  opacity: 0; 
+}
+
+.redCircle {
+  background-color: red;
+ 
+}
+.noCircleConnector {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  opacity: 0; 
+}
+
+.circleConnector {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+}
+
+
 
 .left-panel {
   position: relative;
@@ -111,8 +182,10 @@ p {
 
 
 .logo {
-  width: 100px; /* 로고의 너비를 조정 */
-  height: auto; /* 로고의 높이는 자동으로 조정 */
+  width: 30px; /* 로고의 너비를 조정 */
+  width: 10%; /* grid-container와 동일한 너비 */
+  height: 20%; 
+ 
   margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
 .folder{
@@ -136,7 +209,7 @@ p {
   width: 80%; /* grid-container와 동일한 너비 */
   height: 100%; /* grid-container와 동일한 높이 */
   background-color: transparent; /* 투명 배경 */
-  opacity: 50; /* 초기 투명도 설정 */
+  opacity: 0; /* 초기 투명도 설정 */
   z-index: 1; /* grid-container 아래에 위치 */
  
  
@@ -195,31 +268,7 @@ p {
 }
 /* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
 /* App.css */
-.circle {
-  display: inline-flex;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-left: 90px; 
-  align-items: center;
-}
 
-
-.greenCircle {
-  background-color: green;
-}
-
-.redCircle {
-  background-color: red;
-}
-
-.circleConnector {
-  width: 10px;
-  height: 40px;
-  margin-left: 100px; 
-  background-color: black;
-}
 
 
 .grid-container2 {

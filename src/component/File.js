@@ -497,9 +497,16 @@ const File = () => {
 
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
+  const [changeFile, setchangeFile] = useState('');
   
   const [elements, setElements] = useState([]);
+
+  let first = "firstcircle";
+ 
   const [fileInfoId, setfileInfoId] = useState('');
+  function removeLastElement(array) {
+    array.pop();
+  }
 
   const lookFileInfo = async (fileId) => {
 
@@ -509,13 +516,15 @@ const File = () => {
 
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
       
-      if(response.data.data.pullRequestId==null)
-        {
+      
+      // if(response.data.data.pullRequestId==null)
+      //   {
           setIsLook(true);
 
           let fileData = response.data;
     
           try {
+            
             const { type, name, size, createdAt } = fileData.data; 
             setfileInfoName(name); 
             setfileInfoId(fileId);
@@ -527,35 +536,118 @@ const File = () => {
           
         
           const files = tree.data.data;
+          setchangeFile(files)
 
-            const newElements = files.reduce((acc, file, index) => {
-              // 파일 상태에 따라 색상 결정
-              const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
+          console.log ("파일 트리 정렬",changeFile);
+
+        
+          const greengit = [];
+          const redgit = [];
+          const connectLinegit = [];
+
+      
+          changeFile.map((file) => {
+           
+            const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
+            const isCurrentGreen = file.status === "APPROVED";
+      
+
+            if (isCurrentGreen && first !== "firstcircle") { 
               
-              // 원 생성
-              acc.push(
-                <div key={`file-${index}`} className="fileInfo">
-                  <div className={`circle ${circleClass}`}></div>
+              greengit.push(
+                <div className="circleConnector"></div>
+              );
+              greengit.push(
+                <div className="fileInfo">
+                  <div className={`circle greenCircle`}></div>
                   <span className="fileName">{file.name}</span>
                 </div>
               );
+              redgit.push(
+                <div className="fileInfo">
+                <div className={`noCircleConnector`}></div>
+                {/* <span className="fileName">{file.name}</span> */}
+              </div>
+              );
+              connectLinegit.push(
+                <div className="fileInfo">
+                  <div className={`noCircleConnector`}></div>
+                  
+              </div>     
+              );
+              connectLinegit.push(
+                <div className="fileInfo">
+                  <div className={`circle noCircle`}></div>
+                  
+                </div>
+              );
+              redgit.push(
+                <div className="fileInfo">
+                <div className={`circle noCircle`}></div>
+             
+              </div>
+              );
+             
               
-              // 마지막 원이 아닌 경우, 원들 사이에 선 추가
-              if (index < files.length - 1) {
-                acc.push(<div key={`connector-${index}`} className="circleConnector"></div>);
-              }
-        
-              return acc;
-            }, []);
-        
-            setElements(newElements);
-          }
-        
-        else
-        {
-          navigate(`/pull-request/${response.data.data.pullRequestId}`);
-        }
+              
+            }
+            else if(isCurrentGreen && first==='firstcircle')
+            {
+              first = "notfirst";
+              greengit.push(
+                <div className="fileInfo">
+                  <div className={`circle greenCircle`}></div>
+                  <span className="fileName">{file.name}</span>
+                </div>
+              );
+              connectLinegit.push(
+                <div className="fileInfo">
+                  <div className={`circle noCircle`}></div>
+                 
+                </div>
+              );
+              redgit.push(
+                <div className="fileInfo">
+                <div className={`circle noCircle`}></div>
+                
+              </div>
+              );
+            
+              
+              
+            } else {
+              removeLastElement(connectLinegit);
+              removeLastElement(redgit);
+              connectLinegit.push(
+                <div className="circleConnector-left"></div>
+              );
+              redgit.push(
+                <div className="fileInfo">
+                  <div className={`circle redCircle`}></div>
+                  <span className="fileName">{file.name}</span>
+                </div>
+              );
+            }
       
+            
+          });
+      
+          setElements(
+            <div className="gitContainer">
+              <div className="greengit">{greengit}</div>
+              <div className="connectLinegit">{connectLinegit}</div>
+              <div className="redgit">{redgit}</div>
+            </div>
+          );
+           
+          //}
+        
+        // else
+        // {
+        //   navigate(`/file/${fileId}/pr`);
+        // }
+      
+
 
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
