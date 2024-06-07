@@ -493,7 +493,7 @@ const File = () => {
       setNewName(file.name);
     }
   };
-  
+
 
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
@@ -508,7 +508,6 @@ const File = () => {
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
 
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
-      
       
       if(response.data.data.pullRequestId==null)
         {
@@ -554,10 +553,9 @@ const File = () => {
         
         else
         {
-          navigate(`/file/${fileId}/pr`);
+          navigate(`/pull-request/${response.data.data.pullRequestId}`);
         }
       
-
 
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
