@@ -383,6 +383,9 @@ const File = () => {
     confirmAndSetFileInfo(files);
     
   };
+
+
+
   const folderdelete =async(fileId) => {
   
     try {  
@@ -394,6 +397,8 @@ const File = () => {
 
      getFolderInfo();
   };
+
+
 
   const filedelete =async(fileId) => {
 
@@ -420,6 +425,8 @@ const File = () => {
 
    
   };
+
+
   const realFiledelete =async(fileId) => {
 
     try {  
@@ -694,6 +701,8 @@ const File = () => {
     );
   };
 
+
+  
   const handleSelectWorkspace = (id) => {
     setIsPopupOpen(false);
     setSearchParams({workspaceId: id});
@@ -959,11 +968,11 @@ const addFolder = async (newName) => {
       )} 
        
       <button onClick={() => getdeleteInfo()}>
-      <img src="img/trash.png"  alt="Trash" style={{ width: '50px', height: '50px' }} />
+      쓰레기통
       </button>
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
       <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
-      <img src={logo} alt="로고" className="logo" />
+   
       <p>
           <input
             onChange={getSearchData}
