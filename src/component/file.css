@@ -183,9 +183,8 @@ p {
 
 
 .logo {
-  width: 1px; /* 로고의 너비를 조정 */
-  height: 20px; 
- 
+  width: 100px; /* 로고의 너비를 조정 */
+  height: auto; /* 로고의 높이는 자동으로 조정 */
   margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
 .folder{
@@ -209,7 +208,7 @@ p {
   width: 80%; /* grid-container와 동일한 너비 */
   height: 100%; /* grid-container와 동일한 높이 */
   background-color: transparent; /* 투명 배경 */
-  opacity: 0; /* 초기 투명도 설정 */
+  opacity: 50; /* 초기 투명도 설정 */
   z-index: 1; /* grid-container 아래에 위치 */
  
  
