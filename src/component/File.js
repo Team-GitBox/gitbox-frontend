@@ -497,11 +497,16 @@ const File = () => {
 
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');
+  const [changeFile, setchangeFile] = useState('');
   
   const [elements, setElements] = useState([]);
-  let first = "a";
+
+  let first = "firstcircle";
  
   const [fileInfoId, setfileInfoId] = useState('');
+  function removeLastElement(array) {
+    array.pop();
+  }
 
   const lookFileInfo = async (fileId) => {
 
@@ -519,6 +524,7 @@ const File = () => {
           let fileData = response.data;
     
           try {
+            
             const { type, name, size, createdAt } = fileData.data; 
             setfileInfoName(name); 
             setfileInfoId(fileId);
@@ -530,21 +536,23 @@ const File = () => {
           
         
           const files = tree.data.data;
+          setchangeFile(files)
 
-          const sortedFiles = files.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          console.log ("파일 트리 정렬",changeFile);
 
+        
           const greengit = [];
           const redgit = [];
           const connectLinegit = [];
 
       
-          sortedFiles.forEach((file, index) => {
+          changeFile.map((file) => {
            
             const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
             const isCurrentGreen = file.status === "APPROVED";
       
 
-            if (isCurrentGreen && first != "a") { 
+            if (isCurrentGreen && first !== "firstcircle") { 
               
               greengit.push(
                 <div className="circleConnector"></div>
@@ -552,47 +560,71 @@ const File = () => {
               greengit.push(
                 <div className="fileInfo">
                   <div className={`circle greenCircle`}></div>
-                  {/* <span className="fileName">{file.name}</span> */}
+                  <span className="fileName">{file.name}</span>
                 </div>
               );
               redgit.push(
-                <div className="fileInfo"></div>
+                <div className="fileInfo">
+                <div className={`noCircleConnector`}></div>
+                {/* <span className="fileName">{file.name}</span> */}
+              </div>
               );
-           
               connectLinegit.push(
-                <div className="fileInfo"></div>
+                <div className="fileInfo">
+                  <div className={`noCircleConnector`}></div>
+                  
+              </div>     
               );
               connectLinegit.push(
-                <div className="fileInfo"></div>
+                <div className="fileInfo">
+                  <div className={`circle noCircle`}></div>
+                  
+                </div>
               );
+              redgit.push(
+                <div className="fileInfo">
+                <div className={`circle noCircle`}></div>
+             
+              </div>
+              );
+             
               
               
             }
-            else if(isCurrentGreen && first=='a')
+            else if(isCurrentGreen && first==='firstcircle')
             {
-              first = "b";
+              first = "notfirst";
               greengit.push(
                 <div className="fileInfo">
                   <div className={`circle greenCircle`}></div>
-                  {/* <span className="fileName">{file.name}</span> */}
+                  <span className="fileName">{file.name}</span>
                 </div>
               );
               connectLinegit.push(
-                <div className="fileInfo"></div>
+                <div className="fileInfo">
+                  <div className={`circle noCircle`}></div>
+                 
+                </div>
               );
-              connectLinegit.push(
-                <div className="fileInfo"></div>
+              redgit.push(
+                <div className="fileInfo">
+                <div className={`circle noCircle`}></div>
+                
+              </div>
               );
+            
               
               
             } else {
+              removeLastElement(connectLinegit);
+              removeLastElement(redgit);
               connectLinegit.push(
-                <div className="circleConnector1"></div>
+                <div className="circleConnector-left"></div>
               );
               redgit.push(
                 <div className="fileInfo">
                   <div className={`circle redCircle`}></div>
-                  {/* <span className="fileName">{file.name}</span> */}
+                  <span className="fileName">{file.name}</span>
                 </div>
               );
             }

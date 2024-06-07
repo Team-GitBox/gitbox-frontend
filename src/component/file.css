@@ -116,7 +116,8 @@ p {
 .greengit, .redgit,.connectLinegit {
   display: flex;
   flex-direction: column; /* 내부 요소는 세로로 배치 */
-  margin-right: 0; /* 요소 간 간격 조절 */
+  margin-right: 20px; /* 요소 간 간격 조절 */
+  flex-direction: column-reverse;
   
 }
 
@@ -129,33 +130,32 @@ p {
   background-color: green;
 }
 
-.circleConnector1 {
-  display: block;
-  width: 50px; /* 선의 길이를 조정합니다 */
-  height: 2px; /* 선의 두께를 조정합니다 */
-  background-color: black; /* 선의 색상을 검정으로 설정합니다 */
+.circleConnector-left {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
   margin: 0 auto; /* 중앙에 위치하도록 합니다 */
-  position: relative; /* 가상 요소를 위치시키기 위해 필요합니다 */
-  transform: rotate(0deg); /* 선을 회전시킵니다 (수평) */
-  transform: translateY(10px); 
+  transform: rotate(90deg);
+ 
 }
 
-.circleConnector1::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 10px solid black; /* 화살표 색상을 선과 동일하게 맞춥니다 */
-  transform: translateY(-50%);
+.noCircle {
+
+  opacity: 0; 
 }
 
 .redCircle {
   background-color: red;
  
+}
+.noCircleConnector {
+  display: block; /* or inline-block */
+  width: 2px; /* 줄의 두께를 조정합니다 */
+  height: 50px; /* 줄의 길이를 조정합니다 */
+  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  opacity: 0; 
 }
 
 .circleConnector {
