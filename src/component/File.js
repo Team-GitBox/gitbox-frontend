@@ -500,7 +500,7 @@ const File = () => {
       setNewName(file.name);
     }
   };
-  
+
 
   const [fileContent, setFileContent] = useState('');
   const [fileInfoName, setfileInfoName] = useState('');

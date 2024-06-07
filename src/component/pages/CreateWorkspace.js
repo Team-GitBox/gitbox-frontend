@@ -65,6 +65,12 @@ function CreateWorkspace() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        const workspaceId = data.id;
+
+        // 새로운 멤버 이메일 추가 요청
+        await addMemberEmails(workspaceId, memberEmails);
+
         // 요청이 성공적으로 완료되면 /file로 이동
         window.location.href = '/file';
       } else {
@@ -74,16 +80,12 @@ function CreateWorkspace() {
     } catch (error) {
       console.error('Error:', error);
     }
-    event.preventDefault(); // 폼 제출 기본 이벤트 방지
+  };
 
-    // API 요청을 위한 URL 및 데이터 설정
-    const apiUrl = 'http://125.250.17.196:1234/api/workspace';
-    const requestData = {
-      name: name,
-      memberEmails: memberEmails.filter(email => email.trim() !== '') // 빈 이메일 제거
-    };
+  const addMemberEmails = async (workspaceId, memberEmails) => {
+    const apiUrl = `http://125.250.17.196:1234/api/workspace/${workspaceId}/members`;
+    const requestData = { memberEmails: memberEmails.filter(email => email.trim() !== '') };
 
-    // postRequestWithToken 함수를 호출하여 토큰을 포함한 POST 요청을 처리
     await postRequestWithToken(apiUrl, requestData);
   };
 
@@ -99,7 +101,7 @@ function CreateWorkspace() {
             <div key={index}>
               <label className="centered-input">멤버 이메일:</label>
               <input
-                type="memberEmail"
+                type="email"
                 value={email}
                 onChange={(e) => handleMemberEmailChange(index, e)}
                 className="centered-input"
@@ -107,7 +109,7 @@ function CreateWorkspace() {
             </div>
           ))}
           <button type="button" onClick={addMemberEmail} className="centered-input">
-            맴버 추가
+            멤버 추가
           </button>
           <button type="submit" className="centered-input">
             워크스페이스 생성
