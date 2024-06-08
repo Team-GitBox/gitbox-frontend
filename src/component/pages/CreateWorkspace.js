@@ -49,6 +49,7 @@ function CreateWorkspace() {
     setMemberEmails([...memberEmails, '']);
   };
 
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const workspaceData = { name, memberEmails };

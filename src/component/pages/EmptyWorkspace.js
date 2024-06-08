@@ -9,6 +9,7 @@ function EmptyWorkspace() {
     navigate('/create-workspace');
   };
 
+  
   return (
     <div className="container">
       <h1>참여중인 워크스페이스가 없습니다.</h1>

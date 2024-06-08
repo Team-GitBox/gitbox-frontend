@@ -822,6 +822,7 @@ const addFolder = async (newName) => {
     let parentFolderId = currentFolderInfo.data.parentFolderId
     let folders = currentFolderInfo.data.folders
     let files = currentFolderInfo.data.files
+    
 
     return (
         <>

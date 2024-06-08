@@ -126,6 +126,7 @@ function Workspace() {
     navigate(-1);
   }
 
+  
    return (
       <div className="workspace-container">
         <div className="workspace-card">
