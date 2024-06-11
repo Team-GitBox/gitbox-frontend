@@ -231,9 +231,17 @@ p {
 {
   width: auto;
   height: auto; 
-  background-color: #281d99;
+  background-color: #fdfcfc;
   color: #fdfcfc;
-  z-index: 5; 
+  z-index: 5;
+  background-image: url(../../public/img/delete.png); 
+
+  background-size: contain; /* 이미지가 요소 안에 맞게 축소됩니다 */
+  background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+  background-position: center;
+  background-size: 80%;
+  
+
   
 }
 .file-info
@@ -262,9 +270,15 @@ p {
 {
   width: auto;
   height: auto;  
-  background-color: #162393; 
+  background-color: #fdfcfc; 
   color: #fdfcfc;
   z-index: 5; 
+  background-image: url(../../public/img/pen.png); 
+
+  background-size: contain; /* 이미지가 요소 안에 맞게 축소됩니다 */
+  background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+  background-position: center;
+  background-size: 80%;
 }
 /* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
 /* App.css */
@@ -273,7 +287,7 @@ p {
 
 .grid-container2 {
 display: grid;
-grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼 생성 */
+
 grid-gap: 20px; /* 그리드 아이템 사이 간격 */
 position: relative;
 width: 100%;
@@ -350,7 +364,7 @@ height: 100%;
   padding: 20px; /* 내부 여백 */
   border-radius: 10px; /* 모서리 둥글게 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  z-index: 2;
+  z-index: 20;
 }
 
 .popup-container {

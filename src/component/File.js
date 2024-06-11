@@ -1,10 +1,6 @@
 import React, { useState ,useEffect } from "react";
 import './file.css';
 import logo from './logo.png';
-import { ReactComponent as TextIcon } from './svg/text.svg';
-import { ReactComponent as ImageIcon } from './svg/image.svg';
-import { ReactComponent as PdfIcon } from './svg/pdf.svg';
-import { ReactComponent as WordIcon } from './svg/word.svg';
 import { useNavigate, Link, useParams, useSearchParams} from 'react-router-dom';
 import Workspace from './pages/Workspace';
 import axios from 'axios';
@@ -13,16 +9,16 @@ import axios from 'axios';
 
 const FileIcon = ({ type }) => {
   switch(type) {
-    case 'application/pdf':
-      return <PdfIcon width="50" height="50" />;
-    case 'image/png':
-      return <ImageIcon width="50" height="50" />;
-    case 'text/plain':
-      return <TextIcon  width="50" height="50"  />;
-    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-      return <WordIcon width="50" height="50" />;
+    case 'PDF':
+      return <img src="img/pdf.png" alt="PDF Icon" width="50" height="50"/>;
+    case 'PNG':
+      return <img src="img/image.png" alt="image Icon" width="50" height="50"/>;
+    case 'TEXT':
+      return <img src="img/txt.png" alt="txt Icon" width="50" height="50"/>;
+    case 'DOCX':
+      return <img src="img/word.png" alt="word Icon" width="50" height="50"/>;
     default:
-      return <TextIcon width="50" height="50" />;
+     return <img src="img/txt.png" alt="text Icon" width="50" height="50"/>;
   }
 };
 
@@ -702,7 +698,7 @@ const File = () => {
   };
 
 
-  
+
   const handleSelectWorkspace = (id) => {
     setIsPopupOpen(false);
     setSearchParams({workspaceId: id});
@@ -826,8 +822,7 @@ const addFolder = async (newName) => {
 
     return (
         <>
-        <
-          div className="grid-container2">
+        <div className="grid-container2">
         {parentFolderId != null &&(
             <div className="grid-item">
             <img 
@@ -866,9 +861,8 @@ const addFolder = async (newName) => {
             </div>
             <div className="btn-container">
             <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
-              삭제 
             </button>
-          <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
+          <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
           <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
           
           
@@ -944,7 +938,7 @@ const addFolder = async (newName) => {
   }
   const handleWorkspaceBtn = () => {
     const workspaceId = searchParams.get('workspaceId');
-    window.location.href = `/workspace/${workspaceId}`
+    window.location.href = `/Workspace/${selectedWorkspace}`
   };
 
   const handleNewVirsionBtn = async (fileInfoId) => {
@@ -969,7 +963,7 @@ const addFolder = async (newName) => {
       )} 
        
       <button onClick={() => getdeleteInfo()}>
-      쓰레기통
+      삭제된 파일
       </button>
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
       <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
