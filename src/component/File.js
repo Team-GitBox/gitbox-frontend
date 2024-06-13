@@ -855,14 +855,20 @@ const addFolder = async (newName) => {
             
             <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
             <div className="item-container">
+              <div className="item-contain">
+              <div className="item-con">
               <FileIcon type={fileInfo.type} />
               <div>{fileInfo.name}</div>
               <div>{fileInfo.tag}</div>
-            </div>
-            <div className="btn-container">
+              </div>
+              <div className="btn-container">
             <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
             </button>
-          <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+            <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+            </div>
+            </div>
+            
+          
           <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
           
           

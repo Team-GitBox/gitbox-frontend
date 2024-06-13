@@ -188,7 +188,7 @@ p {
   margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
 .folder{
-  width: 100px; /* 로고의 너비를 조정 */
+  width: 50px; /* 로고의 너비를 조정 */
   height: auto; /* 로고의 높이는 자동으로 조정 */
   margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
@@ -229,8 +229,12 @@ p {
 
 .file-delete
 {
-  width: auto;
-  height: auto; 
+  position: absolute; /* 상대적으로 배치되는 요소 */
+  top: 5px; /* 부모 요소(item-container)의 상단에 배치 */
+  right: 5px; /* 부모 요소(item-container)의 오른쪽에 배치 */
+  background-color: transparent; /* 배경색 설정 */
+  width:10px;
+  border: none;
   background-color: #fdfcfc;
   color: #fdfcfc;
   z-index: 5;
@@ -243,6 +247,15 @@ p {
   
 
   
+}
+.item-contain{
+  display:flex;
+  flex-direction: row;
+}
+
+.item-con{
+  display: flex;
+  flex-direction: column;
 }
 .file-info
 {
@@ -287,7 +300,7 @@ p {
 
 .grid-container2 {
 display: grid;
-
+grid-template-columns: repeat(4, 1fr); /* 3개의 컬럼 */
 grid-gap: 20px; /* 그리드 아이템 사이 간격 */
 position: relative;
 width: 100%;
@@ -318,9 +331,10 @@ height: 100%;
 .grid-item {
   /* grid-item 스타일 설정 */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100px; /* 원하는 높이 설정 */
+  height: 150px; /* 원하는 높이 설정 */
   background-color: #f0f0f0; /* 배경색 설정 */
   z-index: 2;
   border-radius: 5px;
@@ -377,6 +391,10 @@ height: 100%;
   padding: 20px; /* 내부 여백 */
   border-radius: 10px; /* 모서리 둥글게 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  width: 200px;
+  height:120px;
+  display: flex;
+  flex-direction: row;
 }
 
 .popup-input, .popup-button {
@@ -409,7 +427,14 @@ height: 100%;
   margin-bottom: 10px;
 }
 
+.btn-container{
+  display: flex;
+  flex-direction: row;
+}
+
 .tags {
+  display:flex;
+  flex-direction: column;
   text-align: center;
 }
 
