@@ -970,6 +970,8 @@ const addFolder = async (newName) => {
     window.location.href = `/files/${fileInfoId}/add-pr`
   };
  
+  const usedPercentage = (storage.used / storage.total) * 100;
+
   return (
 
     <div className="app-container">
@@ -1048,12 +1050,11 @@ const addFolder = async (newName) => {
           onClose={() => setIsPopupOpen(false)}
         />
       )}
-          <div className="capacity-display">
+      
+          <div className="capacity-display">Total : {storage.total} / Used : {storage.used}
           <div className="capacity-display2" style={{
-            total: storage.total, used: storage.used,
-            width: '$(used/total)%', backgroundColor:'#3593FF' }}>
+            width: `${usedPercentage}%`, backgroundColor:'#3593FF' }}>
           <div className="capacity-text">
-            <p>Total : {storage.total} / Used : {storage.used}</p>
           </div>
         </div>
         </div>
