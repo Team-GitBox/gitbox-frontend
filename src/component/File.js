@@ -781,29 +781,34 @@ const addFolder = async (newName) => {
      
 
       return (  
-        <div className="grid-container">
+        <div className="grid-container2">
          
         {tagTag && (
-        <div className="preview-popup">  
+        <div className="preview-popup" style = {{paddingTop: '0px'}}>  
         {tagLists.map((fileInfo, index) => (
-          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()} style={{marginTop: '20px'}}>
+          <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
           <div className="item-container">
-            <FileIcon type={fileInfo.type} />
-            <div>{fileInfo.name}</div>
-            <div>{fileInfo.tag}</div>
+            <div className="item-contain">
+            <FileIcon className='icon' type={fileInfo.type} />
+              <div className="item-con">
+                
+                <div>{fileInfo.name}</div>
+                  <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+                  <div>{fileInfo.tag}</div>
+                
+              </div>
+              <div className="btn-container">
+              
+            </div>
           </div>
-          <div className="btn-container">
-          <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
-            삭제 
-          </button>
-        <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
-        <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
         </div>
-        </div>
+      </div>
         
         ))}
         
-        <button onClick={() => settagTag(false)}>Close</button>
+        <button onClick={() => settagTag(false)} style={{marginTop: '20px', marginBottom: '0px'}}>Close</button>
     </div>
       
         )}
@@ -875,45 +880,58 @@ const addFolder = async (newName) => {
         {isFolderEditing && (
         <div className="popup-container">
           <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
-          <button className="popup-button" onClick={handleSubmitFolder} disabled={newName.length === 0}>이름 작성완료</button>
-          <button onClick={() => setIsFolderEditing(false)}>닫기</button>
+          <div className='p'>
+            <button className="popup-button" onClick={handleSubmitFolder} disabled={newName.length === 0}>이름 작성완료</button>
+            <button className="btn" onClick={() => setIsFolderEditing(false)}>닫기</button>
+          </div>
         </div>)}
 
         
         {isEditing && (
         <div className="popup-container">
           <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <div className='p'>
           <button className="popup-button" onClick={handleSubmit} disabled={newName.length === 0}>수정완료</button>
-          <button onClick={() => setIsEditing(false)}>닫기</button>
+          <button className="btn" onClick={() => setIsEditing(false)}>닫기</button>
+          </div>
         </div>
       )}
       {isFolderNameEditing && (
         <div className="popup-container">
           <input type="text" value={newName} className="popup-input" onChange={(e) => setNewName(e.target.value)} />
+          <div className="p">
           <button className="popup-button" onClick={handleSubmitAdd} disabled={newName.length === 0}>수정완료</button>
-          <button onClick={() => setIsFolderNameEditing(false)}>닫기</button>
+          <button className="btn" onClick={() => setIsFolderNameEditing(false)}>닫기</button>
+          </div>
         </div>
       )}
        {deleteDelete && (
         <div className="preview-popup">  
         {deleteLists.map((fileInfo, index) => (
-          <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
-          <div className="item-container">
-            <FileIcon type={fileInfo.type} />
-            <div>{fileInfo.name}</div>
-            <div>{fileInfo.tag}</div>
-          </div>
-          <div className="btn-container">
-          <button className="file-delete" onClick={() => realFiledelete(fileInfo.id)}>
-            삭제 
-          </button>
-        <button className="file-name" onClick={() => fileRestore(fileInfo.id)}>복구</button>
-        </div>
-        </div>
+          
         
+            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+              <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
+              <div className="item-container">
+                <div className="item-contain">
+                <FileIcon className='icon' type={fileInfo.type} />
+                  <div className="item-con">
+                    
+                    <div>{fileInfo.name}</div>
+                      <div>{fileInfo.tag}</div>
+                    
+                  </div>
+                  <div className="btn-container">
+                  
+                </div>
+              </div>
+              <button className="file-info" onClick={() => fileRestore(fileInfo.id)}>복구</button>
+            </div>
+          </div>
+
         ))}
         
-        <button onClick={() => setdeleteDelete(false)}>Close</button>
+        <button onClick={() => setdeleteDelete(false)} style={{marginTop: '20px', marginBottom: '0px'}}>Close</button>
         </div>
       
         )}
@@ -963,10 +981,8 @@ const addFolder = async (newName) => {
           </div>
         </div>
       )} 
-       
-      <button onClick={() => getdeleteInfo()}>
-      삭제된 파일
-      </button>
+      
+      <button className="trash" onClick={() => getdeleteInfo()}></button>
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
       <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
    
