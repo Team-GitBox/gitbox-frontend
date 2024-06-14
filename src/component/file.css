@@ -325,18 +325,25 @@ p {
   background-color: #3474b4;
   color: #fdfcfc;
   z-index: 5; 
-  top : 10px;
+  right : 37px;
+  bottom: 60px;
 }
 .tag-button {
   transform: scale(0.8);
   width: 100px; /* 버튼의 너비를 100px로 설정 */
-  height: 30px; /* 버튼의 높이를 30px로 설정 */
+  height: 45px; /* 버튼의 높이를 30px로 설정 */
   font-size: 14px; /* 글꼴 크기를 14px로 설정하여 버튼 내의 텍스트 크기 조정 */
-  background-color: #BBD5FF; /* 배경색 설정 */
+  background-color: transparent; /* 배경색 설정 */
   color: #333; /* 글자색 설정 */
   cursor: pointer; /* 마우스 오버 시 커서를 손가락 모양으로 변경 */
   transition: background-color 0.3s; /* 배경색 변경 시 애니메이션 효과 */
   text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+
+.tag-button:hover {
+background-color: transparent;
 }
 .file-name
 {
@@ -420,12 +427,32 @@ height: auto;
 }
 
 .capacity-display {
+  position: relative;
+  background-color: white; /* 박스의 배경색 */
+  padding: 8px 20px; /* 내부 여백 */
+  border-radius: 5px;
+  margin-bottom: 20px; /* 박스 아래의 여백 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 13.3333px; /* 폰트 크기 */
+  height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* 윤곽선 추가 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.capacity-display2 {
+  position: absolute;
   background-color: #3593FF; /* 박스의 배경색 */
   padding: 8px 20px; /* 내부 여백 */
   border-radius: 5px;
   margin-bottom: 20px; /* 박스 아래의 여백 */
   text-align: center; /* 텍스트 중앙 정렬 */
   font-size: 13.3333px; /* 폰트 크기 */
+  left:0px;
+  top:0px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .preview-popup
@@ -435,7 +462,7 @@ height: auto;
   left: 50%;
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
   z-index: 100; /* 다른 요소들 위에 표시 */
-  background-color: rgb(48, 113, 193); /* 배경색 */
+  background-color: #BBD5FF; /* 배경색 */
   padding: 20px; /* 내부 여백 */
   border-radius: 10px; /* 모서리 둥글게 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -449,7 +476,7 @@ height: auto;
   left: 50%;
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
   z-index: 100; /* 다른 요소들 위에 표시 */
-  background-color: rgb(143, 171, 215); /* 배경색 */
+  background-color: #BBD5FF; /* 배경색 */
   padding: 20px; /* 내부 여백 */
   border-radius: 10px; /* 모서리 둥글게 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -516,13 +543,13 @@ height: auto;
 
 .tags {
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   text-align: center;
   justify-content: center;
 }
 
 .tag-circle {
-  margin-top: 10px;
+  margin-top: 0px;
   display: flex;
   flex-direction: column;
   text-align: center;

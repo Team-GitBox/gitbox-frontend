@@ -790,19 +790,17 @@ const addFolder = async (newName) => {
           <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
           <div className="item-container">
             <div className="item-contain">
+              <div className="con">
             <FileIcon className='icon' type={fileInfo.type} />
+            </div>
               <div className="item-con">
-                
-                <div>{fileInfo.name}</div>
+              <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
+                <div style={{margin: '0px 5px 0px 5px'}}>{fileInfo.name}</div>
                   <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
-                  <div>{fileInfo.tag}</div>
                 
               </div>
-              <div className="btn-container">
-              
-            </div>
           </div>
-          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}></button>
         </div>
       </div>
         
@@ -844,10 +842,14 @@ const addFolder = async (newName) => {
             <div className="grid-item" key={index} onDoubleClick={() =>  popupOpenFolder(folder.id)} >
               <button className="file-delete" onClick={() => folderdelete(folder.id)}></button>
               <div className='item-container'>
+                <div className="item-contain">
+                <div className='con'>
             <img src="img/folder.png" alt="folder" className="folder" />  
+            </div>
             <div class='item-con'>
-              <div>{folder.name}</div>
+              <div style={{marginRight: '5px'}}>{folder.name}</div>
               <button className="file-name" onClick={() => openFolderEditModal(folder.id)}></button>
+              </div>
               </div>
               </div>
             </div>
@@ -907,15 +909,17 @@ const addFolder = async (newName) => {
         </div>
       )}
        {deleteDelete && (
-        <div className="preview-popup">  
+        <div style={{paddingTop: '0px'}} className="preview-popup">  
         {deleteLists.map((fileInfo, index) => (
           
         
-            <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+            <div style={{marginTop: '20px'}}className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
               <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
               <div className="item-container">
                 <div className="item-contain">
+                  <div className="con">
                 <FileIcon className='icon' type={fileInfo.type} />
+                </div>
                   <div className="item-con">
                     
                     <div>{fileInfo.name}</div>
@@ -984,8 +988,8 @@ const addFolder = async (newName) => {
       )} 
       
       <button className="trash" onClick={() => getdeleteInfo()}></button>
-      <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 멤버 관리</button>
+      <button onClick={() => popupOpenFunction(true)}><img src="img/logo.png" style={{position:"absolute",width: '50px', left:'19px', top:'56px'}}/> Select Workspace</button>
+      <button onClick={() => handleWorkspaceBtn()}><img src="img/logo.png" style={{position:"absolute",width: '50px', left:'50px', top:'96px'}}/>Settings</button>
    
       <p>
           <input
@@ -1008,28 +1012,28 @@ const addFolder = async (newName) => {
         <div>
           <button onClick={() => addFolder()}>폴더 추가</button> 
         </div>
-     
+          <div style={{display: 'flex', flexDirection: 'row'}}className='t'>
           <div className="tags">
             {tags.map((tag, index) => (
               <div
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}
+                style={{ width: '5px', height: '5px', margin: '15px 5px 15px 5px', padding: '5px',   backgroundColor: tagColors[tag], display: 'flex', borderRadius: '50%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
               >
           </div>
         ))}
         </div>
         <div className="tag-circle">
-        <button className= "tag-button" onClick={() => getTagInfo("RED")}>- RED</button>
-        <button className= "tag-button" onClick={() => getTagInfo("ORANGE")}>- ORANGE</button>
-        <button className= "tag-button" onClick={() => getTagInfo("YELLOW")}>- YELLOW</button>
-        <button className= "tag-button" onClick={() => getTagInfo("GREEN")}>- GREEN</button>
-        <button className= "tag-button" onClick={() => getTagInfo("BLUE")}>- BLUE</button>
-        <button className= "tag-button" onClick={() => getTagInfo("NAVY")}>- NAVY</button>
-        <button className= "tag-button" onClick={() => getTagInfo("PURPLE")}>- PURPLE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("RED")}>RED</button>
+        <button className= "tag-button" onClick={() => getTagInfo("ORANGE")}>ORANGE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("YELLOW")}>YELLOW</button>
+        <button className= "tag-button" onClick={() => getTagInfo("GREEN")}>GREEN</button>
+        <button className= "tag-button" onClick={() => getTagInfo("BLUE")}>BLUE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("NAVY")}>NAVY</button>
+        <button className= "tag-button" onClick={() => getTagInfo("PURPLE")}>PURPLE</button>
         </div>
-        
+        </div>
 
       <button className="user-logout-btn" onClick={handleLogout}>
                 로그아웃   
@@ -1044,13 +1048,15 @@ const addFolder = async (newName) => {
           onClose={() => setIsPopupOpen(false)}
         />
       )}
-      
-      <div className="capacity-display">
-        <div>
-          <p>Total: {storage.total}</p>
-          <p>Used: {storage.used}</p>
+          <div className="capacity-display">
+          <div className="capacity-display2" style={{
+            total: storage.total, used: storage.used,
+            width: '$(used/total)%', backgroundColor:'#3593FF' }}>
+          <div className="capacity-text">
+            <p>Total : {storage.total} / Used : {storage.used}</p>
+          </div>
         </div>
-      </div>
+        </div>
         
           {
             currentFolderInfo && (currentTagInfo != undefined) && (getFileUI())
@@ -1084,19 +1090,21 @@ const addFolder = async (newName) => {
                 <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
                 <div className="item-container">
                   <div className="item-contain">
+                    <div className="con">
                   <FileIcon className='icon' type={fileInfo.type} />
+                  </div>
                     <div className="item-con">
-                      
-                      <div>{fileInfo.name}</div>
+                    <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
+                    
+                      <div style={{marginRight: '5px', marginLeft: '5px'}}>{fileInfo.name}</div>
                         <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
-                        <div>{fileInfo.tag}</div>
                       
                     </div>
                     <div className="btn-container">
                     
                   </div>
                 </div>
-                <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+                <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}></button>
               </div>
             </div>
               
