@@ -860,7 +860,9 @@ const addFolder = async (newName) => {
               <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
               <div className="item-container">
                 <div className="item-contain">
+                  <div className='con'>
                 <FileIcon className='icon' type={fileInfo.type} />
+                </div>
                   <div className="item-con">
                   <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
                     <div style={{marginLeft: '5px', marginRight: '5px'}}>{fileInfo.name}</div>
@@ -871,7 +873,7 @@ const addFolder = async (newName) => {
                   
                 </div>
               </div>
-              <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+              <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}></button>
             </div>
           </div>
           ))
@@ -924,7 +926,7 @@ const addFolder = async (newName) => {
                   
                 </div>
               </div>
-              <button className="file-info" onClick={() => fileRestore(fileInfo.id)}>복구</button>
+              <button className="file-info1" onClick={() => fileRestore(fileInfo.id)}>복구</button>
             </div>
           </div>
 
