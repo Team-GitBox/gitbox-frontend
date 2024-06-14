@@ -228,6 +228,29 @@ p {
   
 }
 
+.file-info1
+{
+  position:absolute;
+  width: auto;
+  height: auto;  
+  background-color: #3474b4;
+  color: #fdfcfc;
+  z-index: 5; 
+  right : 37px;
+  bottom: 60px;
+}
+.file-restore
+{
+  position:absolute;
+  width: auto;
+  height: auto;  
+  background-color: #3474b4;
+  color: #fdfcfc;
+  z-index: 5; 
+  right : 37px;
+  bottom: 60px;
+}
+
 
 .file-delete
 {
@@ -317,17 +340,7 @@ p {
   left: 20px;
 }
 
-.file-info1
-{
-  position:absolute;
-  width: auto;
-  height: auto;  
-  background-color: #3474b4;
-  color: #fdfcfc;
-  z-index: 5; 
-  right : 37px;
-  bottom: 60px;
-}
+
 .tag-button {
   transform: scale(0.8);
   width: 100px; /* 버튼의 너비를 100px로 설정 */

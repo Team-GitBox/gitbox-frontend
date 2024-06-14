@@ -408,34 +408,41 @@ const File = () => {
      getFolderInfo();
   };
   
-  const fileRestore =async(fileId) => {
-
-    try {  
-         const response = await axios.post(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/trash/${fileId}`, config)
-         
-     } catch (error) {
-         console.error('파일 복구 실패:', error);
-     }
-     
-     getFolderInfo();
-
-   
-  };
-
+ 
 
   const realFiledelete =async(fileId) => {
-
     try {  
       console.log("찐 파일 삭제 아이디",fileId)
       const response = await axios.delete(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/trash/${fileId}`, config)
-         
+      getdeleteInfo();
      } catch (error) {
          console.error('파일 삭제 실패:', error);
-     }  
-     getdeleteInfo();
-
-   
+     }   
   };
+  const fileRestore = async (fileId) => {    
+    const config = {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,  // 토큰 넣어주기
+            'Content-Type': 'application/json',  // 데이터 형식 지정
+        }
+    };
+
+    try {  
+        const response = await fetch(`http://125.250.17.196:1234/api/workspace/${selectedWorkspace}/trash/${fileId}`, config);
+        
+        if (!response.ok) {
+            throw new Error(`파일 복구 실패: ${response.status}`);
+        }
+        
+    
+    } catch (error) {
+        console.error(error);
+    }  
+    getFolderInfo(); 
+    getdeleteInfo();
+};
+
 
   const handleFolderNameEdit = async (fileId, newName) => {
 
@@ -911,10 +918,10 @@ const addFolder = async (newName) => {
        {deleteDelete && (
         <div style={{paddingTop: '0px'}} className="preview-popup">  
         {deleteLists.map((fileInfo, index) => (
-          
-        
+
             <div style={{marginTop: '20px'}}className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
-              <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
+              <button className="file-delete" onClick={() => realFiledelete(fileInfo.id)}></button>
+              <button className="file-restore" onClick={() => fileRestore(fileInfo.id)}>복구</button>
               <div className="item-container">
                 <div className="item-contain">
                   <div className="con">
@@ -930,7 +937,7 @@ const addFolder = async (newName) => {
                   
                 </div>
               </div>
-              <button className="file-info1" onClick={() => fileRestore(fileInfo.id)}>복구</button>
+             
             </div>
           </div>
 
