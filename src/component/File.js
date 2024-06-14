@@ -853,7 +853,7 @@ const addFolder = async (newName) => {
             </div>
           ))
         )}
-        {files.length != 0 && (
+        {files.length != 0 && ( //main
           files.map((fileInfo, index) => (
             
             <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
@@ -862,10 +862,9 @@ const addFolder = async (newName) => {
                 <div className="item-contain">
                 <FileIcon className='icon' type={fileInfo.type} />
                   <div className="item-con">
-                    
-                    <div>{fileInfo.name}</div>
+                  <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
+                    <div style={{marginLeft: '5px', marginRight: '5px'}}>{fileInfo.name}</div>
                       <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
-                      <div>{fileInfo.tag}</div>
                     
                   </div>
                   <div className="btn-container">

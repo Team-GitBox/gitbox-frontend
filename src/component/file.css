@@ -271,15 +271,19 @@ p {
   flex-direction: row;
   justify-content: center;
   text-align: center;
+  font-size: 10px;
+  align-items: center;
+  margin-top: 10px;
 }
 .file-info
 {
+  position:absolute;
   width: auto;
   height: auto;  
   background-color: #3474b4;
   color: #fdfcfc;
   z-index: 5; 
-  
+  top : 10px;
 }
 .tag-button {
   transform: scale(0.8);
@@ -304,7 +308,7 @@ p {
   background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
   background-position: center;
   background-size: 80%;
-  margin-top: 5px;
+  margin: 0px;
 }
 /* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
 /* App.css */
