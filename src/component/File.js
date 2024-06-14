@@ -56,7 +56,7 @@ const File = () => {
   const[fixEdit,setfixEdit] = useState(false);
   const[searchEdit,setsearchEdit] = useState(false);
   const [isLook, setIsLook] = useState(false);
-  const tags = ['RED', 'GREEN', 'YELLOW', 'NAVY', 'BLUE', 'PURPLE', 'ORANGE'];
+  const tags = ['RED', 'ORANGE', 'YELLOW', 'GREEN', 'BLUE', 'NAVY', 'PURPLE'];
   const tagColors = {
     'RED': 'red',
     'GREEN': 'green',
@@ -837,42 +837,38 @@ const addFolder = async (newName) => {
         {folders.length != 0 && (
           folders.map((folder, index) => (
             <div className="grid-item" key={index} onDoubleClick={() =>  popupOpenFolder(folder.id)} >
+              <button className="file-delete" onClick={() => folderdelete(folder.id)}></button>
+              <div className='item-container'>
             <img src="img/folder.png" alt="folder" className="folder" />  
+            <div class='item-con'>
               <div>{folder.name}</div>
-              <div className="btn-container">
-              <button className="folder-delete" onClick={() => folderdelete(folder.id)}>
-              삭제 
-            </button>
-            <button className="folder-delete" onClick={() => openFolderEditModal(folder.id)}>수정</button>
+              <button className="file-name" onClick={() => openFolderEditModal(folder.id)}></button>
+              </div>
+              </div>
             </div>
-            </div>
-            
-            
           ))
         )}
         {files.length != 0 && (
           files.map((fileInfo, index) => (
             
             <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
-            <div className="item-container">
-              <div className="item-contain">
-              <div className="item-con">
-              <FileIcon type={fileInfo.type} />
-              <div>{fileInfo.name}</div>
-              <div>{fileInfo.tag}</div>
+              <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
+              <div className="item-container">
+                <div className="item-contain">
+                <FileIcon className='icon' type={fileInfo.type} />
+                  <div className="item-con">
+                    
+                    <div>{fileInfo.name}</div>
+                      <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+                      <div>{fileInfo.tag}</div>
+                    
+                  </div>
+                  <div className="btn-container">
+                  
+                </div>
               </div>
-              <div className="btn-container">
-            <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
-            </button>
-            <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+              <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
             </div>
-            </div>
-            
-          
-          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
-          
-          
-          </div>
           </div>
           ))
         )}
@@ -1002,21 +998,22 @@ const addFolder = async (newName) => {
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block', borderRadius: '50%'}}
+                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}
               >
           </div>
         ))}
-        <button className= "tag-button" onClick={() => getTagInfo("RED")}>RED</button>
-        <button className= "tag-button" onClick={() => getTagInfo("GREEN")}>GREEN</button>
-        <button className= "tag-button" onClick={() => getTagInfo("YELLOW")}>YELLOW</button>
-        <button className= "tag-button" onClick={() => getTagInfo("NAVY")}>NAVY</button>
-        <button className= "tag-button" onClick={() => getTagInfo("BLUE")}>BLUE</button>
-        <button className= "tag-button" onClick={() => getTagInfo("PURPLE")}>PURPLE</button>
-        <button className= "tag-button" onClick={() => getTagInfo("ORANGE")}>ORANGE</button>
-        
+        </div>
+        <div className="tag-circle">
+        <button className= "tag-button" onClick={() => getTagInfo("RED")}>- RED</button>
+        <button className= "tag-button" onClick={() => getTagInfo("ORANGE")}>- ORANGE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("YELLOW")}>- YELLOW</button>
+        <button className= "tag-button" onClick={() => getTagInfo("GREEN")}>- GREEN</button>
+        <button className= "tag-button" onClick={() => getTagInfo("BLUE")}>- BLUE</button>
+        <button className= "tag-button" onClick={() => getTagInfo("NAVY")}>- NAVY</button>
+        <button className= "tag-button" onClick={() => getTagInfo("PURPLE")}>- PURPLE</button>
+        </div>
         
 
-      </div>
       <button className="user-logout-btn" onClick={handleLogout}>
                 로그아웃   
            </button>

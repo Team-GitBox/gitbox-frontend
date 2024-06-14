@@ -190,7 +190,7 @@ p {
 .folder{
   width: 50px; /* 로고의 너비를 조정 */
   height: auto; /* 로고의 높이는 자동으로 조정 */
-  margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
+  margin-right: 0px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
 .right-panel {
   background-color: white;
@@ -235,8 +235,7 @@ p {
   background-color: transparent; /* 배경색 설정 */
   width:10px;
   border: none;
-  background-color: #fdfcfc;
-  color: #fdfcfc;
+  background-color: white;
   z-index: 5;
   background-image: url(../../public/img/delete.png); 
 
@@ -248,14 +247,30 @@ p {
 
   
 }
+
+.icon {
+  justify-content: center;
+  text-align: center;
+}
+
+.item-container{
+  justify-content: center;
+  text-align: center;
+}
+
 .item-contain{
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .item-con{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
 }
 .file-info
 {
@@ -271,20 +286,17 @@ p {
   width: 100px; /* 버튼의 너비를 100px로 설정 */
   height: 30px; /* 버튼의 높이를 30px로 설정 */
   font-size: 14px; /* 글꼴 크기를 14px로 설정하여 버튼 내의 텍스트 크기 조정 */
-  border: 1px solid #ccc; /* 테두리 설정 예시 */
-  border-radius: 4px; /* 버튼 모서리를 둥글게 */
-  background-color: #f2f2f2; /* 배경색 설정 */
+  background-color: #BBD5FF; /* 배경색 설정 */
   color: #333; /* 글자색 설정 */
   cursor: pointer; /* 마우스 오버 시 커서를 손가락 모양으로 변경 */
   transition: background-color 0.3s; /* 배경색 변경 시 애니메이션 효과 */
-  
+  text-align: left;
 }
 .file-name
 {
   width: auto;
   height: auto;  
-  background-color: #fdfcfc; 
-  color: #fdfcfc;
+  background-color: white;
   z-index: 5; 
   background-image: url(../../public/img/pen.png); 
 
@@ -331,15 +343,17 @@ height: 100%;
 .grid-item {
   /* grid-item 스타일 설정 */
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 150px; /* 원하는 높이 설정 */
-  background-color: #f0f0f0; /* 배경색 설정 */
+  background-color: white; /* 배경색 설정 */
   z-index: 2;
   border-radius: 5px;
   width: 100%; /* 4개의 컬럼과 3개의 간격을 고려한 너비 계산 */
   box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -434,6 +448,14 @@ height: 100%;
 
 .tags {
   display:flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+}
+
+.tag-circle {
+  margin-top: 10px;
+  display: flex;
   flex-direction: column;
   text-align: center;
 }
