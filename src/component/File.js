@@ -984,7 +984,7 @@ const addFolder = async (newName) => {
       
       <button className="trash" onClick={() => getdeleteInfo()}></button>
       <button onClick={() => popupOpenFunction(true)}>Select Workspace</button>
-      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 맴버 관리</button>
+      <button onClick={() => handleWorkspaceBtn()}>워크스페이스 및 멤버 관리</button>
    
       <p>
           <input
@@ -1063,40 +1063,45 @@ const addFolder = async (newName) => {
 
      {showPreview && (
         <div className="preview-popup">
-          <h2>File Preview</h2>
+          <h2 style={{marginTop: '20px', marginBottom: '20px'}}>File Preview</h2>
           
           {uploadedInfo.map((file, index) => (
             <div key={index}>
-              <p>{file.name} ({file.size} {file.type})</p>
+              <p style={{textAlign: 'center'}}>{file.name} ({file.size} {file.type})</p>
             </div>
           ))}   
                 
-          <button onClick={() => setShowPreview(false)}>Close</button>
-          {<button onClick={handleSave}>저장하기</button>}  
+          <button style={{marginBottom: '0px', marginTop: '20px'}} onClick={() => setShowPreview(false)}>Close</button>
+          {<button style={{marginBottom: '0px', marginTop: '20px'}} onClick={handleSave}>저장하기</button>}  
 
         </div>
       )}
        {searchEdit && (
-          <div className="preview-popup">  
+          <div className="preview-popup" style={{paddingTop: '0px'}}>  
               {searchLists.map((fileInfo, index) => (
-                <div className="grid-item" key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+                <div className="grid-item" style={{marginTop:'20px'}}key={index} onDoubleClick={() => handleDoubleClick(fileInfo.id,fileInfo.name)}  onDrop={(e) => onDropa(e, fileInfo.id)} onDragOver={(e) => e.preventDefault()}>
+                <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
                 <div className="item-container">
-                  <FileIcon type={fileInfo.type} />
-                  <div>{fileInfo.name}</div>
-                  <div>{fileInfo.tag}</div>
+                  <div className="item-contain">
+                  <FileIcon className='icon' type={fileInfo.type} />
+                    <div className="item-con">
+                      
+                      <div>{fileInfo.name}</div>
+                        <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
+                        <div>{fileInfo.tag}</div>
+                      
+                    </div>
+                    <div className="btn-container">
+                    
+                  </div>
                 </div>
-                <div className="btn-container">
-                <button className="file-delete" onClick={() => filedelete(fileInfo.id)}>
-                  삭제 
-                </button>
-              <button className="file-name" onClick={() => openEditModal(fileInfo.id)}>수정</button>
-              <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
+                <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}>정보</button>
               </div>
-              </div>
+            </div>
               
               ))}
               
-              <button onClick={() => setsearchEdit(false)}>Close</button>
+              <button onClick={() => setsearchEdit(false)} style={{marginBottom: '0px', marginTop: '20px'}}>Close</button>
           </div>
         )}
 
