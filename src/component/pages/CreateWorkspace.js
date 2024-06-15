@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../module/CreateWorkspace.css';
+import { useNavigate, Link, useParams, useSearchParams} from 'react-router-dom';
 
 async function postRequestWithToken(apiUrl, requestData) {
   const token = localStorage.getItem('accessToken');
@@ -90,6 +91,11 @@ function CreateWorkspace() {
     await postRequestWithToken(apiUrl, requestData);
   };
 
+  const navigate = useNavigate();
+  const handlebackbtn = () => {
+    navigate(-1);
+  }
+
   return (
     <div className="container">
       <div className="centered-form">
@@ -115,6 +121,7 @@ function CreateWorkspace() {
           <button type="submit" className="centered-input">
             워크스페이스 생성
           </button>
+          <button className='back-page-btn' onClick={handlebackbtn}>뒤로 가기</button>
         </form>
       </div>
     </div>

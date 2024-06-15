@@ -53,6 +53,9 @@ const CreatePullRequest = () => {
       // 업로드 실패 시 처리 로직 추가
     }
   };
+  const handlebackbtn = () => {
+    navigate(-1);
+  }
 
   return (
     <div className="upload-container">
@@ -71,6 +74,7 @@ const CreatePullRequest = () => {
           <textarea id="message" value={message} onChange={handleMessageChange} />
         </div>
         <button className='button123' type="submit">Pull Request 전송</button>
+        <button className='back-page-btn' onClick={handlebackbtn}>뒤로 가기</button>
       </form>
     </div>
   );

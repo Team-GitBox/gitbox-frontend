@@ -125,6 +125,9 @@ function Workspace() {
   const handlebackbtn = () => {
     navigate(-1);
   }
+  const createWorkspace1 = () => {
+    navigate("/create-workspace");
+  }
 
   
    return (
@@ -138,19 +141,24 @@ function Workspace() {
           <h2>워크스페이스 소유자 정보</h2>
           <p>Email: {ownerInfo.ownerEmail}</p>
           <p>Name: {ownerInfo.ownerName}</p>
+          <button className="btn123" onClick={createWorkspace1}>워크스페이스 추가</button>
         </div>
         <div className="grid-item123">
           <h2>멤버 정보</h2>
-          <button className='btn123' onClick={() => setShowMemberForm(true)}>멤버 추가</button>
+          <div className='contain123'>
           {memberInfo.map((member, index) => (
             <div key={index}>
               <p>Email: {member.memberEmail}</p>
               <p>Name: {member.memberName}</p>
+              
             </div>
           ))}
+          </div>
+          <button className='btn123' onClick={() => setShowMemberForm(true)}>멤버 추가</button>
           {showMemberForm && (
             <div>
               <input
+                className='btn123'
                 type="email"
                 placeholder="멤버 이메일"
                 value={newMemberEmail}
@@ -174,6 +182,7 @@ function Workspace() {
             </div>
           ))}
           <button
+          className='btn123'
             onClick={handleDeleteWorkspace}
             disabled={isDeleting}>
             {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}

@@ -526,8 +526,8 @@ const File = () => {
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
       
       
-      if(response.data.data.pullRequestId==null)
-        {
+      // if(response.data.data.pullRequestId==null)
+      //   {
           setIsLook(true);
 
           let fileData = response.data;
@@ -543,7 +543,17 @@ const File = () => {
           }
           console.log("나 트리요",tree.data.data)
           
-        
+          changeFile.map((file) => {
+
+            const isCurrentGreen = file.status === "APPROVED";
+
+            const approveArray = [];
+            const fileName = [];
+
+            approveArray.append(isCurrentGreen == 'APPROVED');
+            fileName.append(files.name);
+          })
+
           const files = tree.data.data;
           setchangeFile(files)
 
@@ -572,28 +582,24 @@ const File = () => {
             },
           });
 
+          setElements(
+            <div className="gitContainer">
+              <Gitgraph options={{ template: myTemplate }}>
+                {(gitgraph) => {
+                  const master = gitgraph.branch("master");
+                  master.commit('123'); // 수락
+                  const feature = gitgraph.branch("feature-1"); // 거절
+                }}
+              </Gitgraph>
+            </div>
+          );
           
-      
-         
-            setElements(
-              <div className="gitContainer">
-                <Gitgraph options={{ template: myTemplate }}>
-                  {(gitgraph) => {
-                    const master = gitgraph.branch("master");
-                    master.commit('123'); // 수락
-                    const feature = gitgraph.branch("feature-1"); // 거절
-                  }}
-                </Gitgraph>
-              </div>
-            );
-          
-           
-          }
+          //}
         
-        else
-        {
-          navigate(`/pull-request/${response.data.data.pullRequestId}`);
-        }
+        // else
+        // {
+        //   navigate(`/file/${fileId}/pr`);
+        // }
       
 
 
