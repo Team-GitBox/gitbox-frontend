@@ -526,8 +526,8 @@ const File = () => {
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
       
       
-      // if(response.data.data.pullRequestId==null)
-      //   {
+      if(response.data.data.pullRequestId==null)
+        {
           setIsLook(true);
 
           let fileData = response.data;
@@ -588,12 +588,12 @@ const File = () => {
             );
           
            
-          //}
+          }
         
-        // else
-        // {
-        //   navigate(`/file/${fileId}/pr`);
-        // }
+        else
+        {
+          navigate(`/pull-request/${response.data.data.pullRequestId}`);
+        }
       
 
 
