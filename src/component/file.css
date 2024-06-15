@@ -113,6 +113,7 @@ p {
   flex-direction: row; /* 가로로 배치 */
   transform: scale(0.6); /* 요소를 전체적으로 축소 (0.8배) */
   transform-origin: top right;
+  height: 490px;
 }
 
 .greengit, .redgit,.connectLinegit {

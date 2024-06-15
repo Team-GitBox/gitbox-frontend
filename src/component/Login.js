@@ -47,6 +47,7 @@ const Login = () => {
   
       if (workspaceResult.data.length > 0) {
         // 워크스페이스 데이터가 있는 경우
+        localStorage.setItem("isFirstLogin", "true"); 
         navigate("/file");
       } else {
         // 워크스페이스 데이터가 없는 경우
@@ -63,7 +64,7 @@ const Login = () => {
           <div className="center">
               <div className="login-container">
                   <div className="logo-container">
-                    <img src={logo} alt="로고" className="logo" /> {/* 이미지 추가 */}
+                    <img src="img/logo.png" alt="로고" className="logo" /> {/* 이미지 추가 */}
                   </div>
                   <h2>Git Box</h2>
                   <div className="input-container">

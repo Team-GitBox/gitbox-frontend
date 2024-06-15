@@ -97,22 +97,35 @@ function CreateWorkspace() {
   }
 
   return (
-    <div className="container">
-      <div className="centered-form">
+      <div className="centered-form2">
         <form onSubmit={handleSubmit} className="centered-form">
           <div>
-            <label className="centered-input">워크스페이스 이름:</label>
-            <input type="text" value={name} onChange={handleNameChange} className="centered-input" />
+            <div className='make'>
+            <label style={{marginBottom: '10px', marginRight: '10px'}}className="centered-input">이름 :</label>
+            <input
+            
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              className="centered-input1"
+              placeholder="워크스페이스 이름을 입력하세요"
+              required
+            />
+            </div>
           </div>
           {memberEmails.map((email, index) => (
             <div key={index}>
-              <label className="centered-input">멤버 이메일:</label>
+              <div className='make'>
+              <label style={{marginBottom: '10px', marginRight: '10px'}} className="centered-input">멤버 :</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => handleMemberEmailChange(index, e)}
-                className="centered-input"
+                className="centered-input1"
+                placeholder="멤버 이메일을 입력하세요"
+                required
               />
+              </div>
             </div>
           ))}
           <button type="button" onClick={addMemberEmail} className="centered-input">
@@ -121,10 +134,11 @@ function CreateWorkspace() {
           <button type="submit" className="centered-input">
             워크스페이스 생성
           </button>
-          <button className='back-page-btn' onClick={handlebackbtn}>뒤로 가기</button>
+          <button className="back-page-btn" onClick={handlebackbtn}>
+            뒤로 가기
+          </button>
         </form>
       </div>
-    </div>
   );
 }
 

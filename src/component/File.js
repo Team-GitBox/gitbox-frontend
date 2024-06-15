@@ -74,7 +74,14 @@ const File = () => {
   const [currentFolderInfo, setCurrentFolderInfo] = useState();
   const[currentTagInfo,setcurrentTagInfo] = useState("undefined");
  
- 
+  useEffect(() => {
+    const isFirstLogin = localStorage.getItem('isFirstLogin');
+    if (isFirstLogin === 'true') {
+      popupOpenFunction(true);
+      localStorage.setItem('isFirstLogin', 'false'); 
+    }
+  }, []);
+  
   const popupOpenFolder = async (folderId) => {
     setCurrentFolderId(folderId)
   }
@@ -518,108 +525,93 @@ const File = () => {
   }
 
   const lookFileInfo = async (fileId) => {
-
     try {
-
       const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}`, config);
-
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
-      
-      
-       if(response.data.data.pullRequestId==null)
-         {
-          setIsLook(true);
-
-          let fileData = response.data;
-    
-          try {
-            
-            const { type, name, size, createdAt } = fileData.data; 
-            setfileInfoName(name); 
-            setfileInfoId(fileId);
-            setFileContent(`Type: ${type}\nSize: ${size}\nCreatedAt: ${createdAt}`);
-          } catch (e) {
-            setFileContent(JSON.stringify(fileData)); // JSON.parse 대신에 JSON.stringify를 사용하여 객체를 문자열로 변환합니다.
-          }
-          console.log("나 트리요",tree.data.data)
-          
-          const approveArray = [];
-          const fileName = [];
-
-          changeFile.map((file) => {
-
-            const isCurrentGreen = file.status === "APPROVED";
-
-            approveArray.push(isCurrentGreen == 'APPROVED');
-            fileName.push(files.name);
-          })
-
-          const files = tree.data.data;
-          setchangeFile(files)
-
-          console.log ("파일 트리 정렬",changeFile);
-        
-          // const greengit = [];
-          // const redgit = [];
-          // const connectLinegit = [];
-      
-          const myTemplate = templateExtend(TemplateName.Metro, {
-            branch: {
-              label: {
-                font: "normal 12pt Arial", // 브랜치 레이블의 폰트 크기 조정
-                display: false,
-              },
-            },
-            commit: {
-              message: {
-                displayAuthor: false, // Author를 표시하지 않음
-                displayHash: false,
-                font: "normal 10pt Arial", // 커밋 메시지의 폰트 크기 조정
-              },
-              dot: {
-                size: 10, // 커밋 점의 크기 조정
-              },
-            },
-          });
-
-          setElements(
-            <div className="gitContainer">
-              <Gitgraph options={{ template: myTemplate }}>
-                {(gitgraph) => {
-                  const master = gitgraph.branch("master");
-                  let currentBranch = master;
-
-                  for (let i = 0; i < fileName.length; i++) {
-                    const fileName1 = fileName[i];
-                    const isApproved = approveArray[i];
-
-                    if (isApproved) {
-                      currentBranch.commit(fileName1);
-                    } else {
-                      currentBranch = gitgraph.branch(fileName1);
-                      currentBranch.commit(fileName1);
-                    }
-                  }
-                }}
-              </Gitgraph>
-            </div>
-          );
-          
-          }
-        
-      else
-        {
-          navigate(`/pull-request/${response.data.data.pullRequestId}`);
+  
+      if (response.data.data.pullRequestId == null) {
+        setIsLook(true);
+  
+        let fileData = response.data;
+  
+        try {
+          const { type, name, size, createdAt } = fileData.data;
+          setfileInfoName(name);
+          setfileInfoId(fileId);
+          setFileContent(`Type: ${type}\nSize: ${size}\nCreatedAt: ${createdAt}`);
+        } catch (e) {
+          setFileContent(JSON.stringify(fileData)); // JSON.parse 대신에 JSON.stringify를 사용하여 객체를 문자열로 변환합니다.
         }
-      
+        console.log("나 트리요", tree.data.data);
+  
+        const files = tree.data.data;
+        setchangeFile(files);
+  
+        const approveArray = [];
+        const fileName = [];
+  
+        files.forEach((file) => {
+          const isCurrentGreen = file.status === "APPROVED";
+          approveArray.push(isCurrentGreen);
+          fileName.push(file.name);
+        });
+  
+        console.log("파일 트리 정렬", files);
+  
+        const myTemplate = templateExtend(TemplateName.Metro, {
+          branch: {
+            label: {
+              font: "normal 12pt Arial", // 브랜치 레이블의 폰트 크기 조정
+              display: false,
+            },
+          },
+          commit: {
+            message: {
+              displayAuthor: false, // Author를 표시하지 않음
+              displayHash: false,
+              font: "normal 15pt Arial", // 커밋 메시지의 폰트 크기 조정
+            },
+            dot: {
+              size: 10, // 커밋 점의 크기 조정
+            },
+          },
+        });
+        
 
-
+        
+        const gitGraphElement = (
+          <div className="gitContainer">
+            <Gitgraph options={{ template: myTemplate }}>
+              {(gitgraph) => {
+                const master = gitgraph.branch("master");
+                let currentBranch = master;
+  
+                for (let i = 0; i < fileName.length; i++) {
+                  const fileName1 = fileName[i];
+                  const isApproved = approveArray[i];
+  
+                  if (isApproved) {
+                    currentBranch = master;
+                    currentBranch.commit(fileName1);
+                  } else {
+                    currentBranch = gitgraph.branch(fileName1);
+                    currentBranch.commit(fileName1);
+                  }
+                }
+              }}
+            </Gitgraph>
+          </div>
+        );
+  
+        setElements(gitGraphElement);
+  
+      } else {
+        navigate(`/pull-request/${response.data.data.pullRequestId}`);
+      }
     } catch (error) {
       console.error('파일을 여는 중 오류 발생:', error);
     }
   };
-
-
  
   const closeEditModal = () => {
     setIsEditing(false);
@@ -795,7 +787,7 @@ const addFolder = async (newName) => {
               className="folder" 
               onDoubleClick={() => changeCurrentFolder(parentFolderId)} 
             />
-            <div className="parentfolder-name">턴라잇</div>
+            <div style={{marginTop:'10px'}} className="parentfolder-name">돌아가기</div>
           </div>
         )}
         {folders.length != 0 && (
@@ -804,9 +796,9 @@ const addFolder = async (newName) => {
               <button className="file-delete" onClick={() => folderdelete(folder.id)}></button>
               <div className='item-container'>
                 <div className="item-contain">
-                <div style={{marginBottom: '10px'}} className='con'>
+                <button style={{marginBottom: '10px'}} className='con'>
             <img src="img/folder.png" alt="folder" className="folder" />  
-            </div>
+            </button>
             <div class='item-con'>
               <div style={{marginRight: '5px'}}>{folder.name}</div>
               <button className="file-name" onClick={() => openFolderEditModal(folder.id)}></button>
@@ -968,10 +960,10 @@ const addFolder = async (newName) => {
       {isLook && (
         <div className="popup-infoinfo">
           <div className="popup-info">
-          <FileIcon type={fileInfoName} />
-            <div>{fileInfoName}</div>
-            <pre>{fileContent}</pre>
-            <div>{elements}</div>
+          <FileIcon style={{borderRadius: '5px'}}type={fileInfoName} />
+            <div style={{color: 'white'}}>{fileInfoName}</div>
+            <pre style={{color: 'white'}}>{fileContent}</pre>
+            <div style={{color: 'white'}}>{elements}</div>
            
             <button onClick={() => setIsLook(false)}>닫기</button>
             <button onClick={() => handleNewVirsionBtn(fileInfoId)}>새로운 버전 업로드</button>

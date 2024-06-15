@@ -151,8 +151,9 @@ function Workspace() {
               
             </div>
           ))}
-          </div>
+
           <button className='btn123' onClick={() => setShowMemberForm(true)}>멤버 추가</button>
+          </div>
           {showMemberForm && (
             <div>
               <input
