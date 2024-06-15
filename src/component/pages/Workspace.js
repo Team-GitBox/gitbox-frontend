@@ -128,65 +128,60 @@ function Workspace() {
 
   
    return (
-      <div className="workspace-container">
-        <div className="workspace-card">
-        <button className='back-page-btn' onClick={() => handlebackbtn()}>뒤로 가기</button> 
-      <h1>워크스페이스 정보</h1>
-      <button className='workspace-button' onClick={() => window.location.href = '/create-workspace'}>워크스페이스 추가</button>
-      <p>Message: {message}</p>
-      <p>Workspace Name: {workspaceName}</p>
-      <p>Root Folder ID: {rootFolderId}</p>
-      <br />
-      <h2>워크스페이스 소유자 정보</h2>
-      <p>Email: {ownerInfo.ownerEmail}</p>
-      <p>Name: {ownerInfo.ownerName}</p>
-      <br />
-
-      <h2>멤버 정보</h2>
-      <div className="workspace-button">
-          <button onClick={() => setShowMemberForm(true)}>멤버 추가</button>
+    <div className="workspace-container">
+      <div className="workspace-grid">
+        <div className="grid-item123">
+          <h2>워크스페이스 정보</h2>
+          <p>Message: {message}</p>
+          <p>Workspace Name: {workspaceName}</p>
+          <p>Root Folder ID: {rootFolderId}</p>
+          <h2>워크스페이스 소유자 정보</h2>
+          <p>Email: {ownerInfo.ownerEmail}</p>
+          <p>Name: {ownerInfo.ownerName}</p>
         </div>
-      {showMemberForm && (
-          <div>
-            <input
-              type="email"
-              placeholder="멤버 이메일"
-              value={newMemberEmail}
-              onChange={(e) => setNewMemberEmail(e.target.value)}
-            />
-            <button onClick={handleAddMember}>저장</button>
-          </div>
-        )}
-        {memberInfo.map((member, index) => (
-          <div key={index}>
-            <p>Email: {member.memberEmail}</p>
-            <p>Name: {member.memberName}</p>
-          </div>
-        ))}
-        <br />
-        
-        
-      <h2>저장소 정보</h2>
-      <p>Max Storage: {maxStorage} bytes</p>
-      <p>Used Storage: {usedStorage} bytes</p>
-      <br/>
-
-      <h2>파일 유형별 용량</h2>
-      {Object.entries(usedStorageByFileType).map(([fileType, size], index) => (
-        <div key={index}>
-          <p>{fileType}: {size} bytes</p>
-        </div>
-      ))}
-      <br />
-      <div className="workspace-button">
-              <button
-                onClick={handleDeleteWorkspace}
-                disabled={isDeleting}>
-                {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}
-              </button>
+        <div className="grid-item123">
+          <h2>멤버 정보</h2>
+          <button className='btn123' onClick={() => setShowMemberForm(true)}>멤버 추가</button>
+          {memberInfo.map((member, index) => (
+            <div key={index}>
+              <p>Email: {member.memberEmail}</p>
+              <p>Name: {member.memberName}</p>
             </div>
+          ))}
+          {showMemberForm && (
+            <div>
+              <input
+                type="email"
+                placeholder="멤버 이메일"
+                value={newMemberEmail}
+                onChange={(e) => setNewMemberEmail(e.target.value)}
+              />
+              <button className='btn123' onClick={handleAddMember}>저장</button>
+            </div>
+          )}
+          
+        </div>
+        <div className="grid-item123">
+          <h2>저장소 정보</h2>
+          <p>Max Storage: {maxStorage} bytes</p>
+          <p>Used Storage: {usedStorage} bytes</p>
+        </div>
+        <div className="grid-item123">
+          <h2>파일 유형별 용량</h2>
+          {Object.entries(usedStorageByFileType).map(([fileType, size], index) => (
+            <div key={index}>
+              <p>{fileType}: {size} bytes</p>
+            </div>
+          ))}
+          <button
+            onClick={handleDeleteWorkspace}
+            disabled={isDeleting}>
+            {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}
+          </button>
+        </div>
       </div>
-      </div>
+      <button className='back-page-btn' onClick={handlebackbtn}>뒤로 가기</button>
+    </div>
   );
 }
 
