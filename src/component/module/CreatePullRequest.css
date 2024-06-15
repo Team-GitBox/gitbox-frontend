@@ -56,3 +56,16 @@
     background-color: #0056b3;
   }
   
+  .button-group-horizontal {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* 전송 버튼 스타일 */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+  }

@@ -93,3 +93,15 @@ p {
   margin-top: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+.btn1234 {
+  width: 100px;
+  padding: 8px;
+  box-sizing: border-box;
+  text-align: center; /* 텍스트를 가운데 정렬 */
+  caret-color: transparent;
+  border: none;
+  border-radius: 5px;
+  margin-top: 0px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
