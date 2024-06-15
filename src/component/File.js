@@ -4,8 +4,7 @@ import logo from './logo.png';
 import { useNavigate, Link, useParams, useSearchParams} from 'react-router-dom';
 import Workspace from './pages/Workspace';
 import axios from 'axios';
-
-
+import { Gitgraph, templateExtend, TemplateName } from "@gitgraph/react";
 
 const FileIcon = ({ type }) => {
   switch(type) {
@@ -549,104 +548,134 @@ const File = () => {
           setchangeFile(files)
 
           console.log ("파일 트리 정렬",changeFile);
-
         
-          const greengit = [];
-          const redgit = [];
-          const connectLinegit = [];
-
+          // const greengit = [];
+          // const redgit = [];
+          // const connectLinegit = [];
       
+          const myTemplate = templateExtend(TemplateName.Metro, {
+            branch: {
+              label: {
+                font: "normal 12pt Arial", // 브랜치 레이블의 폰트 크기 조정
+                display: false,
+              },
+            },
+            commit: {
+              message: {
+                displayAuthor: false, // Author를 표시하지 않음
+                displayHash: false,
+                font: "normal 10pt Arial", // 커밋 메시지의 폰트 크기 조정
+              },
+              dot: {
+                size: 10, // 커밋 점의 크기 조정
+              },
+            },
+          });
+
           changeFile.map((file) => {
            
             const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
             const isCurrentGreen = file.status === "APPROVED";
-      
+            const approveArray = [];
+            const fileName = [];
 
-            if (isCurrentGreen && first !== "firstcircle") { 
+            approveArray.append(isCurrentGreen == 'APPROVED');
+            fileName.append(files.name);
+
+            // if (isCurrentGreen && first !== "firstcircle") { 
               
-              greengit.push(
-                <div className="circleConnector"></div>
-              );
-              greengit.push(
-                <div className="fileInfo">
-                  <div className={`circle greenCircle`}></div>
-                  <span className="fileName">{file.name}</span>
-                </div>
-              );
-              redgit.push(
-                <div className="fileInfo">
-                <div className={`noCircleConnector`}></div>
-                {/* <span className="fileName">{file.name}</span> */}
-              </div>
-              );
-              connectLinegit.push(
-                <div className="fileInfo">
-                  <div className={`noCircleConnector`}></div>
+            //   greengit.push(
+            //     <div className="circleConnector"></div>
+            //   );
+            //   greengit.push(
+            //     <div className="fileInfo">
+            //       <div className={`circle greenCircle`}></div>
+            //       <span className="fileName">{file.name}</span>
+            //     </div>
+            //   );
+            //   redgit.push(
+            //     <div className="fileInfo">
+            //     <div className={`noCircleConnector`}></div>
+            //     {/* <span className="fileName">{file.name}</span> */}
+            //   </div>
+            //   );
+            //   connectLinegit.push(
+            //     <div className="fileInfo">
+            //       <div className={`noCircleConnector`}></div>
                   
-              </div>     
-              );
-              connectLinegit.push(
-                <div className="fileInfo">
-                  <div className={`circle noCircle`}></div>
+            //   </div>     
+            //   );
+            //   connectLinegit.push(
+            //     <div className="fileInfo">
+            //       <div className={`circle noCircle`}></div>
                   
-                </div>
-              );
-              redgit.push(
-                <div className="fileInfo">
-                <div className={`circle noCircle`}></div>
+            //     </div>
+            //   );
+            //   redgit.push(
+            //     <div className="fileInfo">
+            //     <div className={`circle noCircle`}></div>
              
-              </div>
-              );
+            //   </div>
+            //   );
              
               
               
-            }
-            else if(isCurrentGreen && first==='firstcircle')
-            {
-              first = "notfirst";
-              greengit.push(
-                <div className="fileInfo">
-                  <div className={`circle greenCircle`}></div>
-                  <span className="fileName">{file.name}</span>
-                </div>
-              );
-              connectLinegit.push(
-                <div className="fileInfo">
-                  <div className={`circle noCircle`}></div>
+            // }
+            // else if(isCurrentGreen && first==='firstcircle')
+            // {
+            //   first = "notfirst";
+            //   greengit.push(
+            //     <div className="fileInfo">
+            //       <div className={`circle greenCircle`}></div>
+            //       <span className="fileName">{file.name}</span>
+            //     </div>
+            //   );
+            //   connectLinegit.push(
+            //     <div className="fileInfo">
+            //       <div className={`circle noCircle`}></div>
                  
-                </div>
-              );
-              redgit.push(
-                <div className="fileInfo">
-                <div className={`circle noCircle`}></div>
+            //     </div>
+            //   );
+            //   redgit.push(
+            //     <div className="fileInfo">
+            //     <div className={`circle noCircle`}></div>
                 
-              </div>
-              );
+            //   </div>
+            //   );
             
               
               
-            } else {
-              removeLastElement(connectLinegit);
-              removeLastElement(redgit);
-              connectLinegit.push(
-                <div className="circleConnector-left"></div>
-              );
-              redgit.push(
-                <div className="fileInfo">
-                  <div className={`circle redCircle`}></div>
-                  <span className="fileName">{file.name}</span>
-                </div>
-              );
-            }
+            // } else {
+            //   removeLastElement(connectLinegit);
+            //   removeLastElement(redgit);
+            //   connectLinegit.push(
+            //     <div className="circleConnector-left"></div>
+            //   );
+            //   redgit.push(
+            //     <div className="fileInfo">
+            //       <div className={`circle redCircle`}></div>
+            //       <span className="fileName">{file.name}</span>
+            //     </div>
+            //   );
+            // }
       
             
           });
       
           setElements(
-            <div className="gitContainer">
-              <div className="greengit">{greengit}</div>
-              <div className="connectLinegit">{connectLinegit}</div>
-              <div className="redgit">{redgit}</div>
+            // <div className="gitContainer">
+            //   <div className="greengit">{greengit}</div>
+            //   <div className="connectLinegit">{connectLinegit}</div>
+            //   <div className="redgit">{redgit}</div>
+            // </div>
+            <div className="gitContainer">왜안나오노
+            <Gitgraph options={{ template: myTemplate }}>
+            {(gitgraph) => {
+              const master = gitgraph.branch("master");
+              master.commit('123'); // 수락
+              const feature = gitgraph.branch("feature-1"); // 거절
+            }}
+            </Gitgraph>
             </div>
           );
            
@@ -797,9 +826,9 @@ const addFolder = async (newName) => {
           <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
           <div className="item-container">
             <div className="item-contain">
-              <div className="con">
-            <FileIcon className='icon' type={fileInfo.type} />
-            </div>
+              <button className="con" onClick={() => lookFileInfo(fileInfo.id)}>
+              <FileIcon className='icon' type={fileInfo.type} />
+              </button>
               <div className="item-con">
               <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
                 <div style={{margin: '0px 5px 0px 5px'}}>{fileInfo.name}</div>
@@ -807,7 +836,6 @@ const addFolder = async (newName) => {
                 
               </div>
           </div>
-          <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}></button>
         </div>
       </div>
         
@@ -850,7 +878,7 @@ const addFolder = async (newName) => {
               <button className="file-delete" onClick={() => folderdelete(folder.id)}></button>
               <div className='item-container'>
                 <div className="item-contain">
-                <div className='con'>
+                <div style={{marginBottom: '10px'}} className='con'>
             <img src="img/folder.png" alt="folder" className="folder" />  
             </div>
             <div class='item-con'>
@@ -869,20 +897,16 @@ const addFolder = async (newName) => {
               <button className="file-delete" onClick={() => filedelete(fileInfo.id)}></button>
               <div className="item-container">
                 <div className="item-contain">
-                  <div className='con'>
+                <button className="con" onClick={() => lookFileInfo(fileInfo.id)}>
                 <FileIcon className='icon' type={fileInfo.type} />
-                </div>
+                </button>
                   <div className="item-con">
                   <div style={{width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[fileInfo.tag], display: 'flex', borderRadius: '50%', flexDirection: 'row', textAlign: 'center'}}></div>
                     <div style={{marginLeft: '5px', marginRight: '5px'}}>{fileInfo.name}</div>
                       <button className="file-name" onClick={() => openEditModal(fileInfo.id)}></button>
                     
                   </div>
-                  <div className="btn-container">
-                  
-                </div>
               </div>
-              <button className="file-info" onClick={() => lookFileInfo(fileInfo.id)}></button>
             </div>
           </div>
           ))
@@ -979,6 +1003,38 @@ const addFolder = async (newName) => {
  
   const usedPercentage = (storage.used / storage.total) * 100;
 
+  const bytesToSize = (bytes) => {
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    if (bytes === 0) return "0 Byte";
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    const size = Math.round(bytes / Math.pow(1024, i));
+    const unit = sizes[i];
+    
+    return { size, unit };
+  };
+
+  const total = bytesToSize(storage.total);
+  const used = bytesToSize(storage.used);
+
+  const myTemplate = templateExtend(TemplateName.Metro, {
+    branch: {
+      label: {
+        font: "normal 12pt Arial", // 브랜치 레이블의 폰트 크기 조정
+        display: false,
+      },
+    },
+    commit: {
+      message: {
+        displayAuthor: false, // Author를 표시하지 않음
+        displayHash: false,
+        font: "normal 10pt Arial", // 커밋 메시지의 폰트 크기 조정
+      },
+      dot: {
+        size: 10, // 커밋 점의 크기 조정
+      },
+    },
+  });
+
   return (
 
     <div className="app-container">
@@ -990,6 +1046,13 @@ const addFolder = async (newName) => {
             <div>{fileInfoName}</div>
             <pre>{fileContent}</pre>
             <div>{elements}</div>
+            <Gitgraph options={{ template: myTemplate }}>
+            {(gitgraph) => {
+              const master = gitgraph.branch("master");
+              master.commit('123'); // 수락
+              const feature = gitgraph.branch("feature-1"); // 거절
+            }}
+            </Gitgraph>
             <button onClick={() => setIsLook(false)}>닫기</button>
             <button onClick={() => handleNewVirsionBtn(fileInfoId)}>새로운 버전 업로드</button>
           </div>
@@ -1058,7 +1121,7 @@ const addFolder = async (newName) => {
         />
       )}
       
-          <div className="capacity-display">Total : {storage.total} / Used : {storage.used}
+          <div className="capacity-display">Used : {used.size}{used.unit} / Total : {total.size}{total.unit}
           <div className="capacity-display2" style={{
             width: `${usedPercentage}%`, backgroundColor:'#3593FF' }}>
           <div className="capacity-text">

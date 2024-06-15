@@ -304,6 +304,12 @@ p {
   border-radius: 5px; /* 모서리를 둥글게 처리하려면 이 속성을 추가 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 60%;
+  background-color: white;
+}
+
+.con:hover {
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .item-con{
@@ -326,6 +332,7 @@ p {
   z-index: 5; 
   top : 20px;
   left: 20px;
+  align-items: center;
 }
 
 .file-info:hover
@@ -333,7 +340,7 @@ p {
   position:absolute;
   width: 80%;
   height: 40%;  
-  background-color: transparent;
+  background-color: red;
   color: #fdfcfc;
   z-index: 5; 
   top : 20px;
