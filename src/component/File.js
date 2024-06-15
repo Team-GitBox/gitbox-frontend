@@ -572,112 +572,21 @@ const File = () => {
             },
           });
 
-          changeFile.map((file) => {
-           
-            const circleClass = file.status === "APPROVED" ? "greenCircle" : "redCircle";
-            const isCurrentGreen = file.status === "APPROVED";
-            const approveArray = [];
-            const fileName = [];
-
-            approveArray.append(isCurrentGreen == 'APPROVED');
-            fileName.append(files.name);
-
-            // if (isCurrentGreen && first !== "firstcircle") { 
-              
-            //   greengit.push(
-            //     <div className="circleConnector"></div>
-            //   );
-            //   greengit.push(
-            //     <div className="fileInfo">
-            //       <div className={`circle greenCircle`}></div>
-            //       <span className="fileName">{file.name}</span>
-            //     </div>
-            //   );
-            //   redgit.push(
-            //     <div className="fileInfo">
-            //     <div className={`noCircleConnector`}></div>
-            //     {/* <span className="fileName">{file.name}</span> */}
-            //   </div>
-            //   );
-            //   connectLinegit.push(
-            //     <div className="fileInfo">
-            //       <div className={`noCircleConnector`}></div>
-                  
-            //   </div>     
-            //   );
-            //   connectLinegit.push(
-            //     <div className="fileInfo">
-            //       <div className={`circle noCircle`}></div>
-                  
-            //     </div>
-            //   );
-            //   redgit.push(
-            //     <div className="fileInfo">
-            //     <div className={`circle noCircle`}></div>
-             
-            //   </div>
-            //   );
-             
-              
-              
-            // }
-            // else if(isCurrentGreen && first==='firstcircle')
-            // {
-            //   first = "notfirst";
-            //   greengit.push(
-            //     <div className="fileInfo">
-            //       <div className={`circle greenCircle`}></div>
-            //       <span className="fileName">{file.name}</span>
-            //     </div>
-            //   );
-            //   connectLinegit.push(
-            //     <div className="fileInfo">
-            //       <div className={`circle noCircle`}></div>
-                 
-            //     </div>
-            //   );
-            //   redgit.push(
-            //     <div className="fileInfo">
-            //     <div className={`circle noCircle`}></div>
-                
-            //   </div>
-            //   );
-            
-              
-              
-            // } else {
-            //   removeLastElement(connectLinegit);
-            //   removeLastElement(redgit);
-            //   connectLinegit.push(
-            //     <div className="circleConnector-left"></div>
-            //   );
-            //   redgit.push(
-            //     <div className="fileInfo">
-            //       <div className={`circle redCircle`}></div>
-            //       <span className="fileName">{file.name}</span>
-            //     </div>
-            //   );
-            // }
+          
       
-            
-          });
-      
-          setElements(
-            // <div className="gitContainer">
-            //   <div className="greengit">{greengit}</div>
-            //   <div className="connectLinegit">{connectLinegit}</div>
-            //   <div className="redgit">{redgit}</div>
-            // </div>
-            <div className="gitContainer">왜안나오노
-            <Gitgraph options={{ template: myTemplate }}>
-            {(gitgraph) => {
-              const master = gitgraph.branch("master");
-              master.commit('123'); // 수락
-              const feature = gitgraph.branch("feature-1"); // 거절
-            }}
-            </Gitgraph>
-            </div>
-          );
+         
+            setElements(
+              <div className="gitContainer">
+                <Gitgraph options={{ template: myTemplate }}>
+                  {(gitgraph) => {
+                    const master = gitgraph.branch("master");
+                    master.commit('123'); // 수락
+                    const feature = gitgraph.branch("feature-1"); // 거절
+                  }}
+                </Gitgraph>
+              </div>
+            );
+          
            
           //}
         
@@ -1046,13 +955,7 @@ const addFolder = async (newName) => {
             <div>{fileInfoName}</div>
             <pre>{fileContent}</pre>
             <div>{elements}</div>
-            <Gitgraph options={{ template: myTemplate }}>
-            {(gitgraph) => {
-              const master = gitgraph.branch("master");
-              master.commit('123'); // 수락
-              const feature = gitgraph.branch("feature-1"); // 거절
-            }}
-            </Gitgraph>
+           
             <button onClick={() => setIsLook(false)}>닫기</button>
             <button onClick={() => handleNewVirsionBtn(fileInfoId)}>새로운 버전 업로드</button>
           </div>
