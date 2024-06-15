@@ -526,8 +526,8 @@ const File = () => {
       const tree = await axios.get(`http://125.250.17.196:1234/api/files/${fileId}/tree`, config);
       
       
-      // if(response.data.data.pullRequestId==null)
-      //   {
+       if(response.data.data.pullRequestId==null)
+         {
           setIsLook(true);
 
           let fileData = response.data;
@@ -543,15 +543,15 @@ const File = () => {
           }
           console.log("나 트리요",tree.data.data)
           
+          const approveArray = [];
+          const fileName = [];
+
           changeFile.map((file) => {
 
             const isCurrentGreen = file.status === "APPROVED";
 
-            const approveArray = [];
-            const fileName = [];
-
-            approveArray.append(isCurrentGreen == 'APPROVED');
-            fileName.append(files.name);
+            approveArray.push(isCurrentGreen == 'APPROVED');
+            fileName.push(files.name);
           })
 
           const files = tree.data.data;
@@ -587,19 +587,30 @@ const File = () => {
               <Gitgraph options={{ template: myTemplate }}>
                 {(gitgraph) => {
                   const master = gitgraph.branch("master");
-                  master.commit('123'); // 수락
-                  const feature = gitgraph.branch("feature-1"); // 거절
+                  let currentBranch = master;
+
+                  for (let i = 0; i < fileName.length; i++) {
+                    const fileName1 = fileName[i];
+                    const isApproved = approveArray[i];
+
+                    if (isApproved) {
+                      currentBranch.commit(fileName1);
+                    } else {
+                      currentBranch = gitgraph.branch(fileName1);
+                      currentBranch.commit(fileName1);
+                    }
+                  }
                 }}
               </Gitgraph>
             </div>
           );
           
-          //}
+          }
         
-        // else
-        // {
-        //   navigate(`/file/${fileId}/pr`);
-        // }
+      else
+        {
+          navigate(`/pull-request/${response.data.data.pullRequestId}`);
+        }
       
 
 
@@ -1030,7 +1041,7 @@ const addFolder = async (newName) => {
         />
       )}
       
-          <div className="capacity-display">Used : {used.size}{used.unit} / Total : {total.size}{total.unit}
+          <div className="capacity-display">Used : {used.size}{used.unit} / Total : 10GB
           <div className="capacity-display2" style={{
             width: `${usedPercentage}%`, backgroundColor:'#3593FF' }}>
           <div className="capacity-text">

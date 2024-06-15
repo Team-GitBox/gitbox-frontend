@@ -39,7 +39,7 @@ p {
   border-radius: 10px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   overflow: auto;
-  height: 280px;
+  height: 350px;
 }
 
 .grid-item h2 {

@@ -135,9 +135,7 @@ function Workspace() {
       <div className="workspace-grid">
         <div className="grid-item123">
           <h2>워크스페이스 정보</h2>
-          <p>Message: {message}</p>
           <p>Workspace Name: {workspaceName}</p>
-          <p>Root Folder ID: {rootFolderId}</p>
           <h2>워크스페이스 소유자 정보</h2>
           <p>Email: {ownerInfo.ownerEmail}</p>
           <p>Name: {ownerInfo.ownerName}</p>
