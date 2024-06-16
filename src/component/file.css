@@ -3,6 +3,10 @@
   display: flex;
   width: 100vw;
   height: 100vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   #App {
     position: relative;
@@ -74,10 +78,13 @@ p {
   gap: 16px;
   flex-direction: column;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 그리드 아이템의 최소 너비를 120px, 가능한 경우 더 넓게 설정합니다. */
-  gap: 10px; /* 그리드 아이템 사이의 간격을 설정합니다. */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  /* 그리드 아이템의 최소 너비를 120px, 가능한 경우 더 넓게 설정합니다. */
+  gap: 10px;
+  /* 그리드 아이템 사이의 간격을 설정합니다. */
   padding: 10px;
-  list-style: none; /* 기본 리스트 스타일 제거 */
+  list-style: none;
+  /* 기본 리스트 스타일 제거 */
 }
 
 
@@ -91,13 +98,15 @@ p {
 .preview_info .info_value {
   font-size: 14px;
 
-  
+
 }
+
 .app-container {
   display: flex;
   height: 100vh;
   min-height: 40%;
 }
+
 .circle {
   display: inline-flex;
   width: 30px;
@@ -106,21 +115,22 @@ p {
   margin-right: 5px;
   align-items: center;
 }
+
 .gitContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px; 
-  flex-direction: row; /* 가로로 배치 */
-  transform: scale(0.6); /* 요소를 전체적으로 축소 (0.8배) */
-  transform-origin: top right;
+  float: right;
+  width: 100%;
 }
 
-.greengit, .redgit,.connectLinegit {
+.greengit,
+.redgit,
+.connectLinegit {
   display: flex;
-  flex-direction: column; /* 내부 요소는 세로로 배치 */
-  margin-right: 20px; /* 요소 간 간격 조절 */
+  flex-direction: column;
+  /* 내부 요소는 세로로 배치 */
+  margin-right: 20px;
+  /* 요소 간 간격 조절 */
   flex-direction: column-reverse;
-  
+
 }
 
 
@@ -128,55 +138,75 @@ p {
   display: flex;
   align-items: center;
 }
+
 .greenCircle {
   background-color: green;
 }
 
 .circleConnector-left {
-  display: block; /* or inline-block */
-  width: 2px; /* 줄의 두께를 조정합니다 */
-  height: 50px; /* 줄의 길이를 조정합니다 */
-  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
-  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  display: block;
+  /* or inline-block */
+  width: 2px;
+  /* 줄의 두께를 조정합니다 */
+  height: 50px;
+  /* 줄의 길이를 조정합니다 */
+  background-color: black;
+  /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto;
+  /* 중앙에 위치하도록 합니다 */
   transform: rotate(90deg);
- 
+
 }
 
 .noCircle {
 
-  opacity: 0; 
+  opacity: 0;
 }
 
 .redCircle {
   background-color: red;
- 
+
 }
+
 .noCircleConnector {
-  display: block; /* or inline-block */
-  width: 2px; /* 줄의 두께를 조정합니다 */
-  height: 50px; /* 줄의 길이를 조정합니다 */
-  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
-  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
-  opacity: 0; 
+  display: block;
+  /* or inline-block */
+  width: 2px;
+  /* 줄의 두께를 조정합니다 */
+  height: 50px;
+  /* 줄의 길이를 조정합니다 */
+  background-color: black;
+  /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto;
+  /* 중앙에 위치하도록 합니다 */
+  opacity: 0;
 }
 
 .circleConnector {
-  display: block; /* or inline-block */
-  width: 2px; /* 줄의 두께를 조정합니다 */
-  height: 50px; /* 줄의 길이를 조정합니다 */
-  background-color: black; /* 줄의 색상을 검정으로 설정합니다 */
-  margin: 0 auto; /* 중앙에 위치하도록 합니다 */
+  display: block;
+  /* or inline-block */
+  width: 2px;
+  /* 줄의 두께를 조정합니다 */
+  height: 50px;
+  /* 줄의 길이를 조정합니다 */
+  background-color: black;
+  /* 줄의 색상을 검정으로 설정합니다 */
+  margin: 0 auto;
+  /* 중앙에 위치하도록 합니다 */
 }
 
 
 
 .left-panel {
-  
+
   position: relative;
   background-color: #BBD5FF;
-  padding: 20px; /* 내부 여백 */
-  margin: 20px 0 20px 20px; /* 외부 여백: 위 오른쪽 아래 왼쪽 */  
-  border-top-left-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+  padding: 20px;
+  /* 내부 여백 */
+  margin: 20px 0 20px 20px;
+  /* 외부 여백: 위 오른쪽 아래 왼쪽 */
+  border-top-left-radius: 5px;
+  /* 왼쪽 상단 모서리를 둥글게 */
   border-bottom-left-radius: 5px;
   max-width: 200px;
   min-width: 200px;
@@ -185,92 +215,112 @@ p {
 
 
 .logo {
-  width: 100px; /* 로고의 너비를 조정 */
-  height: auto; /* 로고의 높이는 자동으로 조정 */
-  margin-right: 5px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
+  width: 100px;
+  /* 로고의 너비를 조정 */
+  height: auto;
+  /* 로고의 높이는 자동으로 조정 */
+  margin-right: 5px;
+  /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
-.folder{
-  width: 50px; /* 로고의 너비를 조정 */
-  height: auto; /* 로고의 높이는 자동으로 조정 */
-  margin-right: 0px; /* 로고와 파일 추가 버튼 사이의 간격 조정 */
+
+.folder {
+  width: 50px;
+  /* 로고의 너비를 조정 */
+  height: auto;
+  /* 로고의 높이는 자동으로 조정 */
+  margin-right: 0px;
+  /* 로고와 파일 추가 버튼 사이의 간격 조정 */
 }
+
 .right-panel {
   background-color: white;
-  padding: 20px; /* 내부 여백 */
-  margin: 20px 20px 20px 0; /* 외부 여백: 위 오른쪽 아래 왼쪽 */
-  border-top-right-radius: 5px; /* 왼쪽 상단 모서리를 둥글게 */
+  padding: 20px;
+  /* 내부 여백 */
+  margin: 20px 20px 20px 0;
+  /* 외부 여백: 위 오른쪽 아래 왼쪽 */
+  border-top-right-radius: 5px;
+  /* 왼쪽 상단 모서리를 둥글게 */
   border-bottom-right-radius: 5px;
   width: calc(100vw - 320px);
 }
 
 .transparent-drop-zone {
-  position: absolute; /* 절대 위치 설정 */
+  position: absolute;
+  /* 절대 위치 설정 */
   top: 0;
   left: 0;
-  width: 80%; /* grid-container와 동일한 너비 */
-  height: 100%; /* grid-container와 동일한 높이 */
-  background-color: transparent; /* 투명 배경 */
-  opacity: 0; /* 초기 투명도 설정 */
-  z-index: 1; /* grid-container 아래에 위치 */
- 
- 
- 
+  width: 80%;
+  /* grid-container와 동일한 너비 */
+  height: 100%;
+  /* grid-container와 동일한 높이 */
+  background-color: transparent;
+  /* 투명 배경 */
+  opacity: 0;
+  /* 초기 투명도 설정 */
+  z-index: 1;
+  /* grid-container 아래에 위치 */
+
+
+
 }
 
 
-.folder-delete
-{
+.folder-delete {
   width: auto;
-  height: auto; 
+  height: auto;
   background-color: #281d99;
   color: #fdfcfc;
-  z-index: 5; 
-  
+  z-index: 5;
+
 }
 
-.file-info1
-{
-  position:absolute;
+.file-info1 {
+  position: absolute;
   width: auto;
-  height: auto;  
+  height: auto;
   background-color: #3474b4;
   color: #fdfcfc;
-  z-index: 5; 
-  right : 37px;
-  bottom: 60px;
-}
-.file-restore
-{
-  position:absolute;
-  width: auto;
-  height: auto;  
-  background-color: #3474b4;
-  color: #fdfcfc;
-  z-index: 5; 
-  right : 37px;
+  z-index: 5;
+  right: 37px;
   bottom: 60px;
 }
 
+.file-restore {
+  position: absolute;
+  width: auto;
+  height: auto;
+  background-color: #3474b4;
+  color: #fdfcfc;
+  z-index: 5;
+  right: 37px;
+  bottom: 60px;
+}
 
-.file-delete
-{
-  position: absolute; /* 상대적으로 배치되는 요소 */
-  top: 5px; /* 부모 요소(item-container)의 상단에 배치 */
-  right: 5px; /* 부모 요소(item-container)의 오른쪽에 배치 */
-  background-color: transparent; /* 배경색 설정 */
-  width:10px;
+
+.file-delete {
+  position: absolute;
+  /* 상대적으로 배치되는 요소 */
+  top: 5px;
+  /* 부모 요소(item-container)의 상단에 배치 */
+  right: 5px;
+  /* 부모 요소(item-container)의 오른쪽에 배치 */
+  background-color: transparent;
+  /* 배경색 설정 */
+  width: 10px;
   border: none;
   background-color: white;
   z-index: 5;
-  background-image: url(../../public/img/delete.png); 
+  background-image: url(../../public/img/delete.png);
 
-  background-size: contain; /* 이미지가 요소 안에 맞게 축소됩니다 */
-  background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+  background-size: contain;
+  /* 이미지가 요소 안에 맞게 축소됩니다 */
+  background-repeat: no-repeat;
+  /* 이미지가 반복되지 않도록 설정 */
   background-position: center;
   background-size: 80%;
-  
 
-  
+
+
 }
 
 .icon {
@@ -278,41 +328,22 @@ p {
   text-align: center;
 }
 
-.item-container{
+.item-container {
   justify-content: center;
   text-align: center;
   width: 100%;
 }
 
-.item-contain{
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-}
-
-.con {
+.item-contain {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 1px transparent #000; /* 윤곽선 추가 (1px 두께, 검정색) */
-  padding: 10px; /* 윤곽선과 내용 사이에 여백 추가 */
-  border-radius: 5px; /* 모서리를 둥글게 처리하려면 이 속성을 추가 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 60%;
-  background-color: white;
+  width: 100%;
 }
 
-.con:hover {
-  background-color: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.item-con{
+.item-con {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -322,115 +353,153 @@ p {
   margin-top: 10px;
 }
 
-.file-info
-{
-  position:absolute;
+.file-info {
+  position: absolute;
   width: 80%;
-  height: 40%;  
+  height: 40%;
   background-color: transparent;
   color: #fdfcfc;
-  z-index: 5; 
-  top : 20px;
+  z-index: 5;
+  top: 20px;
   left: 20px;
   align-items: center;
 }
 
-.file-info:hover
-{
-  position:absolute;
+.file-info:hover {
+  position: absolute;
   width: 80%;
-  height: 40%;  
+  height: 40%;
   background-color: red;
   color: #fdfcfc;
-  z-index: 5; 
-  top : 20px;
+  z-index: 5;
+  top: 20px;
   left: 20px;
 }
 
 
 .tag-button {
   transform: scale(0.8);
-  width: 100px; /* 버튼의 너비를 100px로 설정 */
-  height: 45px; /* 버튼의 높이를 30px로 설정 */
-  font-size: 14px; /* 글꼴 크기를 14px로 설정하여 버튼 내의 텍스트 크기 조정 */
-  background-color: transparent; /* 배경색 설정 */
-  color: #333; /* 글자색 설정 */
-  cursor: pointer; /* 마우스 오버 시 커서를 손가락 모양으로 변경 */
-  transition: background-color 0.3s; /* 배경색 변경 시 애니메이션 효과 */
+  width: 100px;
+  /* 버튼의 너비를 100px로 설정 */
+  height: 45px;
+  /* 버튼의 높이를 30px로 설정 */
+  font-size: 14px;
+  /* 글꼴 크기를 14px로 설정하여 버튼 내의 텍스트 크기 조정 */
+  background-color: transparent;
+  /* 배경색 설정 */
+  color: #333;
+  /* 글자색 설정 */
+  cursor: pointer;
+  /* 마우스 오버 시 커서를 손가락 모양으로 변경 */
+  transition: background-color 0.3s;
+  /* 배경색 변경 시 애니메이션 효과 */
   text-align: left;
   margin: 0px;
   padding: 0px;
 }
 
 .tag-button:hover {
-background-color: transparent;
+  background-color: transparent;
 }
-.file-name
-{
-  width: auto;
-  height: auto;  
-  background-color: white;
-  z-index: 5; 
-  background-image: url(../../public/img/pen.png); 
 
-  background-size: contain; /* 이미지가 요소 안에 맞게 축소됩니다 */
-  background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+.file-name {
+  width: auto;
+  height: auto;
+  background-color: white;
+  z-index: 5;
+  background-image: url(../../public/img/pen.png);
+
+  background-size: contain;
+  /* 이미지가 요소 안에 맞게 축소됩니다 */
+  background-repeat: no-repeat;
+  /* 이미지가 반복되지 않도록 설정 */
   background-position: center;
   background-size: 80%;
   margin: 0px;
 }
+
 /* App.css 또는 컴포넌트에 관련된 CSS 파일에 추가 */
 /* App.css */
 
 
 
 .grid-container2 {
-display: grid;
-grid-template-columns: repeat(4, 1fr); /* 3개의 컬럼 */
-grid-gap: 20px; /* 그리드 아이템 사이 간격 */
-position: relative;
-width: 100%;
-height: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* 3개의 컬럼 */
+  grid-gap: 20px;
+  /* 그리드 아이템 사이 간격 */
+  position: relative;
+  width: 100%;
+  height: auto;
 }
 
 /* 화면 크기가 1024px 이하일 때 */
 @media (max-width: 1024px) {
   .grid-container2 {
-      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼 */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3개의 컬럼 */
   }
 }
 
 /* 화면 크기가 768px 이하일 때 */
 @media (max-width: 768px) {
   .grid-container2 {
-      grid-template-columns: repeat(2, 1fr); /* 2개의 컬럼 */
+    grid-template-columns: repeat(2, 1fr);
+    /* 2개의 컬럼 */
   }
 }
 
 /* 화면 크기가 480px 이하일 때 */
 @media (max-width: 480px) {
   .grid-container2 {
-      grid-template-columns: 1fr; /* 1개의 컬럼 */
+    grid-template-columns: 1fr;
+    /* 1개의 컬럼 */
   }
 }
 
 .grid-item {
-  /* grid-item 스타일 설정 */
+  /* 기존 스타일 유지 */
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 150px; /* 원하는 높이 설정 */
-  background-color: white; /* 배경색 설정 */
+  height: 150px;
+  background-color: white;
   z-index: 2;
   border-radius: 5px;
-  width: 100%; /* 4개의 컬럼과 3개의 간격을 고려한 너비 계산 */
-  box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+  width: 100%;
+  box-sizing: border-box;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  /* 트랜지션 추가 */
 }
 
+.grid-item:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
 
+.grid-item:active {
+  transform: translateY(2px);
+  /* 클릭시 요소를 아래로 이동시키는 효과 */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  /* 그림자를 줄여 눌린 효과 강조 */
+}
+
+.con {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  /* 윤곽선과 내용 사이에 여백 추가 */
+  border-radius: 5px;
+  /* 모서리를 둥글게 처리하려면 이 속성을 추가 */
+  width: 60%;
+  background-color: white;
+}
 
 .file-button {
   display: flex;
@@ -440,7 +509,8 @@ height: auto;
   padding: 8px 20px;
   font-size: 13.3333px;
   cursor: pointer;
-  border-radius: 5px; /* 사각형 버튼을 만들기 위해 사용 */
+  border-radius: 5px;
+  /* 사각형 버튼을 만들기 위해 사용 */
   margin-bottom: 10px;
   align-items: center;
   justify-content: center;
@@ -448,60 +518,86 @@ height: auto;
 
 .capacity-display {
   position: relative;
-  background-color: white; /* 박스의 배경색 */
-  padding: 8px 20px; /* 내부 여백 */
+  background-color: white;
+  /* 박스의 배경색 */
+  padding: 8px 20px;
+  /* 내부 여백 */
   border-radius: 5px;
-  margin-bottom: 20px; /* 박스 아래의 여백 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  font-size: 13.3333px; /* 폰트 크기 */
+  margin-bottom: 20px;
+  /* 박스 아래의 여백 */
+  text-align: center;
+  /* 텍스트 중앙 정렬 */
+  font-size: 13.3333px;
+  /* 폰트 크기 */
   height: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.1); /* 윤곽선 추가 */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* 윤곽선 추가 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   align-items: center;
 }
 
 .capacity-display2 {
   position: absolute;
-  background-color: #3593FF; /* 박스의 배경색 */
-  padding: 8px 20px; /* 내부 여백 */
+  background-color: #3593FF;
+  /* 박스의 배경색 */
+  padding: 8px 20px;
+  /* 내부 여백 */
   border-radius: 5px;
-  margin-bottom: 20px; /* 박스 아래의 여백 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  font-size: 13.3333px; /* 폰트 크기 */
-  left:0px;
-  top:0px;
+  margin-bottom: 20px;
+  /* 박스 아래의 여백 */
+  text-align: center;
+  /* 텍스트 중앙 정렬 */
+  font-size: 13.3333px;
+  /* 폰트 크기 */
+  left: 0px;
+  top: 0px;
   height: 20px;
   align-items: center;
   justify-content: center;
 }
 
-.preview-popup
-{
-  position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
-  top: 50%; /* 화면 중앙에 위치 */
+.preview-popup {
+  position: fixed;
+  /* 또는 'absolute', 팝업 위치 조정을 위해 */
+  top: 50%;
+  /* 화면 중앙에 위치 */
   left: 50%;
-  transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
-  z-index: 100; /* 다른 요소들 위에 표시 */
-  background-color: #BBD5FF; /* 배경색 */
-  padding: 20px; /* 내부 여백 */
-  border-radius: 10px; /* 모서리 둥글게 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transform: translate(-50%, -50%);
+  /* 정확한 중앙 정렬을 위해 */
+  z-index: 100;
+  /* 다른 요소들 위에 표시 */
+  background-color: #BBD5FF;
+  /* 배경색 */
+  padding: 20px;
+  /* 내부 여백 */
+  border-radius: 10px;
+  /* 모서리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 그림자 효과 */
   z-index: 20;
   width: 200px;
 }
 
 .popup-container {
-  position: fixed; /* 또는 'absolute', 팝업 위치 조정을 위해 */
-  top: 50%; /* 화면 중앙에 위치 */
+  position: fixed;
+  /* 또는 'absolute', 팝업 위치 조정을 위해 */
+  top: 50%;
+  /* 화면 중앙에 위치 */
   left: 50%;
-  transform: translate(-50%, -50%); /* 정확한 중앙 정렬을 위해 */
-  z-index: 100; /* 다른 요소들 위에 표시 */
-  background-color: #BBD5FF; /* 배경색 */
-  padding: 20px; /* 내부 여백 */
-  border-radius: 10px; /* 모서리 둥글게 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transform: translate(-50%, -50%);
+  /* 정확한 중앙 정렬을 위해 */
+  z-index: 100;
+  /* 다른 요소들 위에 표시 */
+  background-color: #BBD5FF;
+  /* 배경색 */
+  padding: 20px;
+  /* 내부 여백 */
+  border-radius: 10px;
+  /* 모서리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 그림자 효과 */
   width: 200px;
-  height:120px;
+  height: 120px;
   display: flex;
   flex-direction: column;
 }
@@ -512,10 +608,13 @@ height: auto;
 }
 
 .popup-button {
-  position:absolute;
-  display: block; /* 블록 레벨 요소로 만들기 */
-  width: calc(50% - 25px); /* 너비 100% */
-  margin-bottom: 10px; /* 요소 간 간격 */
+  position: absolute;
+  display: block;
+  /* 블록 레벨 요소로 만들기 */
+  width: calc(50% - 25px);
+  /* 너비 100% */
+  margin-bottom: 10px;
+  /* 요소 간 간격 */
   margin-right: 10px;
   bottom: 10px;
   height: 35px;
@@ -525,7 +624,8 @@ height: auto;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  text-align: center; /* 텍스트를 가운데 정렬 */
+  text-align: center;
+  /* 텍스트를 가운데 정렬 */
   caret-color: transparent;
   border: none;
   border-radius: 5px;
@@ -533,124 +633,134 @@ height: auto;
 }
 
 .popup-button {
-  cursor: pointer; /* 마우스 오버 시 포인터 모양 */
-  background-color: #8199ef; /* 배경색 */
-  color: rgb(251, 251, 251); /* 글자색 */
-  border: none; /* 테두리 제거 */
-  padding: 10px 0; /* 상하 여백 */
-  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer;
+  /* 마우스 오버 시 포인터 모양 */
+  background-color: #8199ef;
+  /* 배경색 */
+  color: rgb(251, 251, 251);
+  /* 글자색 */
+  border: none;
+  /* 테두리 제거 */
+  padding: 10px 0;
+  /* 상하 여백 */
+  border-radius: 5px;
+  /* 모서리 둥글게 */
 }
 
 .popup-button:disabled {
-  background-color: #cccccc; /* 비활성화 시 배경색 */
+  background-color: #cccccc;
+  /* 비활성화 시 배경색 */
 }
 
 .left-panel input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  text-align: center; /* 텍스트를 가운데 정렬 */
+  text-align: center;
+  /* 텍스트를 가운데 정렬 */
   caret-color: transparent;
   border: none;
   border-radius: 5px;
   margin-bottom: 10px;
 }
 
-.btn-container{
+.btn-container {
   display: flex;
   flex-direction: row;
 }
 
 .tags {
-  display:flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-}
-
-.tag-circle {
-  margin-top: 0px;
-  display: flex;
-  flex-direction: column;
   text-align: center;
 }
 
 .user-logout-btn {
-  position: absolute; /* 절대 위치 설정 */
-  bottom: 0px; /* bottom으로부터 20px */
+  position: absolute;
+  /* 절대 위치 설정 */
+  bottom: 0px;
+  /* bottom으로부터 20px */
   left: 50%;
   transform: translateX(-50%);
   max-width: calc(100% - 40px);
   margin-bottom: 20px;
 }
 
-  .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 3;
-  }
-  
-  .popup-inner {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    z-index: 3;
-  }
-  
-  .popup-inner h1 {
-    cursor: pointer;
-    margin: 10px 0;
-    z-index: 3;
-  }
-  
-  .popup-inner button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    z-index: 3;
-  }
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
 
-  .popup-infoinfo{
-    position: absolute; /* 절대적 위치 설정 */
-    top: 0; /* 상단에서부터의 위치 */
-    left: 0; /* 왼쪽에서부터의 위치 */
-    width: 100%; /* 부모 요소인 .left-panel의 너비와 동일하게 설정 */
-    height: 100%; /* 부모 요소의 높이와 동일하게 설정 */
-    background-color: rgba(61, 76, 239, 0.9); /* 배경색 설정, 약간 투명 */
-    z-index: 4; 
-    border-radius: 5px;
-  }
-  .popup-info{
-    padding: 20px; /* 내부 여백 */
-    /* 필요한 경우 추가 스타일링 */
-  }
+.popup-inner {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 3;
+}
 
-  .btn {
-    position:absolute;
-    bottom:10px;
-    right: 20px;
-    width: calc(50% - 25px);
-    height: 35px;
-  }
+.popup-inner h1 {
+  cursor: pointer;
+  margin: 10px 0;
+  z-index: 3;
+}
 
-  .trash {
-    width: 20px;
-    height: 20px;  
-    background-color: white;
-    z-index: 5; 
-    background-image: url(../../public/img/trash.png); 
-  
-    background-size: contain; /* 이미지가 요소 안에 맞게 축소됩니다 */
-    background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
-    background-position: center;
-    background-size: 80%;
-  }
+.popup-inner button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.popup-infoinfo {
+  position: absolute;
+  /* 절대적 위치 설정 */
+  top: 0;
+  /* 상단에서부터의 위치 */
+  left: 0;
+  /* 왼쪽에서부터의 위치 */
+  width: 100%;
+  /* 부모 요소인 .left-panel의 너비와 동일하게 설정 */
+  height: 100%;
+  /* 부모 요소의 높이와 동일하게 설정 */
+  background-color: rgba(61, 76, 239, 0.9);
+  /* 배경색 설정, 약간 투명 */
+  z-index: 4;
+  border-radius: 5px;
+}
+
+.popup-info {
+  padding: 20px;
+  /* 내부 여백 */
+  /* 필요한 경우 추가 스타일링 */
+}
+
+.btn {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  width: calc(50% - 25px);
+  height: 35px;
+}
+
+.trash {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  z-index: 5;
+  background-image: url(../../public/img/trash.png);
+
+  background-size: contain;
+  /* 이미지가 요소 안에 맞게 축소됩니다 */
+  background-repeat: no-repeat;
+  /* 이미지가 반복되지 않도록 설정 */
+  background-position: center;
+  background-size: 80%;
+}

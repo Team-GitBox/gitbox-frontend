@@ -17,32 +17,42 @@ const Login = () => {
 
 
   const handleLogin = async (event) => {
-    // 로그인 처리 로직을 구현합니다.
     event.preventDefault();
     await new Promise((r) => setTimeout(r, 1000));
-    
-    const response = await fetch(
-      "http://125.250.17.196:1234/api/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      }
-    );
+  
+    const response = await fetch("http://125.250.17.196:1234/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
     const result = await response.json();
- 
-    if ( response.status ===  200) {
-    
+  
+    if (response.status === 200) {
       setLoginCheck(false);
-      // Store token in local storage
       localStorage.setItem("accessToken", result.data.accessToken);
       console.log("토큰", localStorage);
-      navigate("/file"); // 로그인 성공시 홈으로 이동합니다.
+  
+      // /api/workspace 요청 추가
+      const workspaceResponse = await fetch("http://125.250.17.196:1234/api/workspace", {
+        headers: {
+          "Authorization": `Bearer ${result.data.accessToken}`,
+        },
+      });
+      const workspaceResult = await workspaceResponse.json();
+  
+      if (workspaceResult.data.length > 0) {
+        // 워크스페이스 데이터가 있는 경우
+        localStorage.setItem("isFirstLogin", "true"); 
+        navigate("/file");
+      } else {
+        // 워크스페이스 데이터가 없는 경우
+        navigate("/create-workspace");
+      }
     } else {
       setLoginCheck(true);
     }
@@ -54,7 +64,7 @@ const Login = () => {
           <div className="center">
               <div className="login-container">
                   <div className="logo-container">
-                    <img src={logo} alt="로고" className="logo" /> {/* 이미지 추가 */}
+                    <img src="img/logo.png" alt="로고" className="logo" /> {/* 이미지 추가 */}
                   </div>
                   <h2>Git Box</h2>
                   <div className="input-container">

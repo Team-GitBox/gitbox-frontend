@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../module/CreatePullRequest.css';
 
 const PullRequest = () => {
   const { pullRequestId } = useParams();
@@ -81,11 +82,13 @@ const PullRequest = () => {
 
   return (
     <div>
-      <button className='back-page-btn' onClick={() => handlebackbtn()}>뒤로 가기</button> 
+      
+      <div className='upload-container'>
       <h1>{fileData.title}</h1>
-      <p>{fileData.message}</p>
-      <p>작성자: {fileData.writer}</p>
-      <a href={fileData.fileUrl}>파일 다운로드</a>
+      <p style={{marginTop:'10px'}}>커밋 메시지 : {fileData.message}</p>
+      <p style={{marginTop:'10px'}}>작성자 : {fileData.writer}</p>
+      <button className='btn1234' style={{marginTop:'10px'}} href={fileData.fileUrl}>파일 다운로드</button>
+      
       {fileData.comments.length > 0 && (
       <div>
         <h2>Comments:</h2>
@@ -103,16 +106,23 @@ const PullRequest = () => {
       {fileData.writer !== userInfo.email && (
         <div>
           <input
+          className='btn123'
             type="text"
             value={newComment}
             onChange={handleCommentChange}
             placeholder="메시지 남기기"
           />
-          <button onClick={() => handleApproval(true)}>수락</button>
-          <button onClick={() => handleApproval(false)}>거절</button>
-          <button onClick={handleSubmit}>전송</button>
+          <div className="button-group-horizontal">
+              <button className='btn1234' onClick={() => handleApproval(true)}>수락</button>
+              <button style={{marginLeft:'10px'}} className='btn1234' onClick={() => handleApproval(false)}>거절</button>
+            </div>
+            <button className='btn1234 submit-btn' onClick={handleSubmit}>전송</button>
+          
         </div>
       )}
+      <button className='back-page-btn' onClick={() => handlebackbtn()}>뒤로 가기</button> 
+    </div>
+    
     </div>
   );
 };
