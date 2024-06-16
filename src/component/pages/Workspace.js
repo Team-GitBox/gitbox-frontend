@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../module/Workspace.css';
 
 
 
 function Workspace() {
   const [workspace, setWorkspace] = useState(null);
-  const { workspaceId } = useParams(); 
+  const { workspaceId } = useParams();
   const [isDeleting, setIsDeleting] = useState(false);
   const token = localStorage.getItem('accessToken');
   const navigate = useNavigate();
@@ -112,10 +112,23 @@ function Workspace() {
     }
   };
 
+  function formatStorage(sizeInBytes) {
+    if (sizeInBytes < 1000) {
+      return sizeInBytes + " Bytes";
+    } else if (sizeInBytes < 1000000) {
+      return (sizeInBytes / 1000).toFixed(2) + " KB";
+    } else if (sizeInBytes < 1000000000) {
+      return (sizeInBytes / 1000000).toFixed(2) + " MB";
+    } else {
+      return (sizeInBytes / 1000000000).toFixed(2) + " GB";
+    }
+  }
+
+
   useEffect(() => {
     fetchWorkspaces();
   }, [workspaceId, token, navigate]);
-  
+
   if (!workspace) {
     return <div>Loading...</div>;
   }
@@ -129,31 +142,29 @@ function Workspace() {
     navigate("/create-workspace");
   }
 
-  
-   return (
+  return (
     <div className="workspace-container">
       <div className="workspace-grid">
         <div className="grid-item123">
           <h2>워크스페이스 정보</h2>
-          <p>Workspace Name: {workspaceName}</p>
+          <p className='title'>Workspace Name: {workspaceName}</p>
           <h2>워크스페이스 소유자 정보</h2>
-          <p>Email: {ownerInfo.ownerEmail}</p>
-          <p>Name: {ownerInfo.ownerName}</p>
+          <p className='title'>Email: {ownerInfo.ownerEmail}</p>
+          <p className='title'>Name: {ownerInfo.ownerName}</p>
           <button className="btn123" onClick={createWorkspace1}>워크스페이스 추가</button>
         </div>
         <div className="grid-item123">
           <h2>멤버 정보</h2>
-          <div className='contain123'>
+
           {memberInfo.map((member, index) => (
-            <div key={index}>
-              <p>Email: {member.memberEmail}</p>
-              <p>Name: {member.memberName}</p>
-              
+            <div className='nested-container'>
+              <p className='title'>Email: {member.memberEmail}</p>
+              <p className='title'>Name: {member.memberName}</p>
             </div>
           ))}
 
           <button className='btn123' onClick={() => setShowMemberForm(true)}>멤버 추가</button>
-          </div>
+
           {showMemberForm && (
             <div>
               <input
@@ -166,22 +177,23 @@ function Workspace() {
               <button className='btn123' onClick={handleAddMember}>저장</button>
             </div>
           )}
-          
+
         </div>
         <div className="grid-item123">
           <h2>저장소 정보</h2>
-          <p>Max Storage: {maxStorage} bytes</p>
-          <p>Used Storage: {usedStorage} bytes</p>
+          <p className='title'>Max Storage: {formatStorage(maxStorage)}</p>
+          <p className='title'>Used Storage: {formatStorage(usedStorage)}</p>
+          <div className='fake-btn'></div>
         </div>
         <div className="grid-item123">
           <h2>파일 유형별 용량</h2>
           {Object.entries(usedStorageByFileType).map(([fileType, size], index) => (
             <div key={index}>
-              <p>{fileType}: {size} bytes</p>
+              <p className='title'>{fileType}: {formatStorage(size)}</p>
             </div>
           ))}
           <button
-          className='btn123'
+            className='btn123'
             onClick={handleDeleteWorkspace}
             disabled={isDeleting}>
             {isDeleting ? '삭제 중...' : '워크스페이스 삭제'}
@@ -189,7 +201,7 @@ function Workspace() {
         </div>
       </div>
       <button className='back-page-btn' onClick={handlebackbtn}>뒤로 가기</button>
-    </div>
+    </div >
   );
 }
 
