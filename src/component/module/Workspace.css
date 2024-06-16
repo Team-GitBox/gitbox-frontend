@@ -28,18 +28,12 @@ p {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 20px;
-  width: 160%; /* 변경된 너비 설정 */
-  height: 160%; /* 변경된 높이 설정 */
-  margin-top: 20px; /* 격자와 상단 간격 추가 */
-}
-
-.grid-item123 {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  overflow: auto;
-  height: 350px;
+  width: 160%;
+  /* 변경된 너비 설정 */
+  height: 160%;
+  /* 변경된 높이 설정 */
+  margin-top: 20px;
+  /* 격자와 상단 간격 추가 */
 }
 
 .grid-item h2 {
@@ -82,26 +76,62 @@ p {
   background-color: #0056b3;
 }
 
+.grid-item123 {
+  display: flex;
+  /* Flexbox 레이아웃 적용 */
+  flex-direction: column;
+  /* 아이템을 세로로 배치 */
+  justify-content: space-between;
+  /* 내용을 상하로 분산 */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  height: 350px;
+}
+
 .btn123 {
+  margin-top: auto;
+  /* 버튼을 하단으로 밀어 붙임 */
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  text-align: center; /* 텍스트를 가운데 정렬 */
+  text-align: center;
   caret-color: transparent;
   border: none;
   border-radius: 5px;
-  margin-top: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.btn1234 {
-  width: 100px;
+.fake-btn {
+  margin-top: auto;
+  /* 버튼을 하단으로 밀어 붙임 */
+  width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  text-align: center; /* 텍스트를 가운데 정렬 */
+  text-align: center;
   caret-color: transparent;
   border: none;
   border-radius: 5px;
-  margin-top: 0px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.title {
+  color: #333;
+  /* 진한 회색으로 모던한 느낌 */
+  font-size: 18px;
+  /* 더 작은 글씨 크기 */
+  font-weight: 600;
+  /* 약간 두껍게 */
+  margin-bottom: 5px;
+  /* 적은 공간을 위한 마진 */
+}
+
+.title {
+  margin-left: 20px;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
