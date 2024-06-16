@@ -564,34 +564,37 @@ const File = () => {
 
         console.log("파일 트리 정렬", files);
 
-        const myTemplate = templateExtend(TemplateName.Metro, {
+        const treeTemplate = templateExtend(TemplateName.Metro, {
+          colors: ["#A1DD70", "#EE4E4E", "orange", "yellow"],
           branch: {
             label: {
-              font: "normal 12pt Arial", // 브랜치 레이블의 폰트 크기 조정
               display: false,
             },
+            lineWidth: 5,
           },
           commit: {
             message: {
-              displayAuthor: false, // Author를 표시하지 않음
+              displayAuthor: false,
               displayHash: false,
-              font: "normal 15pt Arial", // 커밋 메시지의 폰트 크기 조정
+              font: "bold 10pt 'Nanum Gothic'",
+              color: "#FFFFFF", // White color for commit messages
             },
             dot: {
-              size: 10, // 커밋 점의 크기 조정
+              size: 10,
             },
           },
+          animations: {
+            merge: true,
+            newCommit: true,
+          }
         });
-
-
 
         const gitGraphElement = (
           <div className="gitContainer">
-            <Gitgraph options={{ template: myTemplate }}>
+            <Gitgraph key={fileId} options={{ template: treeTemplate }}>
               {(gitgraph) => {
                 const master = gitgraph.branch("master");
                 let currentBranch = master;
-
                 for (let i = 0; i < fileName.length; i++) {
                   const fileName1 = fileName[i];
                   const isApproved = approveArray[i];
@@ -600,6 +603,7 @@ const File = () => {
                     currentBranch = master;
                     currentBranch.commit(fileName1);
                   } else {
+                    // Apply the custom style only to branches created here
                     currentBranch = gitgraph.branch(fileName1);
                     currentBranch.commit(fileName1);
                   }
@@ -968,7 +972,6 @@ const File = () => {
               <div style={{ color: 'white' }}>{fileInfoName}</div>
               <pre style={{ color: 'white' }}>{fileContent}</pre>
               <div style={{ color: 'white' }}>{elements}</div>
-
               <button onClick={() => setIsLook(false)}>닫기</button>
               <button onClick={() => handleNewVirsionBtn(fileInfoId)}>새로운 버전 업로드</button>
             </div>
