@@ -10,7 +10,6 @@
 .container {
   border-radius: 30px;
   width: 1000px;
-  display: inline-block;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   background-color: #007bff; /* 배경색 */
   padding: 30px; /* 내부 여백 */

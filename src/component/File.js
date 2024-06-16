@@ -1010,7 +1010,7 @@ const File = () => {
                 key={index}
                 draggable
                 onDragStart={(e) => onDragStart(e, tag)}
-                style={{ width: '5px', height: '5px', margin: '4px', padding: '5px',   backgroundColor: tagColors[tag], display: 'inline-block', borderRadius: '50%'}}
+                style={{ width: '5px', height: '5px', margin: '15px 5px 15px 5px', padding: '5px', backgroundColor: tagColors[tag], display: 'flex', borderRadius: '50%', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
               >
               </div>
             ))}
@@ -1063,12 +1063,12 @@ const File = () => {
 
           {uploadedInfo.map((file, index) => (
             <div key={index}>
-              <p>{file.name} ({file.size} {file.type})</p>
+              <p style={{ textAlign: 'center' }}>{file.name} ({file.size} {file.type})</p>
             </div>
-          ))}   
-                
-          <button onClick={() => setShowPreview(false)}>Close</button>
-          {<button onClick={handleSave}>저장하기</button>}  
+          ))}
+
+          <button style={{ marginBottom: '0px', marginTop: '20px' }} onClick={() => setShowPreview(false)}>Close</button>
+          {<button style={{ marginBottom: '0px', marginTop: '20px' }} onClick={handleSave}>저장하기</button>}
 
         </div>
       )}

@@ -670,6 +670,16 @@ p {
 }
 
 .tags {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.tag-circle {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
