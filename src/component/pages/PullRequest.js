@@ -27,27 +27,8 @@ const PullRequest = () => {
       }
     };
 
-    const handleFileDownload = async () => {
-      try {
-        const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileData.fileId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/octet-stream',
-            'responseType': 'blob'
-          }
-        });
-    
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', fileData.fileName);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+   
+
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get('http://125.250.17.196:1234/api/my/info', {
@@ -64,6 +45,27 @@ const PullRequest = () => {
     fetchFileData();
     fetchUserInfo();
   }, [pullRequestId, token]);
+  const handleFileDownload = async () => {
+    try {
+      const response = await axios.get(`http://125.250.17.196:1234/api/files/${fileData.fileId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/octet-stream',
+          'responseType': 'blob'
+        }
+      });
+  
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileData.fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
@@ -108,7 +110,8 @@ const PullRequest = () => {
       <h1>{fileData.title}</h1>
       <p style={{marginTop:'10px'}}>커밋 메시지 : {fileData.message}</p>
       <p style={{marginTop:'10px'}}>작성자 : {fileData.writer}</p>
-      <button className='btn1234' style={{marginTop:'10px'}} onClick={handleFileDownload}>파일 다운로드</button>
+      
+      <button className='btn1234' style={{marginTop:'10px'}} onClick={() => handleFileDownload() }>파일 다운로드</button>
       
       {fileData.comments.length > 0 && (
       <div>
